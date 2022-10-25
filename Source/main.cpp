@@ -19,6 +19,7 @@ HINSTANCE hInst;
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 int RunLoop();
 int Run();
+void DrawNumber(HWND);
 void ReadMNIST(std::string, std::vector<std::vector<double>>&);
 
 int WINAPI WinMain(
@@ -113,31 +114,22 @@ int WINAPI WinMain(
 //
 //  WM_PAINT    - Paint the main window
 //  WM_DESTROY  - post a quit message and return
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
     HDC hdc;
-    TCHAR greeting[] = _T("Hello, Windows desktop!");
+    TCHAR greeting[] = _T("Hello, W   indows desktop!");
 
     switch (message)
     {
     case WM_PAINT:
-        hdc = BeginPaint(hWnd, &ps);
-
-        // Here your application is laid out.
-        // For this introduction, we just print out "Hello, Windows desktop!"
-        // in the top left corner.
-        TextOut(hdc,
-            5, 5,
-            greeting, _tcslen(greeting));
-        // End application-specific layout section.
-
-        EndPaint(hWnd, &ps);
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
     case WM_LBUTTONDOWN:
+        DrawNumber(hWnd);
         break;
     case WM_MBUTTONDOWN:
         break;
@@ -177,12 +169,7 @@ LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int Run()
 {
     MSG msg;
-    const int NUMOFIMAGES = 60'000;
-    const int PIXELSPERIMAGE = 784;
-    std::vector<std::vector<double>> imageArray (60'000, std::vector<double>(784));
-    ReadMNIST("MNISTData/train-images.idx3-ubyte", imageArray);
 
-    Print(L"Test above run");
     while (GetMessage(&msg, NULL, 0, 0))
     {
         TranslateMessage(&msg);
@@ -256,5 +243,36 @@ void ReadMNIST(std::string path, std::vector<std::vector<double>>& arr)
             }
         }
     }
-    
+}
+
+void DrawNumber(HWND hWnd)
+{
+    int counter = 0;
+    const int NUMOFIMAGES = 60'000;
+    const int PIXELSPERIMAGE = 784;
+    std::vector<std::vector<double>> imageArray(60'000, std::vector<double>(784));
+    ReadMNIST("MNISTData/train-images.idx3-ubyte", imageArray);
+
+    PAINTSTRUCT ps;
+    HDC hdc;
+    TCHAR ZeroValue[] = _T("0");
+
+    hdc = BeginPaint(hWnd, &ps);
+    // Here your application is laid out.
+     //For this introduction, we just print out "Hello, Windows desktop!"
+
+    for (int i = 0; i < PIXELSPERIMAGE; i++)
+    {
+        if (i % 28 == 0)
+            counter++;
+        if (imageArray[3][i] > 0)
+        {
+            TextOut(hdc,
+                (i % 28) * 15 + 50, counter * 15 + 50,
+                ZeroValue, _tcslen(ZeroValue));
+        }
+    }
+    //End application-specific layout section.
+
+    EndPaint(hWnd, &ps);
 }
