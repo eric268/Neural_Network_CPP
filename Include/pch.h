@@ -19,6 +19,8 @@
 #include <tchar.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <strsafe.h>
 
 #define Print( s )		         \
 {								 \
