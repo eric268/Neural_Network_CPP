@@ -1,0 +1,1 @@
+C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe
