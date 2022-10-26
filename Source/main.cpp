@@ -1,204 +1,40 @@
 #include "../Include/pch.h"
 
-//#define RunGameLoop
-// HelloWindowsDesktop.cpp
-// compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
-
-// Global variables
-
-// The main window class name.
-static TCHAR szWindowClass[] = _T("DesktopApp");
-
-// The string that appears in the application's title bar.
-static TCHAR szTitle[] = _T("Windows Desktop Guided Tour Application");
-
-// Stored instance handle for use in Win32 API calls such as FindResource
-HINSTANCE hInst;
-
-// Forward declarations of functions included in this code module:
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-int RunLoop();
-int Run();
-void DrawNumber(HWND);
 void ReadMNIST(std::string, std::vector<std::vector<double>>&);
+void DisplayImage(std::vector<std::vector<double>>&, int);
 
-int WINAPI WinMain(
-    _In_ HINSTANCE hInstance,
-    _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPSTR     lpCmdLine,
-    _In_ int       nCmdShow
-)
+int main()
 {
-    WNDCLASSEX wcex;
-
-    wcex.cbSize = sizeof(WNDCLASSEX);
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = WndProc;
-    wcex.cbClsExtra = 0;
-    wcex.cbWndExtra = 0;
-    wcex.hInstance = hInstance;
-    wcex.hIcon = LoadIcon(wcex.hInstance, IDI_APPLICATION);
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = NULL;
-    wcex.lpszClassName = szWindowClass;
-    wcex.hIconSm = LoadIcon(wcex.hInstance, IDI_APPLICATION);
-
-    if (!RegisterClassEx(&wcex))
+    std::vector<std::vector<double>> imageArray(60'000, std::vector<double>(784));
+    ReadMNIST("MNISTData/train-images.idx3-ubyte", imageArray);
+    int counter = 0;
+    char n;
+    while (std::cin >> n)
     {
-        MessageBox(NULL,
-            _T("Call to RegisterClassEx failed!"),
-            _T("Windows Desktop Guided Tour"),
-            NULL);
-
-        return 1;
+        if (n == 'b')
+            break;
+        system("CLS");
+        DisplayImage(imageArray, counter++);
     }
-
-    // Store instance handle in our global variable
-    hInst = hInstance;
-
-    // The parameters to CreateWindowEx explained:
-    // WS_EX_OVERLAPPEDWINDOW : An optional extended window style.
-    // szWindowClass: the name of the application
-    // szTitle: the text that appears in the title bar
-    // WS_OVERLAPPEDWINDOW: the type of window to create
-    // CW_USEDEFAULT, CW_USEDEFAULT: initial position (x, y)
-    // 500, 100: initial size (width, length)
-    // NULL: the parent of this window
-    // NULL: this application does not have a menu bar
-    // hInstance: the first parameter from WinMain
-    // NULL: not used in this application
-    HWND hWnd = CreateWindowEx(
-        WS_EX_OVERLAPPEDWINDOW,
-        szWindowClass,
-        szTitle,
-        WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT,
-        800, 800,
-        NULL,
-        NULL,
-        hInstance,
-        NULL
-    );
-
-    if (!hWnd)
-    {
-        MessageBox(NULL,
-            _T("Call to CreateWindow failed!"),
-            _T("Windows Desktop Guided Tour"),
-            NULL);
-
-        return 1;
-    }
-
-    // The parameters to ShowWindow explained:
-    // hWnd: the value returned from CreateWindow
-    // nCmdShow: the fourth parameter from WinMain
-    ShowWindow(hWnd,
-        nCmdShow);
-    UpdateWindow(hWnd);
-
-    // Main message loop:
-#ifdef RunGameLoop
-    return RunLoop();
-#else
-    return Run();
-#endif // RunGameLoop
-
-
-}
-
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE:  Processes messages for the main window.
-//
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    PAINTSTRUCT ps;
-    HDC hdc;
-    TCHAR greeting[] = _T("Hello, W   indows desktop!");
-
-    switch (message)
-    {
-    case WM_PAINT:
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    case WM_LBUTTONDOWN:
-        DrawNumber(hWnd);
-        break;
-    case WM_MBUTTONDOWN:
-        break;
-    case WM_RBUTTONDOWN:
-        break;
-    case WM_LBUTTONUP:
-        break;
-    case WM_MBUTTONUP:
-        break;
-    case WM_RBUTTONUP:
-        return 0;
-    case WM_MOUSEMOVE:
-        return 0;
-    case WM_KEYDOWN:
-        return 0;
-    case WM_KEYUP:
-        return 0;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-        break;
-    }
-
     return 0;
 }
 
-LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+void DisplayImage(std::vector<std::vector<double>>& arr, int numberIndex)
 {
-    switch (msg)
+    int counter = 0;
+    for (int i = 0; i < 784; i++)
     {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-    }
-    return DefWindowProc(hwnd, msg, wParam, lParam);
-}
-
-int Run()
-{
-    MSG msg;
-
-    while (GetMessage(&msg, NULL, 0, 0))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-    return (int)msg.wParam;
-}
-
-int RunLoop()
-{
-    MSG msg = { 0 };
-    while (msg.message != WM_QUIT)
-    {
-        if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        if (i % 28 == 0)
+            std::cout << "\n";
+        if (arr[numberIndex][i] > 0)
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            std::cout << "*";
         }
         else
         {
-            Print(L"Test");
-            //Do tick stuff here
-
-            //Get updates here
-            //Do draw calls here
+            std::cout << " ";
         }
-
     }
-    return (int)msg.wParam;
 }
 
 int ReverseInt(int i)
@@ -238,41 +74,9 @@ void ReadMNIST(std::string path, std::vector<std::vector<double>>& arr)
                 {
                     unsigned char temp = 0;
                     file.read((char*)&temp, sizeof(temp));
-                    arr[i][(n_rows* r) + c] = (double)temp;
+                    arr[i][(n_rows * r) + c] = (double)temp;
                 }
             }
         }
     }
-}
-
-void DrawNumber(HWND hWnd)
-{
-    int counter = 0;
-    const int NUMOFIMAGES = 60'000;
-    const int PIXELSPERIMAGE = 784;
-    std::vector<std::vector<double>> imageArray(60'000, std::vector<double>(784));
-    ReadMNIST("MNISTData/train-images.idx3-ubyte", imageArray);
-
-    PAINTSTRUCT ps;
-    HDC hdc;
-    TCHAR ZeroValue[] = _T("0");
-
-    hdc = BeginPaint(hWnd, &ps);
-    // Here your application is laid out.
-     //For this introduction, we just print out "Hello, Windows desktop!"
-
-    for (int i = 0; i < PIXELSPERIMAGE; i++)
-    {
-        if (i % 28 == 0)
-            counter++;
-        if (imageArray[3][i] > 0)
-        {
-            TextOut(hdc,
-                (i % 28) * 15 + 50, counter * 15 + 50,
-                ZeroValue, _tcslen(ZeroValue));
-        }
-    }
-    //End application-specific layout section.
-
-    EndPaint(hWnd, &ps);
 }

@@ -13,17 +13,3 @@
 #include <deque>
 #include <stack>
 #include <queue>
-
-//Windows functions
-#include <windows.h>
-#include <tchar.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <strsafe.h>
-
-#define Print( s )		         \
-{								 \
-std::wstring text = s;			 \
-OutputDebugString(text.c_str()); \
-}
