@@ -19,15 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Connections.cpp" />
+    <ClCompile Include="Source\NetworkLayer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\MathHelper.cpp" />
+    <ClCompile Include="Source\NeuralNetwork.cpp" />
+    <ClCompile Include="Source\Neurons.cpp" />
     <ClCompile Include="Source\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../Include/pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Connections.h" />
+    <ClInclude Include="Include\NetworkLayer.h" />
     <ClInclude Include="Include\MathHelper.h" />
+    <ClInclude Include="Include\NeuralNetwork.h" />
+    <ClInclude Include="Include\Neurons.h" />
     <ClInclude Include="Include\pch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

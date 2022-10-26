@@ -1,7 +1,9 @@
 #include "../Include/pch.h"
+#include "../Include/MathHelper.h"
+#include "../Include/NeuralNetwork.h"
 
 void ReadMNIST(std::string, std::string, std::vector<std::vector<double>>&, std::vector<int>&);
-void DisplayImage(std::vector<std::vector<double>>&,std::vector<int>&, int);
+void DisplayImage(NeuralNetwork&, std::vector<std::vector<double>>&,std::vector<int>&, int);
 
 #define NumTraining 60'000
 #define NumTesting 10'000
@@ -9,6 +11,8 @@ void DisplayImage(std::vector<std::vector<double>>&,std::vector<int>&, int);
 
 int main()
 {
+    NeuralNetwork neuralNetwork;
+
     std::vector<std::vector<double>> imageArray(NumTraining, std::vector<double>(NumOfPixels));
     std::vector<int> labelArray(NumTraining, -1);
     std::string trainingImagesPath = "MNISTData/train-images.idx3-ubyte";
@@ -16,20 +20,21 @@ int main()
     ReadMNIST(trainingImagesPath, trainingLabelsPath, imageArray, labelArray);
     int counter = 0;
     char n;
+
     while (std::cin >> n)
     {
         if (n == 'b')
             break;
         system("CLS");
-        DisplayImage(imageArray,labelArray, counter++);
+        DisplayImage(neuralNetwork, imageArray,labelArray, counter++);
     }
     return 0;
 }
 
-void DisplayImage(std::vector<std::vector<double>>& imageArray, std::vector<int>& labelArray, int numberIndex)
+void DisplayImage(NeuralNetwork& nNetwork, std::vector<std::vector<double>>& imageArray, std::vector<int>& labelArray, int numberIndex)
 {
     int counter = 0;
-    for (int i = 0; i < 784; i++)
+    for (int i = 0; i < NumOfPixels; i++)
     {
         if (i % 28 == 0)
             std::cout << "\n";
@@ -44,7 +49,8 @@ void DisplayImage(std::vector<std::vector<double>>& imageArray, std::vector<int>
     }
 
     std::string ans = "\n\tAnswers: " + std::to_string(labelArray[numberIndex]);
-    std::cout << ans;
+    std::cout << ans << std::endl;
+    std::cout << "Neural Network Answer: " + std::to_string(nNetwork.RunOneNumber(imageArray[numberIndex], labelArray[numberIndex]));
 }
 
 int ReverseInt(int i)
