@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\pch.cpp" />
+    <ClCompile Include="Source\MathHelper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\MathHelper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{377e4d4f-1349-434f-9c3b-f73e7022b055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{78fd27e0-f2c4-452e-8e82-80f2369fcd8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weights">
+      <UniqueIdentifier>{e3ecb34e-b737-4142-8c4b-f06335d4957e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weights\Current">
+      <UniqueIdentifier>{c386c38a-91c2-45f4-b26a-573ccc29c969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weights\Temp">
+      <UniqueIdentifier>{70088549-6a77-4510-88bc-be388917501d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\MathHelper.cpp" />
     <ClCompile Include="Source\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../Include/pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\MathHelper.h" />
     <ClInclude Include="Include\pch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -116,6 +118,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../Include/pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

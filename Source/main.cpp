@@ -1,12 +1,19 @@
 #include "../Include/pch.h"
 
-void ReadMNIST(std::string, std::vector<std::vector<double>>&);
-void DisplayImage(std::vector<std::vector<double>>&, int);
+void ReadMNIST(std::string, std::string, std::vector<std::vector<double>>&, std::vector<int>&);
+void DisplayImage(std::vector<std::vector<double>>&,std::vector<int>&, int);
+
+#define NumTraining 60'000
+#define NumTesting 10'000
+#define NumOfPixels 784
 
 int main()
 {
-    std::vector<std::vector<double>> imageArray(60'000, std::vector<double>(784));
-    ReadMNIST("MNISTData/train-images.idx3-ubyte", imageArray);
+    std::vector<std::vector<double>> imageArray(NumTraining, std::vector<double>(NumOfPixels));
+    std::vector<int> labelArray(NumTraining, -1);
+    std::string trainingImagesPath = "MNISTData/train-images.idx3-ubyte";
+    std::string trainingLabelsPath = "MNISTData/train-labels.idx1-ubyte";
+    ReadMNIST(trainingImagesPath, trainingLabelsPath, imageArray, labelArray);
     int counter = 0;
     char n;
     while (std::cin >> n)
@@ -14,19 +21,19 @@ int main()
         if (n == 'b')
             break;
         system("CLS");
-        DisplayImage(imageArray, counter++);
+        DisplayImage(imageArray,labelArray, counter++);
     }
     return 0;
 }
 
-void DisplayImage(std::vector<std::vector<double>>& arr, int numberIndex)
+void DisplayImage(std::vector<std::vector<double>>& imageArray, std::vector<int>& labelArray, int numberIndex)
 {
     int counter = 0;
     for (int i = 0; i < 784; i++)
     {
         if (i % 28 == 0)
             std::cout << "\n";
-        if (arr[numberIndex][i] > 0)
+        if (imageArray[numberIndex][i] > 0)
         {
             std::cout << "*";
         }
@@ -35,6 +42,9 @@ void DisplayImage(std::vector<std::vector<double>>& arr, int numberIndex)
             std::cout << " ";
         }
     }
+
+    std::string ans = "\n\tAnswers: " + std::to_string(labelArray[numberIndex]);
+    std::cout << ans;
 }
 
 int ReverseInt(int i)
@@ -48,15 +58,17 @@ int ReverseInt(int i)
     return ((int)c1 << 24) + ((int)c2 << 16) + ((int)c3 << 8) + c4;
 }
 
-void ReadMNIST(std::string path, std::vector<std::vector<double>>& arr)
+void ReadMNIST(std::string path,std::string labelsPath, std::vector<std::vector<double>>& arr, std::vector<int>& labelsArray)
 {
+    int magic_number = 0;
+    int number_of_images = 0;
+    int n_rows = 0;
+    int n_cols = 0;
+
+    //Image Reader
     std::ifstream file(path, std::ios::binary);
     if (file.is_open())
     {
-        int magic_number = 0;
-        int number_of_images = 0;
-        int n_rows = 0;
-        int n_cols = 0;
         file.read((char*)&magic_number, sizeof(magic_number));
         magic_number = ReverseInt(magic_number);
         file.read((char*)&number_of_images, sizeof(number_of_images));
@@ -79,4 +91,35 @@ void ReadMNIST(std::string path, std::vector<std::vector<double>>& arr)
             }
         }
     }
+    //Label Reader
+    std::ifstream file2(labelsPath, std::ios::binary);
+    if (file2.is_open())
+    {
+        file2.read((char*)&magic_number, sizeof(magic_number));  
+        magic_number = ReverseInt(magic_number);
+        file2.read((char*)&number_of_images, sizeof(number_of_images));
+        number_of_images = ReverseInt(number_of_images);
+
+        for (int i = 0; i < number_of_images; i++)
+        {
+            char v;
+            file2.read(&v, 1);
+            labelsArray[i] = (int)v;
+        }
+    }
+    /*
+    std::vector<std::vector<double>> weightVector(3);
+    weightVector[0] = std::vector<double>(784, 0);
+    weightVector[1] = std::vector<double>(16, 0);
+    weightVector[2] = std::vector<double>(10, 0);
+
+    std::vector<std::vector<double>> biasVector(3);
+    biasVector[0] = std::vector<double>(784, 0);
+    biasVector[1] = std::vector<double>(16, 0);
+    biasVector[2] = std::vector<double>(10, 0);
+    */
 }
+
+//Matricies
+// - Weight
+// - Bias
