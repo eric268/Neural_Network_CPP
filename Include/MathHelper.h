@@ -13,22 +13,15 @@ concept WorksForSigmoid = requires(T a)
 class MathHelper
 {
 public:
-	//template<typename WorksForSigmoid>
-	//static double FastSigmoid(WorksForSigmoid x)
-	//{
-	//	return (x / (1.0 + abs(x)));
-	//}
-	//template<typename WorksForSigmoid>
-	//static double DFastSigmoid(WorksForSigmoid x)
-	//{
-	//	double val = FastSigmoid(x);
-	//	return (val * (1.0 - val));
-	//}
-
 	template<typename WorksForSigmoid>
 	static double Sigmoid(WorksForSigmoid x)
 	{
 		return (1.0 / (1.0 + exp(-x)));
+	}
+
+	static double RELUI(double x)
+	{
+		return std::max(0.0, x);
 	}
 
 	template <typename WorksForSigmoid>

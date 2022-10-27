@@ -9,14 +9,14 @@ NetworkLayer::NetworkLayer()
 	mNextLayer = nullptr;
 }
 
-NetworkLayer::NetworkLayer(int numofNeurons) : mNumberOfNeurons{numofNeurons}
+NetworkLayer::NetworkLayer(LayerType type, int numofNeurons) :  mNumberOfNeurons{numofNeurons}
 {
 	mPreviousLayer = nullptr;
 	mNextLayer = nullptr;
 	mNeurons = std::vector<Neurons*>(mNumberOfNeurons);
 	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
-		mNeurons[i] = new Neurons();
+		mNeurons[i] = new Neurons(type);
 	}
 }
 

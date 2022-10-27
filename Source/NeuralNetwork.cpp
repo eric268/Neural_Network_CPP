@@ -4,62 +4,97 @@
 #include "../Include/Neurons.h"
 #include "../Include/Connections.h"
 
+#define InputLayerSize 784
+#define HiddenLayer1Size 16
+#define HiddenLayer2Size 16
+#define OutputLayerSize 10
+
 NeuralNetwork::NeuralNetwork()
 {
-	mInputLayer   = new NetworkLayer(784);
-	mHiddenLayer1 = new NetworkLayer(16);
-	mHiddenLayer2 = new NetworkLayer(16);
-	mOutputLayer  = new NetworkLayer(10);
+	mInputLayer   = new NetworkLayer(LayerType::InputLayer, InputLayerSize);
+	mHiddenLayer1 = new NetworkLayer(LayerType::HiddenLayer1, HiddenLayer1Size);
+	mHiddenLayer2 = new NetworkLayer(LayerType::HiddenLayer2, HiddenLayer2Size);
+	mOutputLayer  = new NetworkLayer(LayerType::OutputLayer, OutputLayerSize);
+
+	mInputLayer->mNextLayer = mHiddenLayer1;
+	mHiddenLayer1->mPreviousLayer = mInputLayer;
+	mHiddenLayer1->mNextLayer = mHiddenLayer2;
+	mHiddenLayer2->mPreviousLayer = mHiddenLayer1;
+	mHiddenLayer2->mNextLayer = mOutputLayer;
+	mOutputLayer->mPreviousLayer = mHiddenLayer2;
 
 	PopulateNeuronsInLayers(mInputLayer, mHiddenLayer1);
 	PopulateNeuronsInLayers(mHiddenLayer1, mHiddenLayer2);
 	PopulateNeuronsInLayers(mHiddenLayer2, mOutputLayer);
+
 }
 
 void NeuralNetwork::PopulateNeuronsInLayers(NetworkLayer* currentLayer, NetworkLayer* nextLayer)
 {
-	for (int i = 0; i < currentLayer->mNeurons.size(); i++)
+	double low =  0.0;
+	double high = 3.0;
+
+	currentLayer->mWeights = std::vector<std::vector<double>>(currentLayer->mNumberOfNeurons, std::vector<double>(nextLayer->mNumberOfNeurons));
+	std::random_device rd;
+	std::uniform_int_distribution<int> dist(0, 500);
+
+	for (int i = 0; i < currentLayer->mNumberOfNeurons; i++)
 	{
-		currentLayer->mNeurons[i]->PopulateConnections(nextLayer);
+		for (int j = 0; j < nextLayer->mNumberOfNeurons; j++)
+		{
+			double val = ((double)dist(rd))/1000.0;
+			currentLayer->mWeights[i][j] = val;
+		}
 	}
+
 }
 
-int NeuralNetwork::RunOneNumber(std::vector<double> pixelValues, int answer)
+int NeuralNetwork::RunOneNumber(NetworkLayer* inputLayer, NetworkLayer* outputLayer, std::vector<double> pixelValues, int answer)
 {
 	for (int i = 0; i < pixelValues.size(); i++)
 	{
-		mInputLayer->mNeurons[i]->mActivation = pixelValues[i]/255.0;
+		inputLayer->mNeurons[i]->mActivation = pixelValues[i]/255.0;
 	}
 
 	SetNextLayersActivation(mInputLayer, mHiddenLayer1);
 	SetNextLayersActivation(mHiddenLayer1, mHiddenLayer2);
 	SetNextLayersActivation(mHiddenLayer2, mOutputLayer);
+	SetNextLayersActivation(mInputLayer, mOutputLayer);
 
+	return GetFinalOutput(outputLayer);
+}
+
+int NeuralNetwork::GetFinalOutput(NetworkLayer* outputLayer)
+{
 	double highestActivation = -INFINITY;
-	int i, ans;
-
-	for (i = 0; i < mOutputLayer->mNeurons.size(); i++)
+	int i, ans = -1;
+	for (i = 0; i < outputLayer->mNeurons.size(); i++)
 	{
-		if (highestActivation < mOutputLayer->mNeurons[i]->mActivation)
+		if (highestActivation < outputLayer->mNeurons[i]->mActivation)
 		{
-			highestActivation = mOutputLayer->mNeurons[i]->mActivation;
+			highestActivation = outputLayer->mNeurons[i]->mActivation;
 			ans = i;
 		}
 	}
-
 	return ans;
 }
 
 void NeuralNetwork::SetNextLayersActivation(NetworkLayer* currentLayer, NetworkLayer* nextLayer)
 {
-	for (int i = 0; i < nextLayer->mNeurons.size(); i++)
+	double curr = 0.0;
+	for (int next = 0; next < nextLayer->mNumberOfNeurons; next++)
 	{
-		nextLayer->mNeurons[i]->mActivation = 0.0;
-		for (int j = 0; j < currentLayer->mNeurons.size(); j++)
+		nextLayer->mNeurons[next]->mActivation = 0.0;
+
+		for (int current = 0; current < currentLayer->mNumberOfNeurons; current++)
 		{
-			nextLayer->mNeurons[i]->mActivation += (currentLayer->mNeurons[j]->mConnections[i]->mWeight * currentLayer->mNeurons[j]->mActivation);
+			double weight = currentLayer->mWeights[current][next];
+			double activation = currentLayer->mNeurons[current]->mActivation;
+
+			nextLayer->mNeurons[next]->mActivation +=  weight * activation;
+			curr = nextLayer->mNeurons[next]->mActivation;
 		}
-		nextLayer->mNeurons[i]->mActivation = MathHelper::Sigmoid(nextLayer->mNeurons[i]->mActivation + nextLayer->mNeurons[i]->mBias);
+		nextLayer->mNeurons[next]->mActivation = MathHelper::RELUI(nextLayer->mNeurons[next]->mActivation + nextLayer->mNeurons[next]->mBias);
 	}
 }
 

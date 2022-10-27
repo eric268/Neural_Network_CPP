@@ -1,27 +1,31 @@
 #pragma once
 #include "pch.h"
 
+
 class Connections;
 class NetworkLayer;
+enum LayerType;
+
 class Neurons
 {
 public:
 	Neurons();
-	Neurons(double val);
+	Neurons(LayerType type);
+	Neurons(double val, LayerType type);
 
 
 	double CalculateCost(bool isCorrect);
 	double DCalculateCost(bool isCorrect);
 
-	void UpdateNeuron();
-
 	void PopulateConnections(NetworkLayer* nextLayer);
 
 public:
+	LayerType mLayerType;
+	double mActivation;
 	std::vector<Connections*> mConnections;
 	double mBias;
-	double mActivation;
 	double mZ;
+
 };
 
 /*what do I need for backwards propigations

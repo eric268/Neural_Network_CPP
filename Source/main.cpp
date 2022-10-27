@@ -3,7 +3,7 @@
 #include "../Include/NeuralNetwork.h"
 
 void ReadMNIST(std::string, std::string, std::vector<std::vector<double>>&, std::vector<int>&);
-void DisplayImage(NeuralNetwork&, std::vector<std::vector<double>>&,std::vector<int>&, int);
+int DisplayImage(NeuralNetwork&, std::vector<std::vector<double>>&,std::vector<int>&, int);
 
 #define NumTraining 60'000
 #define NumTesting 10'000
@@ -19,19 +19,28 @@ int main()
     std::string trainingLabelsPath = "MNISTData/train-labels.idx1-ubyte";
     ReadMNIST(trainingImagesPath, trainingLabelsPath, imageArray, labelArray);
     int counter = 0;
-    char n;
+    char n = '1';
 
-    while (std::cin >> n)
+    int arr[10] = {0};
+
+    while (true)
     {
         if (n == 'q')
             break;
         system("CLS");
-        DisplayImage(neuralNetwork, imageArray,labelArray, counter++);
+        int ans = DisplayImage(neuralNetwork, imageArray, labelArray, counter++);
+        std::cin >> n;
+        //arr[ans]++;
+
     }
+    //for (int i = 0; i < 10; i++)
+    //{
+    //    std::cout << "Number: " << std::to_string(arr[i]) << "\n";
+    //}
     return 0;
 }
 
-void DisplayImage(NeuralNetwork& nNetwork, std::vector<std::vector<double>>& imageArray, std::vector<int>& labelArray, int numberIndex)
+int DisplayImage(NeuralNetwork& nNetwork, std::vector<std::vector<double>>& imageArray, std::vector<int>& labelArray, int numberIndex)
 {
     int counter = 0;
     for (int i = 0; i < NumOfPixels; i++)
@@ -47,10 +56,11 @@ void DisplayImage(NeuralNetwork& nNetwork, std::vector<std::vector<double>>& ima
             std::cout << " ";
         }
     }
-
+    int val = nNetwork.RunOneNumber(nNetwork.mInputLayer, nNetwork.mOutputLayer, imageArray[numberIndex], labelArray[numberIndex]);
     std::string ans = "\n\tAnswers: " + std::to_string(labelArray[numberIndex]);
     std::cout << ans << std::endl;
-    std::cout << "Neural Network Answer: " + std::to_string(nNetwork.RunOneNumber(imageArray[numberIndex], labelArray[numberIndex]));
+    std::cout << "Neural Network Answer: " + std::to_string(val) << "\n";
+    return val;
 }
 
 int ReverseInt(int i)
