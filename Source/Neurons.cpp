@@ -4,11 +4,11 @@
 #include "../Include/Connections.h"
 #include "../Include/NetworkLayer.h"
 
-Neurons::Neurons() : mLayerType{ LayerType::InputLayer },mActivation { 0.0 }, mBias{ 0.0 }, mZ{ 0.0 } {}
+Neurons::Neurons() : mLayerType{ LayerType::InputLayer }, mActivation{ 0.0 }, mBias{ 0.0 }, mZ{ 0.0 }, mDeltaBias{0.0} {}
 
-Neurons::Neurons(LayerType type) : mLayerType{ type },mActivation { 0.0 }, mBias{ 0.0 }, mZ{ 0.0 } {}
+Neurons::Neurons(LayerType type) : mLayerType{ type }, mActivation{ 0.0 }, mBias{ 0.0 }, mZ{ 0.0 }, mDeltaBias{ 0.0 } {}
 
-Neurons::Neurons(double val, LayerType type) :mActivation{ val }, mLayerType{ type }, mBias { 0.0 }, mZ{ 0.0 } {}
+Neurons::Neurons(double val, LayerType type) :mActivation{ val }, mLayerType{ type }, mBias{ 0.0 }, mZ{ 0.0 }, mDeltaBias{ 0.0 } {}
 
 
 //void Neurons::PopulateConnections(NetworkLayer* nextLayer)

@@ -25,6 +25,7 @@ public:
 	std::vector<Connections*> mConnections;
 	double mBias;
 	double mZ;
+	double mDeltaBias;
 
 };
 

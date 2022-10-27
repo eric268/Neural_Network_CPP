@@ -9,12 +9,16 @@
 #define HiddenLayer2Size 16
 #define OutputLayerSize 10
 
-NeuralNetwork::NeuralNetwork()
+NeuralNetwork::NeuralNetwork() : mCostFound{0.0}, mDeltaCost {0.0}
 {
 	mInputLayer   = new NetworkLayer(LayerType::InputLayer, InputLayerSize);
 	mHiddenLayer1 = new NetworkLayer(LayerType::HiddenLayer1, HiddenLayer1Size);
 	mHiddenLayer2 = new NetworkLayer(LayerType::HiddenLayer2, HiddenLayer2Size);
 	mOutputLayer  = new NetworkLayer(LayerType::OutputLayer, OutputLayerSize);
+
+	mHiddenLayer1Results = LayerResults();
+	mHiddenLayer2Results = LayerResults();
+	mOutputLayerResults  = LayerResults();
 
 	mInputLayer->mNextLayer = mHiddenLayer1;
 	mHiddenLayer1->mPreviousLayer = mInputLayer;
@@ -88,43 +92,64 @@ void NeuralNetwork::SetNextLayersActivation(NetworkLayer* currentLayer, NetworkL
 
 		for (int current = 0; current < currentLayer->mNumberOfNeurons; current++)
 		{
-			double weight = currentLayer->mWeights[current][next];
-			double activation = currentLayer->mNeurons[current]->mActivation;
-
-			nextLayer->mNeurons[next]->mActivation +=  weight * activation;
-			curr = nextLayer->mNeurons[next]->mActivation;
+			nextLayer->mNeurons[next]->mActivation += currentLayer->mWeights[current][next] * currentLayer->mNeurons[current]->mActivation;
 		}
-		nextLayer->mNeurons[next]->mActivation = MathHelper::RELUI(nextLayer->mNeurons[next]->mActivation + nextLayer->mNeurons[next]->mBias);
+		nextLayer->mNeurons[next]->mZ = nextLayer->mNeurons[next]->mActivation + nextLayer->mNeurons[next]->mBias;
+		nextLayer->mNeurons[next]->mActivation = MathHelper::Sigmoid(nextLayer->mNeurons[next]->mZ);
 	}
 }
 
-void NeuralNetwork::SerializeWeights()
+void NeuralNetwork::CalculateOutputLayerCost(int correctAns)
 {
-	std::ofstream file("Weight.dat", std::ios::out | std::ios::binary);
-	if (file.is_open())
+	mCostFound = 0.0;
+	mDeltaCost = 0.0;
+	for (int i = 0; i < mOutputLayer->mNumberOfNeurons; i++)
 	{
+		double y = 0.0;
+		if (i == correctAns)
+			y = 1.0;
+		mCostFound += (mOutputLayer->mNeurons[i]->mActivation - y) * (mOutputLayer->mNeurons[i]->mActivation - y);
+		mDeltaCost += 2.0 * (mOutputLayer->mNeurons[i]->mActivation - y);
+	}
 
-	}
-	else
-	{
-		std::cerr << "Failed to open Weights.dat file\n";
-	}
+	mOutputLayerResults  += OutputLayerBackwardsInduction(mOutputLayer, mHiddenLayer2);
+	mHiddenLayer2Results += OutputLayerBackwardsInduction(mHiddenLayer2, mHiddenLayer1);
+	mHiddenLayer1Results += OutputLayerBackwardsInduction(mHiddenLayer1, mInputLayer);
 }
 
-void NeuralNetwork::SerializeBias()
+LayerResults NeuralNetwork::OutputLayerBackwardsInduction(NetworkLayer* currentLayer, NetworkLayer* prevLayer)
 {
-	std::ofstream file("BiasValues.dat", std::ios::out | std::ios::binary);
-	if (file.is_open())
-	{
+	std::vector<double> mCurrentLayer2Bias(currentLayer->mNumberOfNeurons);
+	std::vector<double> mPrevLayer2PrevActivation(prevLayer->mNumberOfNeurons);
 
-	}
-	else
+
+	for (int i = 0; i < currentLayer->mNumberOfNeurons; i++)
 	{
-		std::cerr << "Failed to open Weights.dat file\n";
+		for (int j = 0; j < prevLayer->mNumberOfNeurons; i++)
+		{
+			mCurrentLayer2Bias[i] += MathHelper::DSigmoid(currentLayer->mNeurons[i]->mZ) * prevLayer->mNeurons[j]->mActivation;
+		}
 	}
+
+	for (int i = 0; i < prevLayer->mNumberOfNeurons; i++)
+	{
+		for (int j = 0; i < currentLayer->mNumberOfNeurons; i++)
+		{
+			mPrevLayer2PrevActivation[i] += prevLayer->mWeights[j][i] * MathHelper::DSigmoid(currentLayer->mNeurons[i]->mZ) * mDeltaCost;
+		}
+	}
+	std::vector<std::vector<double>> mPrevLayerWeightDelta(prevLayer->mNumberOfNeurons, std::vector<double>(currentLayer->mNumberOfNeurons));
+
+	for (int i = 0; i < currentLayer->mNumberOfNeurons; i++)
+	{
+		for (int j = 0; j < prevLayer->mNumberOfNeurons; j++)
+		{
+			mPrevLayerWeightDelta[j][i] = mPrevLayer2PrevActivation[j] * MathHelper::DSigmoid(currentLayer->mNeurons[i]->mZ) * mDeltaCost;
+		}
+	}
+
+	return { mPrevLayerWeightDelta,mCurrentLayer2Bias };
 }
 
-void NeuralNetwork::CalculateCosts(int correctAns)
-{
 
-}
+

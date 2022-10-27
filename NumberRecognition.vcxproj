@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Connections.cpp" />
+    <ClCompile Include="Source\LayerResults.cpp" />
     <ClCompile Include="Source\NetworkLayer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\MathHelper.cpp" />
@@ -32,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Connections.h" />
+    <ClInclude Include="Include\LayerResults.h" />
     <ClInclude Include="Include\NetworkLayer.h" />
     <ClInclude Include="Include\MathHelper.h" />
     <ClInclude Include="Include\NeuralNetwork.h" />

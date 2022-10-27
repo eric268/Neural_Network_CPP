@@ -22,6 +22,9 @@
     <ClCompile Include="Source\NetworkLayer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\LayerResults.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\MathHelper.h">
@@ -42,6 +45,9 @@
     <ClInclude Include="Include\NetworkLayer.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\LayerResults.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
@@ -52,12 +58,6 @@
     </Filter>
     <Filter Include="Weights">
       <UniqueIdentifier>{e3ecb34e-b737-4142-8c4b-f06335d4957e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weights\Current">
-      <UniqueIdentifier>{c386c38a-91c2-45f4-b26a-573ccc29c969}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weights\Temp">
-      <UniqueIdentifier>{70088549-6a77-4510-88bc-be388917501d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

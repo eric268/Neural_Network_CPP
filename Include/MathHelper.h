@@ -14,7 +14,7 @@ class MathHelper
 {
 public:
 	template<typename WorksForSigmoid>
-	static double Sigmoid(WorksForSigmoid x)
+	static double Sigmoid(const WorksForSigmoid x)
 	{
 		return (1.0 / (1.0 + exp(-x)));
 	}
@@ -25,7 +25,7 @@ public:
 	}
 
 	template <typename WorksForSigmoid>
-	static double DSigmoid(WorksForSigmoid x)
+	static double DSigmoid(const WorksForSigmoid x)
 	{
 		double val = Sigmoid(x);
 		return (val * (1.0 - val));
