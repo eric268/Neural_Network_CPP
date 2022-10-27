@@ -7,10 +7,7 @@ class Neurons
 {
 public:
 	Neurons();
-	Neurons(std::vector<double> imageInput);
-	Neurons(std::vector<Neurons*> prevNerons);
-
-	void AddConnections(std::vector<Connections*> nextLayerOfNeurons);
+	Neurons(double val);
 
 
 	double CalculateCost(bool isCorrect);
@@ -18,7 +15,7 @@ public:
 
 	void UpdateNeuron();
 
-	void PopulateConnections(NetworkLayer& nextLayer);
+	void PopulateConnections(NetworkLayer* nextLayer);
 
 public:
 	std::vector<Connections*> mConnections;

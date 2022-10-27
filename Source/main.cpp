@@ -23,7 +23,7 @@ int main()
 
     while (std::cin >> n)
     {
-        if (n == 'b')
+        if (n == 'q')
             break;
         system("CLS");
         DisplayImage(neuralNetwork, imageArray,labelArray, counter++);

@@ -23,8 +23,8 @@ public:
 	void CalculateCosts(int correctAns);
 
 	int RunOneNumber(std::vector<double> pixelValues, int answer);
-	void PopulateNeuronsInLayers(NetworkLayer& currentLayer, NetworkLayer& nextLayer);
-	void SetNextLayersActivation(NetworkLayer& currentLayer, NetworkLayer& nextLayer);
+	void PopulateNeuronsInLayers(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
+	void SetNextLayersActivation(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
 
 public:
 	NetworkLayer* mInputLayer;
