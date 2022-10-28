@@ -3,6 +3,10 @@
 #include "MathHelper.h"
 #include "LayerResults.h"
 
+#define InputLayerSize 784
+#define HiddenLayer1Size 16
+#define HiddenLayer2Size 16
+#define OutputLayerSize 10
 
 class NetworkLayer;
 class Neurons;
@@ -18,8 +22,8 @@ public:
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
 	void SetNextLayersActivation(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
-	void CalculateOutputLayerCost(int correctAns);
-	LayerResults OutputLayerBackwardsInduction(NetworkLayer* currentLayer, NetworkLayer* prevLayer);
+	void CalculateLayerDeltaCost(int correctAns);
+	LayerResults CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, NetworkLayer* prevLayer);
 
 public:
 	NetworkLayer* mInputLayer;

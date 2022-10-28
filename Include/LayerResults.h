@@ -9,28 +9,39 @@ public:
 	std::vector<std::vector<double>> mWeightedResults;
 	std::vector<double> mBiasResults;
 
-	LayerResults operator+=(LayerResults obj)
+	LayerResults operator+ (LayerResults obj)
 	{
-		for (int i = 0; i < mWeightedResults[0].size(); i++)
+		bool doOnce = false;
+		for (int i = 0; i < mWeightedResults.size(); i++)
 		{
-			obj.mBiasResults[i] += mBiasResults[i];
-			for (int j = 0; j < mWeightedResults.size(); j++)
+			for (int j = 0; j < mWeightedResults[0].size(); j++)
 			{
-				obj.mWeightedResults[j][i] += mWeightedResults[j][i];
+				if (!doOnce)
+				{
+					mBiasResults[j] += obj.mBiasResults[j];
+				}
+				mWeightedResults[i][j] += obj.mWeightedResults[i][j];
 			}
+			doOnce = true;
 		}
-		return *this;
+		
+		return {mWeightedResults, mBiasResults};
 	}
-	LayerResults operator /=(double val)
+	LayerResults operator *(double val)
 	{
-		for (int i = 0; i < mWeightedResults[0].size(); i++)
+		bool doOnce = false;
+		for (int i = 0; i < mWeightedResults.size(); i++)
 		{
-			mBiasResults[i] /= val;
-			for (int j = 0; j < mWeightedResults.size(); j++)
+			for (int j = 0; j < mWeightedResults[0].size(); j++)
 			{
-				mWeightedResults[j][i] /= val;
+				if (!doOnce)
+				{
+					mBiasResults[j] *= val;
+				}
+				mWeightedResults[i][j] *= val;
 			}
+			doOnce = true;
 		}
-		return *this;
+		return {mWeightedResults, mBiasResults};
 	}
 };

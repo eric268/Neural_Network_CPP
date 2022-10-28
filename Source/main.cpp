@@ -44,6 +44,9 @@ void RunTest(NeuralNetwork& network, double testSize, std::vector<std::vector<do
     char n = ' ';
     int counter = 0;
     int rightAnswers = 0;
+    network.mHiddenLayer1Results = LayerResults(InputLayerSize, HiddenLayer1Size);
+    network.mHiddenLayer2Results = LayerResults(HiddenLayer1Size, HiddenLayer2Size);
+    network.mOutputLayerResults = LayerResults(HiddenLayer2Size, OutputLayerSize);
 
     while (counter < testSize)
     {
@@ -52,6 +55,7 @@ void RunTest(NeuralNetwork& network, double testSize, std::vector<std::vector<do
         int ans = DisplayImage(network, imageArray, labelArray, counter++);
         if (ans == correctAns)
             rightAnswers++;
+        network.CalculateLayerDeltaCost(correctAns);
 
     }
     UpdateResults(network, testSize);
@@ -60,24 +64,30 @@ void RunTest(NeuralNetwork& network, double testSize, std::vector<std::vector<do
 void UpdateResults(NeuralNetwork& network, double testSize)
 {
     system("CLS");
-    network.mHiddenLayer1Results /= testSize;
-    network.mHiddenLayer2Results /= testSize;
-    network.mOutputLayerResults /= testSize;
+    double tL = 1.0 / testSize;
+    network.mHiddenLayer1Results = network.mHiddenLayer1Results * tL;
+    network.mHiddenLayer2Results = network.mHiddenLayer2Results * tL;
+    network.mOutputLayerResults  = network.mOutputLayerResults  * tL;
 
     UpdateWeightsAndBias(network.mHiddenLayer1, network.mHiddenLayer1Results);
     UpdateWeightsAndBias(network.mHiddenLayer2, network.mHiddenLayer2Results);
-    UpdateWeightsAndBias(network.mOutputLayer, network.mOutputLayerResults);
+    UpdateWeightsAndBias(network.mOutputLayer,  network.mOutputLayerResults);
 
 }
-void UpdateWeightsAndBias(NetworkLayer* layer, LayerResults result)
+void UpdateWeightsAndBias(NetworkLayer* networkLayer, LayerResults result)
 {
-    for (int i = 0; i < layer->mWeights[0].size(); i++)
+    bool doOnce = false;
+    for (int i = 0; i < networkLayer->mWeights.size(); i++)
     {
-        layer->mNeurons[i]->mBias += result.mBiasResults[i];
-        for (int j = 0; j < layer->mWeights.size(); j++)
+        if (!doOnce)
         {
-            layer->mWeights[j][i] += result.mWeightedResults[j][i];
+            networkLayer->mNeurons[i]->mBias -= result.mBiasResults[i];
         }
+        for (int j = 0; j < networkLayer->mWeights[0].size(); j++)
+        {
+            networkLayer->mWeights[i][j] -= result.mWeightedResults[i][j];
+        }
+        doOnce = true;
     }
 }
 
@@ -164,19 +174,4 @@ void ReadMNIST(std::string path,std::string labelsPath, std::vector<std::vector<
             labelsArray[i] = (int)v;
         }
     }
-    /*
-    std::vector<std::vector<double>> weightVector(3);
-    weightVector[0] = std::vector<double>(784, 0);
-    weightVector[1] = std::vector<double>(16, 0);
-    weightVector[2] = std::vector<double>(10, 0);
-
-    std::vector<std::vector<double>> biasVector(3);
-    biasVector[0] = std::vector<double>(784, 0);
-    biasVector[1] = std::vector<double>(16, 0);
-    biasVector[2] = std::vector<double>(10, 0);
-    */
 }
-
-//Matricies
-// - Weight
-// - Bias

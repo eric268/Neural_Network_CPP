@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "pch.h"
 
 template<typename T>
@@ -29,6 +29,12 @@ public:
 	{
 		double val = Sigmoid(x);
 		return (val * (1.0 - val));
+	}
+
+	template <typename WorksForSigmoid>
+	static double DReLU(const WorksForSigmoid x)
+	{
+		return (x <= 0.0) ? 0.0 : 1.0;
 	}
 };
 
