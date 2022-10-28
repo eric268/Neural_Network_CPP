@@ -6,13 +6,15 @@
 
 void ReadMNIST(std::string, std::string, std::vector<std::vector<double>>&, std::vector<int>&);
 int DisplayImage(NeuralNetwork&, std::vector<std::vector<double>>&, std::vector<int>&, int);
-void UpdateWeightsAndBias(NetworkLayer*, LayerResults);
+void UpdateBias(NetworkLayer*, LayerResults);
 void UpdateResults(NeuralNetwork&, double);
 void RunTest(NeuralNetwork&, double, std::vector<std::vector<double>>, std::vector<int>);
+void UpdateWeights(NetworkLayer*, LayerResults);
 
 #define NumTraining 60'000
 #define NumTesting 10'000
 #define NumOfPixels 784
+
 
 int main()
 {
@@ -59,6 +61,7 @@ void RunTest(NeuralNetwork& network, double testSize, std::vector<std::vector<do
 
     }
     UpdateResults(network, testSize);
+    std::cout << "Correct %" << std::to_string(rightAnswers / testSize);
 }
 
 void UpdateResults(NeuralNetwork& network, double testSize)
@@ -69,25 +72,32 @@ void UpdateResults(NeuralNetwork& network, double testSize)
     network.mHiddenLayer2Results = network.mHiddenLayer2Results * tL;
     network.mOutputLayerResults  = network.mOutputLayerResults  * tL;
 
-    UpdateWeightsAndBias(network.mHiddenLayer1, network.mHiddenLayer1Results);
-    UpdateWeightsAndBias(network.mHiddenLayer2, network.mHiddenLayer2Results);
-    UpdateWeightsAndBias(network.mOutputLayer,  network.mOutputLayerResults);
+    //These functions are not updating the layers in the network
 
+    UpdateBias(network.mHiddenLayer1, network.mHiddenLayer1Results);
+    UpdateBias(network.mHiddenLayer2, network.mHiddenLayer2Results);
+    UpdateBias(network.mOutputLayer,  network.mOutputLayerResults);
+
+    UpdateWeights(network.mHiddenLayer2, network.mOutputLayerResults);
+    UpdateWeights(network.mHiddenLayer1, network.mHiddenLayer2Results);
+    UpdateWeights(network.mInputLayer, network.mHiddenLayer1Results);
 }
-void UpdateWeightsAndBias(NetworkLayer* networkLayer, LayerResults result)
+
+void UpdateWeights(NetworkLayer* networkLayer, LayerResults results)
 {
-    bool doOnce = false;
     for (int i = 0; i < networkLayer->mWeights.size(); i++)
     {
-        if (!doOnce)
-        {
-            networkLayer->mNeurons[i]->mBias -= result.mBiasResults[i];
-        }
         for (int j = 0; j < networkLayer->mWeights[0].size(); j++)
         {
-            networkLayer->mWeights[i][j] -= result.mWeightedResults[i][j];
+            networkLayer->mWeights[i][j] -= results.mWeightedResults[i][j];
         }
-        doOnce = true;
+    }
+}
+void UpdateBias(NetworkLayer* networkLayer, LayerResults result)
+{
+    for (int i = 0; i < networkLayer->mWeights.size(); i++)
+    {
+        networkLayer->mNeurons[i]->mBias -= result.mBiasResults[i];
     }
 }
 

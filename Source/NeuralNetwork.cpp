@@ -32,7 +32,7 @@ void NeuralNetwork::PopulateNeuronsInLayers(NetworkLayer* currentLayer, NetworkL
 {
 	currentLayer->mWeights = std::vector<std::vector<double>>(currentLayer->mNumberOfNeurons, std::vector<double>(nextLayer->mNumberOfNeurons));
 	std::random_device rd;
-	std::uniform_int_distribution<int> dist(0, 10000);
+	std::uniform_int_distribution<int> dist(-10000, 10000);
 
 	for (int i = 0; i < currentLayer->mNumberOfNeurons; i++)
 	{
@@ -105,7 +105,7 @@ void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 		mDeltaCost += 2.0 * val;
 	}
 
-	mOutputLayerResults = mOutputLayerResults + CalculateLayerBackwardsPropigation(mOutputLayer, mHiddenLayer2);
+	mOutputLayerResults  = mOutputLayerResults  + CalculateLayerBackwardsPropigation(mOutputLayer, mHiddenLayer2);
 	mHiddenLayer2Results = mHiddenLayer2Results + CalculateLayerBackwardsPropigation(mHiddenLayer2, mHiddenLayer1);
 	mHiddenLayer1Results = mHiddenLayer1Results + CalculateLayerBackwardsPropigation(mHiddenLayer1, mInputLayer);
 }
@@ -136,7 +136,7 @@ LayerResults NeuralNetwork::CalculateLayerBackwardsPropigation(NetworkLayer* cur
 	{
 		for (int j = 0; j < currentLayer->mNumberOfNeurons; j++)
 		{
-			mPrevLayerWeightDelta[i][j] = mPrevLayer2PrevActivation[j] * MathHelper::DSigmoid(currentLayer->mNeurons[j]->mZ) * mDeltaCost;
+			mPrevLayerWeightDelta[i][j] = mPrevLayer2PrevActivation[i] * MathHelper::DSigmoid(currentLayer->mNeurons[j]->mZ) * mDeltaCost;
 		}
 	}
 
