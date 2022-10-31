@@ -1,8 +1,8 @@
 #include "../Include/pch.h"
 #include "../Include/LayerResults.h"
 
-LayerResults::LayerResults(int previousLayerSize, int currentLayerSize)
+LayerResults::LayerResults(int currentLayerSize, int previousLayerSize)
 {
-	mWeightedResults = std::vector<std::vector<double>>(previousLayerSize, std::vector<double>(currentLayerSize));
+	mWeightedResults = std::vector<std::vector<double>>(currentLayerSize, std::vector<double>(previousLayerSize));
 	mBiasResults = std::vector<double>(currentLayerSize);
 }

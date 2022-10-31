@@ -16,7 +16,7 @@ NetworkLayer::NetworkLayer(LayerType type, int numofNeurons) :  mNumberOfNeurons
 	mNeurons = std::vector<Neurons*>(mNumberOfNeurons);
 	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
-		mNeurons[i] = new Neurons(type);
+		mNeurons[i] = new Neurons();
 	}
 }
 

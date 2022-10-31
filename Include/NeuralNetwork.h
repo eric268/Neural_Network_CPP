@@ -18,13 +18,13 @@ public:
 
 
 
-	int RunOneNumber(NetworkLayer* inputLayer, NetworkLayer* outputLayer, const std::vector<double> pixelValues, int answer);
+	int RunOneNumber(const std::vector<double> pixelValues, int answer);
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
 	void SetNextLayersActivation(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
 	void CalculateLayerDeltaCost(int correctAns);
 	LayerResults CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, int correctAns);
-	LayerResults CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, NetworkLayer* prevLayer, int correctAns);
+	LayerResults CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, int correctAns);
 
 public:
 	NetworkLayer* mInputLayer;
@@ -38,5 +38,7 @@ public:
 	LayerResults mHiddenLayer1Results;
 	LayerResults mHiddenLayer2Results;
 	LayerResults mOutputLayerResults;
+
+	double mTotalError;
 };
 
