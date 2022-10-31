@@ -21,5 +21,4 @@ public:
 	int mNumberOfNeurons;
 	std::vector<Neurons*> mNeurons;
 	std::vector<std::vector<double>> mWeights;
-
 };

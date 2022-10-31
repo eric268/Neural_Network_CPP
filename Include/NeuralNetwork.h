@@ -23,7 +23,8 @@ public:
 	void SetNextLayersActivation(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
 	void CalculateLayerDeltaCost(int correctAns);
-	LayerResults CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, NetworkLayer* prevLayer);
+	LayerResults CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, int correctAns);
+	LayerResults CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, NetworkLayer* prevLayer, int correctAns);
 
 public:
 	NetworkLayer* mInputLayer;
@@ -37,8 +38,5 @@ public:
 	LayerResults mHiddenLayer1Results;
 	LayerResults mHiddenLayer2Results;
 	LayerResults mOutputLayerResults;
-
-	double mCostFound;
-	double mDeltaCost;
 };
 

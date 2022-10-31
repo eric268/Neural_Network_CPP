@@ -22,11 +22,11 @@ public:
 public:
 	LayerType mLayerType;
 	double mActivation;
-	std::vector<Connections*> mConnections;
 	double mBias;
-	double mZ;
-	double mDeltaBias;
 
+	double mDeltaBias;
+	double mDeltaError;
+	double mDeltaOutput;
 };
 
 /*what do I need for backwards propigations
