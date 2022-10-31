@@ -139,7 +139,7 @@ LayerResults NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* curr
 		//currentLayer->mNeurons[i]->mDeltaError = -1.0 * (y - currentLayer->mNeurons[i]->mActivation);
 		currentLayer->mNeurons[i]->mDeltaError = 2.0 * (currentLayer->mNeurons[i]->mActivation - y);
 		currentLayer->mNeurons[i]->mDeltaOutput = currentLayer->mNeurons[i]->mActivation * (1.0 - currentLayer->mNeurons[i]->mActivation);
-		//mCurrentLayer2Bias[i] = dError * dOutput;
+		mCurrentLayer2Bias[i] = currentLayer->mNeurons[i]->mDeltaError * currentLayer->mNeurons[i]->mDeltaOutput;
 
 
 		for (int j = 0; j < currentLayer->mPreviousLayer->mNumberOfNeurons; j++)
@@ -165,6 +165,7 @@ LayerResults NeuralNetwork::CalculateLayerBackwardsPropigation(NetworkLayer* cur
 			currentLayer->mNeurons[i]->mDeltaError += currentLayer->mNextLayer->mNeurons[j]->mDeltaError 
 				* currentLayer->mNextLayer->mNeurons[j]->mDeltaOutput * currentLayer->mWeights[j][i];
 		}
+		bias[i] = currentLayer->mNeurons[i]->mDeltaError * currentLayer->mNeurons[i]->mDeltaOutput;
 	}
 
 	for (int i = 0; i < currentLayer->mNumberOfNeurons; i++)

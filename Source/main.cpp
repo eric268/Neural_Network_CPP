@@ -8,13 +8,15 @@ void ReadMNIST(std::string, std::string, std::vector<std::vector<double>>&, std:
 int DisplayImage(NeuralNetwork&, std::vector<std::vector<double>>&, std::vector<int>&, int);
 void UpdateBias(NetworkLayer*, LayerResults);
 void UpdateResults(NeuralNetwork&, double);
-void RunTest(NeuralNetwork&, double, std::vector<std::vector<double>>, std::vector<int>);
+void RunNetwork(NeuralNetwork&, double, std::vector<std::vector<double>>, std::vector<int>, bool);
 void UpdateWeights(NetworkLayer*, LayerResults);
+void RunTest(NeuralNetwork&, bool);
+void SaveWeightsAndBias();
 
 #define NumTraining 60'000
 #define NumTesting 10'000
 #define NumOfPixels 784
-#define DrawNumbers
+//#define DrawNumbers
 
 int main()
 {
@@ -25,14 +27,35 @@ int main()
     std::string trainingImagesPath = "MNISTData/train-images.idx3-ubyte";
     std::string trainingLabelsPath = "MNISTData/train-labels.idx1-ubyte";
     ReadMNIST(trainingImagesPath, trainingLabelsPath, imageArray, labelArray);
-    double testSize = 10.0;
+    double testSize = 100.0;
+    int numTests = 1000;
+    int testCounter = 0;
     char c = ' ';
     while (true)
     {
-        RunTest(neuralNetwork, testSize, imageArray, labelArray);
-        //std::cin >> c;
-        if (neuralNetwork.mTotalError < 0.01)
-            break;
+        RunNetwork(neuralNetwork, testSize, imageArray, labelArray, true);
+        testCounter++;
+        if (testCounter >= numTests)
+        {
+            testCounter = 0;
+            std::cout << "Press q to quit:\n";
+            std::cout << "Press t to test:\n";
+            std::cout << "Press s to save:\n";
+            std::cout << "Press anything else to retrain\n";
+            std::cin >> c;
+            if (c == 'q' || c == 't' || c == 's')
+                break;
+        }
+
+
+    }
+    if (c == 't')
+    {
+        RunTest(neuralNetwork, false);
+    }
+    else if (c == 's')
+    {
+        SaveWeightsAndBias();
     }
 
     //Save data here
@@ -41,7 +64,29 @@ int main()
     return 0;
 }
 
-void RunTest(NeuralNetwork& network, double testSize, std::vector<std::vector<double>> imageArray, std::vector<int> labelArray)
+void SaveWeightsAndBias()
+{
+    std::string saveWeightName, saveBiasName;
+    std::cout << "Enter save weight name: ";
+    std::cin >> saveWeightName;
+    std::cout << "Enter save bias name: ";
+    std::cin >> saveBiasName;
+    //TODO create output file functions
+}
+
+void RunTest(NeuralNetwork& network, bool isTraining)
+{
+    std::string testImagesPath = "MNISTData/t10k-images.idx3-ubyte";
+    std::string testLabelsPath = "MNISTData/t10k-labels.idx1-ubyte";
+    std::vector<std::vector<double>> testImageArray(NumTesting, std::vector<double>(NumOfPixels));
+    std::vector<int> testLabelArray(NumTesting, -1);
+
+    ReadMNIST(testImagesPath, testLabelsPath, testImageArray, testLabelArray);
+    RunNetwork(network, NumTesting, testImageArray, testLabelArray, isTraining);
+}
+
+
+void RunNetwork(NeuralNetwork& network, double testSize, std::vector<std::vector<double>> imageArray, std::vector<int> labelArray, bool isTraining)
 {
     char n = ' ';
     int counter = 0;
@@ -52,11 +97,12 @@ void RunTest(NeuralNetwork& network, double testSize, std::vector<std::vector<do
     network.mHiddenLayer2Results = LayerResults(HiddenLayer2Size, HiddenLayer1Size);
     network.mOutputLayerResults = LayerResults(OutputLayerSize, HiddenLayer2Size);
     std::random_device rd;
-    std::uniform_int_distribution<int> dist(0, imageArray.size());
+    std::uniform_int_distribution<int> dist(0, NumTraining - 1);
     while (counter < testSize)
     {
         //system("CLS");
-        int val = counter;//dist(rd);
+        
+        int val = (isTraining) ? dist(rd) : counter;
         int correctAns = labelArray[val];
         int ans = DisplayImage(network, imageArray, labelArray, val);
         counter++;
