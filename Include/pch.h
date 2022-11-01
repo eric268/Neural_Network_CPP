@@ -17,3 +17,4 @@
 #include <cmath>
 #include <cstdlib>
 #include <random>
+#include <assert.h>

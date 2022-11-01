@@ -5,12 +5,12 @@
 #include "../Include/Neurons.h"
 
 void ReadMNIST(std::string, std::string, std::vector<std::vector<double>>&, std::vector<int>&);
-int DisplayImage(NeuralNetwork&, std::vector<std::vector<double>>&, std::vector<int>&, int);
-void UpdateBias(NetworkLayer*, LayerResults);
+void DrawNumber(const std::vector<std::vector<double>>&, const int, const int, const int);
+void UpdateBias(NetworkLayer*, LayerResults*);
 void UpdateResults(NeuralNetwork&, double);
-void RunNetwork(NeuralNetwork&, double, std::vector<std::vector<double>>, std::vector<int>, bool);
-void UpdateWeights(NetworkLayer*, LayerResults);
-void RunTest(NeuralNetwork&, bool);
+void RunNetwork(NeuralNetwork&, const double, const std::vector<std::vector<double>>, const std::vector<int>, bool);
+void UpdateWeights(NetworkLayer*, LayerResults*);
+void BeginTest(NeuralNetwork&, bool);
 void SaveWeightsAndBias();
 
 #define NumTraining 60'000
@@ -20,12 +20,12 @@ void SaveWeightsAndBias();
 
 int main()
 {
-    NeuralNetwork neuralNetwork;
+    NeuralNetwork neuralNetwork(std::vector<int>{ 784, 16, 16, 10 });
 
     std::vector<std::vector<double>> imageArray(NumTraining, std::vector<double>(NumOfPixels));
     std::vector<int> labelArray(NumTraining, -1);
-    std::string trainingImagesPath = "MNISTData/train-images.idx3-ubyte";
-    std::string trainingLabelsPath = "MNISTData/train-labels.idx1-ubyte";
+    const std::string trainingImagesPath = "MNISTData/train-images.idx3-ubyte";
+    const std::string trainingLabelsPath = "MNISTData/train-labels.idx1-ubyte";
     ReadMNIST(trainingImagesPath, trainingLabelsPath, imageArray, labelArray);
     double testSize = 100.0;
     int numTests = 1000;
@@ -46,21 +46,15 @@ int main()
             if (c == 'q' || c == 't' || c == 's')
                 break;
         }
-
-
     }
     if (c == 't')
     {
-        RunTest(neuralNetwork, false);
+        BeginTest(neuralNetwork, false);
     }
     else if (c == 's')
     {
         SaveWeightsAndBias();
     }
-
-    //Save data here
-
-
     return 0;
 }
 
@@ -74,10 +68,10 @@ void SaveWeightsAndBias()
     //TODO create output file functions
 }
 
-void RunTest(NeuralNetwork& network, bool isTraining)
+void BeginTest(NeuralNetwork& network, bool isTraining)
 {
-    std::string testImagesPath = "MNISTData/t10k-images.idx3-ubyte";
-    std::string testLabelsPath = "MNISTData/t10k-labels.idx1-ubyte";
+    const std::string testImagesPath = "MNISTData/t10k-images.idx3-ubyte";
+    const std::string testLabelsPath = "MNISTData/t10k-labels.idx1-ubyte";
     std::vector<std::vector<double>> testImageArray(NumTesting, std::vector<double>(NumOfPixels));
     std::vector<int> testLabelArray(NumTesting, -1);
 
@@ -86,82 +80,48 @@ void RunTest(NeuralNetwork& network, bool isTraining)
 }
 
 
-void RunNetwork(NeuralNetwork& network, double testSize, std::vector<std::vector<double>> imageArray, std::vector<int> labelArray, bool isTraining)
+void RunNetwork(NeuralNetwork& network, const double testSize, const std::vector<std::vector<double>> imageArray, const std::vector<int> labelArray, bool isTraining)
 {
     char n = ' ';
     int counter = 0;
     int rightAnswers = 0;
     network.mTotalError = 0.0;
 
-    network.mHiddenLayer1Results = LayerResults(HiddenLayer1Size, InputLayerSize);
-    network.mHiddenLayer2Results = LayerResults(HiddenLayer2Size, HiddenLayer1Size);
-    network.mOutputLayerResults = LayerResults(OutputLayerSize, HiddenLayer2Size);
+    for (int i = 0; i < network.mLayerResults.size(); i++)
+    {
+        std::fill(network.mLayerResults[i]->mBiasResults.begin(), network.mLayerResults[i]->mBiasResults.end(), 0.0);
+
+        for (auto& p : network.mLayerResults[i]->mWeightedResults)
+        {
+            std::fill(p.begin(), p.end(), 0.0);
+        }
+    }
     std::random_device rd;
     std::uniform_int_distribution<int> dist(0, NumTraining - 1);
     while (counter < testSize)
     {
-        //system("CLS");
-        
         int val = (isTraining) ? dist(rd) : counter;
         int correctAns = labelArray[val];
-        int ans = DisplayImage(network, imageArray, labelArray, val);
-        counter++;
-        if (ans == correctAns)
-            rightAnswers++;
-        network.CalculateLayerDeltaCost(correctAns);
+        int networkGuess = network.RunNetwork(imageArray[val]);
 
 #ifdef DrawNumbers
-        //std::cin >> n;
-        //if (n == 'q')
-        //    break;
+        DrawNumber(imageArray, correctAns, val, networkGuess);
+        std::cin >> n;
+        if (n == 'q')
+            break;
 #endif
-
+        counter++;
+        if (networkGuess == correctAns)
+            rightAnswers++;
+        network.CalculateLayerDeltaCost(correctAns);
     }
-    UpdateResults(network, testSize);
+    network.UpdateResults(testSize);
     std::cout << "Correct %" << std::to_string(rightAnswers / testSize) << "\n";
     std::cout << "Total Error: " << std::to_string(network.mTotalError / testSize) << "\n";
 }
 
-void UpdateResults(NeuralNetwork& network, double testSize)
+void DrawNumber(const std::vector<std::vector<double>>& imageArray, const int label, const int numberIndex, const int networkGuess)
 {
-    system("CLS");
-    double tL = 1.0 / testSize;
-    network.mHiddenLayer1Results = network.mHiddenLayer1Results * tL;
-    network.mHiddenLayer2Results = network.mHiddenLayer2Results * tL;
-    network.mOutputLayerResults  = network.mOutputLayerResults  * tL;
-
-    //These functions are not updating the layers in the network
-
-    UpdateBias(network.mHiddenLayer1, network.mHiddenLayer1Results);
-    UpdateBias(network.mHiddenLayer2, network.mHiddenLayer2Results);
-    UpdateBias(network.mOutputLayer,  network.mOutputLayerResults);
-
-    UpdateWeights(network.mHiddenLayer2, network.mOutputLayerResults);
-    UpdateWeights(network.mHiddenLayer1, network.mHiddenLayer2Results);
-    UpdateWeights(network.mInputLayer, network.mHiddenLayer1Results);
-}
-
-void UpdateWeights(NetworkLayer* networkLayer, LayerResults results)
-{
-    for (int i = 0; i < networkLayer->mWeights.size(); i++)
-    {
-        for (int j = 0; j < networkLayer->mWeights[0].size(); j++)
-        {
-            networkLayer->mWeights[i][j] -= results.mWeightedResults[i][j];
-        }
-    }
-}
-void UpdateBias(NetworkLayer* networkLayer, LayerResults result)
-{
-    for (int i = 0; i < networkLayer->mWeights.size(); i++)
-    {
-        networkLayer->mNeurons[i]->mBias -= result.mBiasResults[i];
-    }
-}
-
-int DisplayImage(NeuralNetwork& nNetwork, std::vector<std::vector<double>>& imageArray, std::vector<int>& labelArray, int numberIndex)
-{
-#ifdef DrawNumbers
     int counter = 0;
     for (int i = 0; i < NumOfPixels; i++)
     {
@@ -176,14 +136,10 @@ int DisplayImage(NeuralNetwork& nNetwork, std::vector<std::vector<double>>& imag
             std::cout << " ";
         }
     }
-#endif
-    int val = nNetwork.RunOneNumber( imageArray[numberIndex], labelArray[numberIndex]);
-#ifdef DrawNumbers
-    std::string ans = "\n\tAnswers: " + std::to_string(labelArray[numberIndex]);
+    std::string ans = "\n\tAnswers: " + std::to_string(label);
     std::cout << ans << std::endl;
-    std::cout << "Neural Network Answer: " + std::to_string(val) << "\n";
-#endif
-    return val;
+    std::cout << "Neural Network Answer: " + std::to_string(networkGuess) << "\n";
+    std::cout << "Press [q] to quit or any other key to continuen\n";
 }
 
 int ReverseInt(int i)

@@ -16,9 +16,6 @@
     <ClCompile Include="Source\Neurons.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Connections.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\NetworkLayer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -37,9 +34,6 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\Neurons.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Connections.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\NetworkLayer.h">

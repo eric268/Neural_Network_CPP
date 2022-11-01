@@ -15,16 +15,16 @@ class NeuralNetwork
 {
 public:
 	NeuralNetwork();
+	NeuralNetwork(std::vector<int> layerSizes);
 
-
-
-	int RunOneNumber(const std::vector<double> pixelValues, int answer);
-	void PopulateNeuronsInLayers(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
-	void SetNextLayersActivation(NetworkLayer* currentLayer, NetworkLayer* nextLayer);
+	int RunNetwork(const std::vector<double> pixelValues);
+	void PopulateNeuronsInLayers(NetworkLayer* currentLayer);
+	void SetNextLayersActivation(NetworkLayer* currentLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
 	void CalculateLayerDeltaCost(int correctAns);
-	LayerResults CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, int correctAns);
-	LayerResults CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, int correctAns);
+	void CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, LayerResults* resultLayer, int correctAns);
+	void CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* resultLayer, int correctAns);
+	void UpdateResults(int testSize);
 
 public:
 	NetworkLayer* mInputLayer;
@@ -32,12 +32,12 @@ public:
 	NetworkLayer* mHiddenLayer2;
 	NetworkLayer* mOutputLayer;
 
-	NetworkLayer* mTestInput1;
-	NetworkLayer* mTestOutput1;
-
 	LayerResults mHiddenLayer1Results;
 	LayerResults mHiddenLayer2Results;
 	LayerResults mOutputLayerResults;
+
+	std::vector<NetworkLayer*> mNetworkLayers;
+	std::vector<LayerResults*> mLayerResults;
 
 	double mTotalError;
 };

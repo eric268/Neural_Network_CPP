@@ -9,6 +9,18 @@ public:
 	std::vector<std::vector<double>> mWeightedResults;
 	std::vector<double> mBiasResults;
 
+	void Scale(double scalar)
+	{
+		for (int i = 0; i < mWeightedResults.size(); i++)
+		{
+			mBiasResults[i] *= scalar;
+			for (int j = 0; j < mWeightedResults[0].size(); j++)
+			{
+				mWeightedResults[i][j] *= scalar;
+			}
+		}
+	}
+
 	LayerResults operator+ (LayerResults obj)
 	{
 		for (int i = 0; i < mWeightedResults.size(); i++)

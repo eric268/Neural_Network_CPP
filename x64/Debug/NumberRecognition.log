@@ -1,17 +1,15 @@
-﻿Build started 2022-10-31 7:19:39 PM.
+﻿Build started 2022-11-01 5:50:56 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FileReadingTest.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>InitializeBuildStatus:
          Creating "x64\Debug\NumberRe.1373199c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"../Include/pch.h" /Fp"x64\Debug\NumberRecognition.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\NeuralNetwork.cpp Source\main.cpp
-         NeuralNetwork.cpp
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"../Include/pch.h" /Fp"x64\Debug\NumberRecognition.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\main.cpp
          main.cpp
-         Generating Code...
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(118,27): warning C4244: 'argument': conversion from 'const double' to 'int', possible loss of data
        Link:
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe" /INCREMENTAL /ILK:"x64\Debug\NumberRecognition.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.lib" /MACHINE:X64 x64\Debug\Connections.obj
-         x64\Debug\LayerResults.obj
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe" /INCREMENTAL /ILK:"x64\Debug\NumberRecognition.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.lib" /MACHINE:X64 x64\Debug\LayerResults.obj
          x64\Debug\NetworkLayer.obj
          x64\Debug\main.obj
          x64\Debug\MathHelper.obj
@@ -30,7 +28,12 @@ Build succeeded.
        (PrepareForBuild target) -> 
          C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FileReadingTest.vcxproj).  This can lead to incorrect clean and rebuild behavior.
 
-    1 Warning(s)
+
+       "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target) (1) ->
+       (ClCompile target) -> 
+         C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(118,27): warning C4244: 'argument': conversion from 'const double' to 'int', possible loss of data
+
+    2 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:00.32
+Time Elapsed 00:00:00.39
