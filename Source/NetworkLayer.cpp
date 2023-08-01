@@ -30,21 +30,21 @@ NetworkLayer::NetworkLayer(int numOfNeurons, NetworkLayer* prevLayer, NetworkLay
 	}
 }
 
-void NetworkLayer::UpdateBias(LayerResults* result)
+void NetworkLayer::UpdateBias(LayerResults* result, float learningRate)
 {
-	for (int i = 0; i < mWeights.size(); i++)
+	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
-		mNeurons[i]->mBias -= result->mBiasResults[i];
+		mNeurons[i]->mBias -= result->mBiasResults[i] * learningRate;
 	}
 }
 
-void NetworkLayer::UpdateWeight(LayerResults* result)
+void NetworkLayer::UpdateWeight(LayerResults* result, float learningRate)
 {
 	for (int i = 0; i < mWeights.size(); i++)
 	{
 		for (int j = 0; j < mWeights[0].size(); j++)
 		{
-			mWeights[i][j] -= result->mWeightedResults[i][j];
+			mWeights[i][j] -= result->mWeightedResults[i][j] * learningRate;
 		}
 	}
 }

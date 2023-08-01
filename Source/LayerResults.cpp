@@ -3,6 +3,6 @@
 
 LayerResults::LayerResults(int currentLayerSize, int previousLayerSize)
 {
-	mWeightedResults = std::vector<std::vector<double>>(currentLayerSize, std::vector<double>(previousLayerSize));
-	mBiasResults = std::vector<double>(currentLayerSize);
+	mWeightedResults = std::vector<std::vector<long float>>(currentLayerSize, std::vector<long float>(previousLayerSize));
+	mBiasResults = std::vector<long float>(currentLayerSize);
 }

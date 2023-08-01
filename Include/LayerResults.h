@@ -5,21 +5,9 @@ class LayerResults
 public:
 	LayerResults() = default;
 	LayerResults(int previousLayerSize, int currentLayerSize);
-	LayerResults(std::vector<std::vector<double>> weight, std::vector<double>bias) : mWeightedResults{ weight }, mBiasResults{ bias } {}
-	std::vector<std::vector<double>> mWeightedResults;
-	std::vector<double> mBiasResults;
-
-	void Scale(double scalar)
-	{
-		for (int i = 0; i < mWeightedResults.size(); i++)
-		{
-			mBiasResults[i] *= scalar;
-			for (int j = 0; j < mWeightedResults[0].size(); j++)
-			{
-				mWeightedResults[i][j] *= scalar;
-			}
-		}
-	}
+	LayerResults(std::vector<std::vector<long float>> weight, std::vector<long float>bias) : mWeightedResults{ weight }, mBiasResults{ bias } {}
+	std::vector<std::vector<long float>> mWeightedResults;
+	std::vector<long float> mBiasResults;
 
 	LayerResults operator+ (LayerResults obj)
 	{
@@ -49,7 +37,7 @@ public:
 		return { mWeightedResults, mBiasResults };
 	}
 
-	LayerResults operator *(double val)
+	LayerResults operator *(float val)
 	{
 		for (int i = 0; i < mWeightedResults.size(); i++)
 		{

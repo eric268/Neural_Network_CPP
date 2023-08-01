@@ -11,26 +11,20 @@ class Neurons
 public:
 	Neurons();
 	Neurons(LayerType type);
-	Neurons(double val, LayerType type);
+	Neurons(long float val, LayerType type);
 
 
-	double CalculateCost(bool isCorrect);
-	double DCalculateCost(bool isCorrect);
+	long float CalculateCost(bool isCorrect);
+	long float DCalculateCost(bool isCorrect);
 
 	void PopulateConnections(NetworkLayer* nextLayer);
 
 public:
 	LayerType mLayerType;
-	double mActivation;
-	double mBias;
+	long float mActivation;
+	long float mBias;
 
-	double mDeltaBias;
-	double mDeltaError;
-	double mDeltaOutput;
+	long float mDeltaBias;
+	long float mDeltaError;
+	long float mDeltaOutput;
 };
-
-/*what do I need for backwards propigations
- - y (done)
- - weight and activation are different!
-
-*/

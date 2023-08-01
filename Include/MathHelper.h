@@ -7,32 +7,32 @@ concept WorksForSigmoid = requires(T a)
 	{a + 1.0};
 	{abs(a)};
 	{a / 1.0};
-	std::is_convertible_v<T,double>;
+	std::is_convertible_v<T,float>;
 };
 
 class MathHelper
 {
 public:
 	template<typename WorksForSigmoid>
-	static double Sigmoid(const WorksForSigmoid x)
+	static float Sigmoid(const WorksForSigmoid x)
 	{
 		return (1.0 / (1.0 + exp(-x)));
 	}
 
-	static double RELUI(double x)
+	static float ReLu(float x)
 	{
-		return std::max(0.0, x);
+		return std::max(0.0f, x);
 	}
 
 	template <typename WorksForSigmoid>
-	static double DSigmoid(const WorksForSigmoid x)
+	static float DSigmoid(const WorksForSigmoid x)
 	{
-		double val = Sigmoid(x);
+		float val = Sigmoid(x);
 		return (val * (1.0 - val));
 	}
 
 	template <typename WorksForSigmoid>
-	static double DReLU(const WorksForSigmoid x)
+	static float DReLU(const WorksForSigmoid x)
 	{
 		return (x <= 0.0) ? 0.0 : 1.0;
 	}

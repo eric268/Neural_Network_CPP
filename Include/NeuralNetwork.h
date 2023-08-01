@@ -17,7 +17,11 @@ public:
 	NeuralNetwork();
 	NeuralNetwork(std::vector<int> layerSizes);
 
-	int RunNetwork(const std::vector<double> pixelValues);
+	void TrainNetwork();
+	void TestNetwork();
+	void ClearResults();
+
+	int RunNetwork(const std::vector<float> pixelValues);
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer);
 	void SetNextLayersActivation(NetworkLayer* currentLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
@@ -27,18 +31,9 @@ public:
 	void UpdateResults(int testSize);
 
 public:
-	NetworkLayer* mInputLayer;
-	NetworkLayer* mHiddenLayer1;
-	NetworkLayer* mHiddenLayer2;
-	NetworkLayer* mOutputLayer;
-
-	LayerResults mHiddenLayer1Results;
-	LayerResults mHiddenLayer2Results;
-	LayerResults mOutputLayerResults;
-
 	std::vector<NetworkLayer*> mNetworkLayers;
 	std::vector<LayerResults*> mLayerResults;
 
-	double mTotalError;
+	float mTotalError;
+	float learningRate;
 };
-

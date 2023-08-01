@@ -2,6 +2,7 @@
 #include "../Include/NeuralNetwork.h"
 #include "../Include/NetworkLayer.h"
 #include "../Include/Neurons.h"
+#include <thread>
 
 NeuralNetwork::NeuralNetwork(std::vector<int> layerSizes) : mTotalError{ 0.0 }
 {
@@ -26,7 +27,7 @@ void NeuralNetwork::PopulateNeuronsInLayers(NetworkLayer* currentLayer)
 	if (!currentLayer || !currentLayer->mNextLayer)
 		return;
 
-	currentLayer->mWeights = std::vector<std::vector<double>>(currentLayer->mNextLayer->mNumberOfNeurons, std::vector<double>(currentLayer->mNumberOfNeurons));
+	currentLayer->mWeights = std::vector<std::vector<float>>(currentLayer->mNextLayer->mNumberOfNeurons, std::vector<float>(currentLayer->mNumberOfNeurons));
 	std::random_device rd;
 	std::uniform_int_distribution<int> dist(-10000, 10000);
 
@@ -34,30 +35,51 @@ void NeuralNetwork::PopulateNeuronsInLayers(NetworkLayer* currentLayer)
 	{
 		for (int j = 0; j < currentLayer->mNumberOfNeurons; j++)
 		{
-			double val = ((double)dist(rd))*0.00001;
+			float val = ((float)dist(rd)) * 0.00001;
 			currentLayer->mWeights[i][j] = val;
 		}
 	}
 }
 
-int NeuralNetwork::RunNetwork(std::vector<double> pixelValues)
+void NeuralNetwork::TrainNetwork()
+{
+
+}
+
+void NeuralNetwork::TestNetwork()
+{
+
+}
+
+void NeuralNetwork::ClearResults()
+{
+	mTotalError = 0.0;
+
+	for (int i = 0; i < mLayerResults.size(); i++)
+	{
+		std::fill(mLayerResults[i]->mBiasResults.begin(), mLayerResults[i]->mBiasResults.end(), 0.0);
+
+		for (auto& p :mLayerResults[i]->mWeightedResults)
+		{
+			std::fill(p.begin(), p.end(), 0.0);
+		}
+	}
+}
+
+int NeuralNetwork::RunNetwork(std::vector<float> pixelValues)
 {
 	for (int i = 0; i < pixelValues.size(); i++)
-	{
 		mNetworkLayers[0]->mNeurons[i]->mActivation = pixelValues[i] / 255.0;
-	}
 
 	for (int i = 0; i < mNetworkLayers.size() - 1; i++)
-	{
 		SetNextLayersActivation(mNetworkLayers[i]);
-	}
 
 	return GetFinalOutput(mNetworkLayers[mNetworkLayers.size() - 1]);
 }
 
 int NeuralNetwork::GetFinalOutput(NetworkLayer* outputLayer)
 {
-	double highestActivation = -INFINITY;
+	float highestActivation = -INFINITY;
 	int i, ans = -1;
 	for (i = 0; i < outputLayer->mNeurons.size(); i++)
 	{
@@ -79,8 +101,8 @@ void NeuralNetwork::SetNextLayersActivation(NetworkLayer* currentLayer)
 		{
 			currentLayer->mNextLayer->mNeurons[i]->mActivation += currentLayer->mWeights[i][j] * currentLayer->mNeurons[j]->mActivation;
 		}
-		currentLayer->mNextLayer->mNeurons[i]->mActivation = MathHelper::Sigmoid(currentLayer->mNextLayer->mNeurons[i]->mActivation + 
-															 currentLayer->mNextLayer->mNeurons[i]->mBias);
+		currentLayer->mNextLayer->mNeurons[i]->mActivation = MathHelper::Sigmoid(currentLayer->mNextLayer->mNeurons[i]->mActivation +
+			currentLayer->mNextLayer->mNeurons[i]->mBias);
 	}
 }
 
@@ -90,14 +112,12 @@ void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 	CalculateOutputLayerBackwardsProp(mNetworkLayers[mNetworkLayers.size() - 1], mLayerResults[mLayerResults.size() - 1], correctAns);
 
 	for (int i = mNetworkLayers.size() - 2; i > 0; i--)
-	{
-		CalculateLayerBackwardsPropigation(mNetworkLayers[i], mLayerResults[i -1], correctAns);
-	}
+		CalculateLayerBackwardsPropigation(mNetworkLayers[i], mLayerResults[i - 1], correctAns);
 }
 
-void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* layerResults,  int correctAns)
+void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* layerResults, int correctAns)
 {
-	double y = 0.0;
+	float y = 0.0;
 	for (int i = 0; i < currentLayer->mNumberOfNeurons; i++)
 	{
 		y = (correctAns == i) ? 1.0 : 0.01;
@@ -121,7 +141,7 @@ void NeuralNetwork::CalculateLayerBackwardsPropigation(NetworkLayer* currentLaye
 		currentLayer->mNeurons[i]->mDeltaOutput = currentLayer->mNeurons[i]->mActivation * (1.0 - currentLayer->mNeurons[i]->mActivation);
 		for (int j = 0; j < currentLayer->mNextLayer->mNumberOfNeurons; j++)
 		{
-			currentLayer->mNeurons[i]->mDeltaError += currentLayer->mNextLayer->mNeurons[j]->mDeltaError 
+			currentLayer->mNeurons[i]->mDeltaError += currentLayer->mNextLayer->mNeurons[j]->mDeltaError
 				* currentLayer->mNextLayer->mNeurons[j]->mDeltaOutput * currentLayer->mWeights[j][i];
 		}
 		layerResults->mBiasResults[i] = currentLayer->mNeurons[i]->mDeltaError * currentLayer->mNeurons[i]->mDeltaOutput;
@@ -131,7 +151,6 @@ void NeuralNetwork::CalculateLayerBackwardsPropigation(NetworkLayer* currentLaye
 	{
 		for (int j = 0; j < currentLayer->mPreviousLayer->mNumberOfNeurons; j++)
 		{
-
 			layerResults->mWeightedResults[i][j] += currentLayer->mNeurons[i]->mDeltaError * currentLayer->mNeurons[i]->mDeltaOutput * currentLayer->mPreviousLayer->mNeurons[j]->mActivation;
 		}
 	}
@@ -140,19 +159,9 @@ void NeuralNetwork::CalculateLayerBackwardsPropigation(NetworkLayer* currentLaye
 void NeuralNetwork::UpdateResults(int testSize)
 {
 	system("CLS");
-	double tL = 1.0 / testSize;
-	for (int i = 0; i < mLayerResults.size(); i++)
-	{
-		mLayerResults[i]->Scale(tL);
-	}
 	for (int i = 1; i < mNetworkLayers.size(); i++)
-	{
-		mNetworkLayers[i]->UpdateBias(mLayerResults[i - 1]);
-	}
+		mNetworkLayers[i]->UpdateBias(mLayerResults[i - 1], learningRate);
+
 	for (int i = mNetworkLayers.size() - 2; i >= 0; i--)
-	{
-		mNetworkLayers[i]->UpdateWeight(mLayerResults[i]);
-	}
+		mNetworkLayers[i]->UpdateWeight(mLayerResults[i], learningRate);
 }
-
-

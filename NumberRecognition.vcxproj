@@ -19,6 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ApplicationManager.cpp" />
+    <ClCompile Include="Source\DataConstants.cpp" />
+    <ClCompile Include="Source\DataManager.cpp" />
+    <ClCompile Include="Source\DisplayManager.cpp" />
+    <ClCompile Include="Source\HyperParameters.cpp" />
     <ClCompile Include="Source\LayerResults.cpp" />
     <ClCompile Include="Source\NetworkLayer.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -31,6 +36,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\ApplicationManager.h" />
+    <ClInclude Include="Include\DataConstants.h" />
+    <ClInclude Include="Include\DataManager.h" />
+    <ClInclude Include="Include\DisplayManager.h" />
+    <ClInclude Include="Include\HyperParameters.h" />
     <ClInclude Include="Include\LayerResults.h" />
     <ClInclude Include="Include\NetworkLayer.h" />
     <ClInclude Include="Include\MathHelper.h" />

@@ -20,7 +20,7 @@ public:
 	NetworkLayer* mNextLayer;
 	int mNumberOfNeurons;
 	std::vector<Neurons*> mNeurons;
-	std::vector<std::vector<double>> mWeights;
-	void UpdateBias(LayerResults* result);
-	void UpdateWeight(LayerResults* result);
+	std::vector<std::vector<float>> mWeights;
+	void UpdateBias(LayerResults* result, float learningRate);
+	void UpdateWeight(LayerResults* result, float learningRate);
 };

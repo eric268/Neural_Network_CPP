@@ -22,6 +22,19 @@
     <ClCompile Include="Source\LayerResults.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DataConstants.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DataManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DisplayManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ApplicationManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HyperParameters.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\MathHelper.h">
@@ -42,6 +55,19 @@
     <ClInclude Include="Include\LayerResults.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\DataConstants.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DataManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DisplayManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ApplicationManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\HyperParameters.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
