@@ -14,23 +14,23 @@ NetworkLayer::NetworkLayer(int numofNeurons) :  mNumberOfNeurons{numofNeurons}
 {
 	mPreviousLayer = nullptr;
 	mNextLayer = nullptr;
-	mNeurons = std::vector<Neurons*>(mNumberOfNeurons);
+	mNeurons = std::vector<std::unique_ptr<Neurons>>(mNumberOfNeurons);
 	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
-		mNeurons[i] = new Neurons();
+		mNeurons[i] = std::make_unique<Neurons>();
 	}
 }
 
 NetworkLayer::NetworkLayer(int numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer) : mNumberOfNeurons{numOfNeurons}, mPreviousLayer{prevLayer}, mNextLayer{nextLayer}
 {
-	mNeurons = std::vector<Neurons*>(mNumberOfNeurons);
+	mNeurons = std::vector<std::unique_ptr<Neurons>>(mNumberOfNeurons);
 	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
-		mNeurons[i] = new Neurons();
+		mNeurons[i] = std::make_unique<Neurons>();
 	}
 }
 
-void NetworkLayer::UpdateBias(LayerResults* result, float learningRate)
+void NetworkLayer::UpdateBias(LayerResults* result, double learningRate)
 {
 	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
@@ -38,7 +38,7 @@ void NetworkLayer::UpdateBias(LayerResults* result, float learningRate)
 	}
 }
 
-void NetworkLayer::UpdateWeight(LayerResults* result, float learningRate)
+void NetworkLayer::UpdateWeight(LayerResults* result, double learningRate)
 {
 	for (int i = 0; i < mWeights.size(); i++)
 	{

@@ -2,17 +2,16 @@
 #include "../Include/ApplicationManager.h"
 #include "../include/DataConstants.h"
 
-ApplicationManager::ApplicationManager(NeuralNetwork network, int numEpochs, int batchSize, float learningRate) : 
-	neuralNetwork {network},
-	numEpochs(numEpochs),
-	batchSize(batchSize),
-	learningRate(learningRate),
+ApplicationManager::ApplicationManager(NeuralNetwork& network, HyperParameters& hyperParameters) :
+	neuralNetwork(network),
+	hyperParameters(std::move(hyperParameters)),
 	dataManager(),
 	displayManager(),
 	currentEpoch(0),
 	currentBatch(0)
 {
-	neuralNetwork.learningRate = learningRate;
+	neuralNetwork.learningRate = this->hyperParameters.learningRate;
+	neuralNetwork.batchScale = (1.0f / this->hyperParameters.batchSize);
 }
 void ApplicationManager::Run()
 {
@@ -45,11 +44,11 @@ void ApplicationManager::FitModel()
 {
 	currentEpoch = 0;
 	currentBatch = 0;
-	while (currentEpoch < numEpochs)
+	while (currentEpoch < hyperParameters.numEpochs)
 	{
 		RunNetwork(dataManager.trainingData, true);
 		currentBatch++;
-		if (currentBatch >= DataConstants::NUM_TRAINING_IMAGES / batchSize)
+		if (currentBatch >= DataConstants::NUM_TRAINING_IMAGES / hyperParameters.batchSize)
 		{
 			currentBatch = 0;
 			currentEpoch++;
@@ -57,7 +56,7 @@ void ApplicationManager::FitModel()
 		}
 	}
 }
-void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<float>, int>>& imageData, bool isTraining)
+void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining)
 {
 	char n = ' ';
 	int counter = 0;
@@ -65,9 +64,9 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<floa
 
 	neuralNetwork.ClearResults();
 
-	while (counter < batchSize)
+	while (counter < hyperParameters.batchSize)
 	{
-		int val = (isTraining) ? (counter + (batchSize * currentBatch)) : counter;
+		int val = (isTraining) ? (counter + (hyperParameters.batchSize * currentBatch)) : counter;
 		int correctAns = imageData[val].second;
 		int networkGuess = neuralNetwork.RunNetwork(imageData[val].first);
 		if (networkGuess == correctAns)
@@ -76,9 +75,9 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<floa
 		counter++;
 	}
 
-	neuralNetwork.UpdateResults(batchSize);
-	std::cout << "Correct %" << std::to_string((float)rightAnswers / (float)batchSize) << "\n";
-	std::cout << "Total Error: " << std::to_string(neuralNetwork.mTotalError / batchSize) << "\n";
-	std::cout << "Epoch: " << std::to_string(currentEpoch) << "/" << std::to_string(numEpochs)
-		<< " Batch: " << std::to_string(currentBatch) << "/" << std::to_string((DataConstants::NUM_TRAINING_IMAGES / batchSize) - 1);
+	neuralNetwork.UpdateResults(hyperParameters.batchSize);
+	std::cout << "Correct %" << std::to_string((double)rightAnswers / (double)hyperParameters.batchSize) << "\n";
+	std::cout << "Total Error: " << std::to_string(neuralNetwork.mTotalError) << "\n";
+	std::cout << "Epoch: " << std::to_string(currentEpoch) << "/" << std::to_string(hyperParameters.numEpochs)
+		<< " Batch: " << std::to_string(currentBatch) << "/" << std::to_string((DataConstants::NUM_TRAINING_IMAGES / hyperParameters.batchSize) - 1);
 }

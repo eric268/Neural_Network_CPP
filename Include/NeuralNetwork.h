@@ -15,13 +15,13 @@ class NeuralNetwork
 {
 public:
 	NeuralNetwork();
-	NeuralNetwork(std::vector<int> layerSizes);
+	NeuralNetwork(std::vector<int>& layerSizes);
 
 	void TrainNetwork();
 	void TestNetwork();
 	void ClearResults();
 
-	int RunNetwork(const std::vector<float> pixelValues);
+	int RunNetwork(const std::vector<double> pixelValues);
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer);
 	void SetNextLayersActivation(NetworkLayer* currentLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
@@ -31,9 +31,10 @@ public:
 	void UpdateResults(int testSize);
 
 public:
-	std::vector<NetworkLayer*> mNetworkLayers;
-	std::vector<LayerResults*> mLayerResults;
+	std::vector<std::shared_ptr<NetworkLayer>> mNetworkLayers;
+	std::vector<std::shared_ptr<LayerResults>> mLayerResults;
 
-	float mTotalError;
-	float learningRate;
+	double mTotalError;
+	double learningRate;
+	double batchScale;
 };

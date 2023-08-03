@@ -1,0 +1,524 @@
+﻿Build started 2023-08-03 3:18:42 AM.
+Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Touching "x64\Release\NumberRe.1373199c.tlog\unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"x64\Release\\" /Fd"x64\Release\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\ApplicationManager.cpp Source\DataManager.cpp Source\DisplayManager.cpp Source\main.cpp Source\MathHelper.cpp Source\NeuralNetwork.cpp Source\Neurons.cpp
+         ApplicationManager.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(7,22): warning C4099: 'HyperParameters': type name first seen using 'struct' now seen using 'class'
+       C:\Work\C++\Neural Network\PersonalProject\Include\HyperParameters.h(3,1): message : see declaration of 'HyperParameters'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(9,21): error C2039: '{ctor}': is not a member of 'ApplicationManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(10,1): message : see declaration of 'ApplicationManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(9,98): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(16,1): error C2550: '{ctor}': constructor initializer lists are only allowed on constructor definitions
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(17,2): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(17,47): error C2027: use of undefined type 'HyperParameters'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(7,7): message : see declaration of 'HyperParameters'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(18,2): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(18,54): error C2027: use of undefined type 'HyperParameters'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(7,7): message : see declaration of 'HyperParameters'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(19,1): warning C4508: '{ctor}': function should return a value; 'void' return type assumed
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(20,26): error C2039: 'Run': is not a member of 'ApplicationManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(10,1): message : see declaration of 'ApplicationManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(25,3): error C2065: 'userInput': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(25,15): error C2065: 'displayManager': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(26,7): error C2065: 'userInput': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(27,4): error C3861: 'FitModel': identifier not found
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(28,12): error C2065: 'userInput': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(29,15): error C2065: 'dataManager': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(30,12): error C2065: 'userInput': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(31,4): error C3861: 'SaveWeightsAndBias': identifier not found
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(32,12): error C2065: 'userInput': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(33,4): error C2065: 'displayManager': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(33,43): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(33,64): error C2065: 'dataManager': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(34,12): error C2065: 'userInput': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(39,26): error C2039: 'SaveWeightsAndBias': is not a member of 'ApplicationManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(10,1): message : see declaration of 'ApplicationManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(43,14): error C2065: 'saveWeightName': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(45,14): error C2065: 'saveBiasName': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(47,26): error C2039: 'FitModel': is not a member of 'ApplicationManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(10,1): message : see declaration of 'ApplicationManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(49,2): error C2065: 'currentEpoch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(50,2): error C2065: 'currentBatch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(51,9): error C2065: 'currentEpoch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(51,24): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(53,14): error C2065: 'dataManager': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(54,3): error C2065: 'currentBatch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55,7): error C2065: 'currentBatch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55,38): error C2039: 'NUM_TRAINING_IMAGES': is not a member of 'DataConstants'
+       C:\Work\C++\Neural Network\PersonalProject\include\DataConstants.h(4,1): message : see declaration of 'DataConstants'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55): error C2065: 'NUM_TRAINING_IMAGES': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55,60): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(57,4): error C2065: 'currentBatch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(58,4): error C2065: 'currentEpoch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(59,4): error C2065: 'dataManager': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(63,26): error C2039: 'RunNetwork': is not a member of 'ApplicationManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(10,1): message : see declaration of 'ApplicationManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(69,2): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(71,19): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(73,40): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(73,69): error C2065: 'currentBatch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(75,22): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(78,3): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(82,2): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(82,31): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(83,76): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(83,104): error C2297: '<<': not valid as right operand has type 'const char [2]'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(83,104): warning C4552: '<<': result of expression not used
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(84,49): error C2065: 'neuralNetwork': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(84,77): error C2297: '<<': not valid as right operand has type 'const char [2]'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(84,77): warning C4552: '<<': result of expression not used
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(85,43): error C2065: 'currentEpoch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(85,82): error C2065: 'hyperParameters': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,35): error C2065: 'currentBatch': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,90): error C2039: 'NUM_TRAINING_IMAGES': is not a member of 'DataConstants'
+       C:\Work\C++\Neural Network\PersonalProject\include\DataConstants.h(4,1): message : see declaration of 'DataConstants'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,110): error C2065: 'NUM_TRAINING_IMAGES': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,112): error C2065: 'hyperParameters': undeclared identifier
+         DataManager.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DataManager.cpp(89,10): error C2280: 'std::random_device::random_device(const std::random_device &)': attempting to reference a deleted function
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\random(5094,5): message : see declaration of 'std::random_device::random_device'
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\random(5094,5): message : 'std::random_device::random_device(const std::random_device &)': function was explicitly deleted
+         DisplayManager.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): error C2989: 'NeuralNetwork': class template has already been declared as a non-class template
+       C:\Work\C++\Neural Network\PersonalProject\Include\DisplayManager.h(3,7): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\DataManager.h(5,1): error C2989: 'DataManager': class template has already been declared as a non-class template
+       C:\Work\C++\Neural Network\PersonalProject\Include\DisplayManager.h(4,7): message : see declaration of 'DataManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(17,27): error C2027: use of undefined type 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(17,51): error C2027: use of undefined type 'DataManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\DataManager.h(5,1): message : see declaration of 'DataManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(18,25): error C2027: use of undefined type 'DataManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\DataManager.h(5,1): message : see declaration of 'DataManager'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(46,25): error C2065: 'input': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(48,9): error C2065: 'input': undeclared identifier
+         main.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\HyperParameters.h(3,1): warning C4099: 'HyperParameters': type name first seen using 'class' now seen using 'struct'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(7,7): message : see declaration of 'HyperParameters'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,18): error C3203: 'NeuralNetwork': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,54): error C2672: 'std::make_unique': no matching overloaded function found
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(3475,6): message : could be 'void std::make_unique(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,66): message : 'std::make_unique': invalid template argument for '_Ty', missing template argument list on class template 'NeuralNetwork'
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(3469,57): message : or       'std::unique_ptr<_Ty,std::default_delete<_Ty>> std::make_unique(const size_t)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,66): message : 'std::make_unique': invalid template argument for '_Ty', missing template argument list on class template 'NeuralNetwork'
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(3464,57): message : or       'std::unique_ptr<_Ty,std::default_delete<_Ty>> std::make_unique(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,66): message : 'std::make_unique': invalid template argument for '_Ty', missing template argument list on class template 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,18): error C3203: 'HyperParameters': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,58): error C2672: 'std::make_unique': no matching overloaded function found
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(3475,6): message : could be 'void std::make_unique(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,70): message : 'std::make_unique': invalid template argument for '_Ty', missing template argument list on class template 'HyperParameters'
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(3469,57): message : or       'std::unique_ptr<_Ty,std::default_delete<_Ty>> std::make_unique(const size_t)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,58): message : 'std::unique_ptr<_Ty,std::default_delete<_Ty>> std::make_unique(const size_t)': expects 1 arguments - 3 provided
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(3464,57): message : or       'std::unique_ptr<_Ty,std::default_delete<_Ty>> std::make_unique(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,70): message : 'std::make_unique': invalid template argument for '_Ty', missing template argument list on class template 'HyperParameters'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(13,20): error C2027: use of undefined type 'ApplicationManager'
+       C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(10,1): message : see declaration of 'ApplicationManager'
+         MathHelper.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         NeuralNetwork.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(6,16): error C2039: '{ctor}': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(6,60): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(7,1): error C2550: '{ctor}': constructor initializer lists are only allowed on constructor definitions
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(10,2): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(10,47): error C3203: 'NetworkLayer': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(11,2): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(11,27): error C2672: 'std::make_shared': no matching overloaded function found
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(2764,5): message : could be 'std::shared_ptr<_Ty> std::make_shared(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(11,39): message : 'std::make_shared': invalid template argument for '_Ty', missing template argument list on class template 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(12,2): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(12,46): error C3203: 'LayerResults': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(16,3): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(16,28): error C2672: 'std::make_shared': no matching overloaded function found
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(2764,5): message : could be 'std::shared_ptr<_Ty> std::make_shared(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(16,40): message : 'std::make_shared': invalid template argument for '_Ty', missing template argument list on class template 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(17,3): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(17,39): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(18,3): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(18,39): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(19,3): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(19,31): error C2672: 'std::make_shared': no matching overloaded function found
+       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\memory(2764,5): message : could be 'std::shared_ptr<_Ty> std::make_shared(_Types &&...)'
+       C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(19,43): message : 'std::make_shared': invalid template argument for '_Ty', missing template argument list on class template 'LayerResults'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(20,27): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(22,1): warning C4508: '{ctor}': function should return a value; 'void' return type assumed
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(24,21): error C2039: 'PopulateNeuronsInLayers': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(26): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(29,14): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(29,72): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(29,136): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(33,34): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(35,35): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(37,31): error C2065: 'rd': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(38,16): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(44,21): error C2039: 'ClearResults': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(46,2): error C2065: 'mTotalError': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(48,22): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(50,13): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(50,53): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,17): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,16): error C2988: unrecognizable template declaration/definition
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,16): error C2143: syntax error: missing ';' before ':'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,51): error C2988: unrecognizable template declaration/definition
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,51): error C2143: syntax error: missing ';' before ')'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(54,14): error C2065: 'p': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(54,25): error C2065: 'p': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(59,20): error C2039: 'RunNetwork': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(62,3): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(64,22): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(65,27): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(67,24): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(67,39): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(70,20): error C2039: 'GetFinalOutput': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,7): error C2065: 'i': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,14): error C2065: 'i': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,29): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,48): error C2065: 'i': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(76): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(76,49): error C2065: 'i': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(78,35): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(78,46): error C2065: 'i': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(79,10): error C2065: 'i': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(85,21): error C2039: 'SetNextLayersActivation': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(88,34): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(90,15): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(91,35): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(93,16): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(93,70): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(93,101): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(96): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(98,16): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(98,69): error C2039: 'Sigmoid': is not a member of 'MathHelper'
+       C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(14,1): message : see declaration of 'MathHelper'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(98,89): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(99,17): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(103,4): error C2065: 'logits': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(103,33): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(103,86): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(105,6): error C2065: 'logits': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(107,35): error C2039: 'softmax': is not a member of 'MathHelper'
+       C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(14,1): message : see declaration of 'MathHelper'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(107,43): error C2065: 'logits': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(107,42): error C3861: 'softmax': identifier not found
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(108,35): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(109,16): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(109,71): error C2109: subscript requires array or pointer type
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(114,21): error C2039: 'CalculateLayerDeltaCost': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,36): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,51): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,85): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,99): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(119,15): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(120,38): error C2065: 'mNetworkLayers': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(120,63): error C2065: 'mLayerResults': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(123,21): error C2039: 'CalculateOutputLayerBackwardsProp': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(126,34): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(129,41): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(133,3): error C2065: 'mTotalError': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(133,58): error C2065: 'batchScale': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(135,15): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(136,15): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(137,15): error C2027: use of undefined type 'LayerResults'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(12,7): message : see declaration of 'LayerResults'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(139,35): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(141,51): error C2027: use of undefined type 'NetworkLayer'
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(142,16): error C2027: use of undefined type 'LayerResults'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(12,7): message : see declaration of 'LayerResults'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(142,95): error C2065: 'batchScale': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(147,21): error C2039: 'CalculateLayerBackwardsPropigation': is not a member of 'NeuralNetwork'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): message : see declaration of 'NeuralNetwork'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(147,55): fatal  error C1003: error count exceeds 100; stopping compilation
+         Neurons.cpp
+     1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(4,1): error C2989: 'LayerType': class template has already been declared as a non-class template
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(7,6): message : see declaration of 'LayerType'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(11,14): error C2989: 'Neurons': class template has already been declared as a non-class template
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(9,7): message : see declaration of 'Neurons'
+     1>C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(14,1): error C2989: 'NetworkLayer': class template has already been declared as a non-class template
+       C:\Work\C++\Neural Network\PersonalProject\Include\Neurons.h(6,7): message : see declaration of 'NetworkLayer'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp(6,45): error C2039: 'InputLayer': is not a member of 'LayerType'
+       C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(4,1): message : see declaration of 'LayerType'
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp(6,56): error C2065: 'InputLayer': undeclared identifier
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp(10,24): error C2065: 'rd': undeclared identifier
+     1>Done Building Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+       "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target) (1) ->
+       (ClCompile target) -> 
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+         C:\Work\C++\Neural Network\PersonalProject\Include\ApplicationManager.h(7,22): warning C4099: 'HyperParameters': type name first seen using 'struct' now seen using 'class'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(19,1): warning C4508: '{ctor}': function should return a value; 'void' return type assumed
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(83,104): warning C4552: '<<': result of expression not used
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(84,77): warning C4552: '<<': result of expression not used
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+         C:\Work\C++\Neural Network\PersonalProject\Include\HyperParameters.h(3,1): warning C4099: 'HyperParameters': type name first seen using 'class' now seen using 'struct'
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(22,1): warning C4508: '{ctor}': function should return a value; 'void' return type assumed
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\concepts(13): warning STL4038: The contents of <concepts> are available only with C++20 concepts support.
+
+
+       "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target) (1) ->
+       (ClCompile target) -> 
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(9,21): error C2039: '{ctor}': is not a member of 'ApplicationManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(9,98): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(16,1): error C2550: '{ctor}': constructor initializer lists are only allowed on constructor definitions
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(17,2): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(17,47): error C2027: use of undefined type 'HyperParameters'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(18,2): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(18,54): error C2027: use of undefined type 'HyperParameters'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(20,26): error C2039: 'Run': is not a member of 'ApplicationManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(25,3): error C2065: 'userInput': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(25,15): error C2065: 'displayManager': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(26,7): error C2065: 'userInput': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(27,4): error C3861: 'FitModel': identifier not found
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(28,12): error C2065: 'userInput': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(29,15): error C2065: 'dataManager': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(30,12): error C2065: 'userInput': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(31,4): error C3861: 'SaveWeightsAndBias': identifier not found
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(32,12): error C2065: 'userInput': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(33,4): error C2065: 'displayManager': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(33,43): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(33,64): error C2065: 'dataManager': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(34,12): error C2065: 'userInput': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(39,26): error C2039: 'SaveWeightsAndBias': is not a member of 'ApplicationManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(43,14): error C2065: 'saveWeightName': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(45,14): error C2065: 'saveBiasName': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(47,26): error C2039: 'FitModel': is not a member of 'ApplicationManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(49,2): error C2065: 'currentEpoch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(50,2): error C2065: 'currentBatch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(51,9): error C2065: 'currentEpoch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(51,24): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(53,14): error C2065: 'dataManager': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(54,3): error C2065: 'currentBatch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55,7): error C2065: 'currentBatch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55,38): error C2039: 'NUM_TRAINING_IMAGES': is not a member of 'DataConstants'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55): error C2065: 'NUM_TRAINING_IMAGES': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(55,60): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(57,4): error C2065: 'currentBatch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(58,4): error C2065: 'currentEpoch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(59,4): error C2065: 'dataManager': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(63,26): error C2039: 'RunNetwork': is not a member of 'ApplicationManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(69,2): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(71,19): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(73,40): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(73,69): error C2065: 'currentBatch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(75,22): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(78,3): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(82,2): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(82,31): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(83,76): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(83,104): error C2297: '<<': not valid as right operand has type 'const char [2]'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(84,49): error C2065: 'neuralNetwork': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(84,77): error C2297: '<<': not valid as right operand has type 'const char [2]'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(85,43): error C2065: 'currentEpoch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(85,82): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,35): error C2065: 'currentBatch': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,90): error C2039: 'NUM_TRAINING_IMAGES': is not a member of 'DataConstants'
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,110): error C2065: 'NUM_TRAINING_IMAGES': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\ApplicationManager.cpp(86,112): error C2065: 'hyperParameters': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\DataManager.cpp(89,10): error C2280: 'std::random_device::random_device(const std::random_device &)': attempting to reference a deleted function
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         C:\Work\C++\Neural Network\PersonalProject\Include\NeuralNetwork.h(15,1): error C2989: 'NeuralNetwork': class template has already been declared as a non-class template
+         C:\Work\C++\Neural Network\PersonalProject\Include\DataManager.h(5,1): error C2989: 'DataManager': class template has already been declared as a non-class template
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(17,27): error C2027: use of undefined type 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(17,51): error C2027: use of undefined type 'DataManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(18,25): error C2027: use of undefined type 'DataManager'
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(46,25): error C2065: 'input': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(48,9): error C2065: 'input': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,18): error C3203: 'NeuralNetwork': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+         C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(9,54): error C2672: 'std::make_unique': no matching overloaded function found
+         C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,18): error C3203: 'HyperParameters': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+         C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(10,58): error C2672: 'std::make_unique': no matching overloaded function found
+         C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp(13,20): error C2027: use of undefined type 'ApplicationManager'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(6,16): error C2039: '{ctor}': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(6,60): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(7,1): error C2550: '{ctor}': constructor initializer lists are only allowed on constructor definitions
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(10,2): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(10,47): error C3203: 'NetworkLayer': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(11,2): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(11,27): error C2672: 'std::make_shared': no matching overloaded function found
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(12,2): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(12,46): error C3203: 'LayerResults': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(16,3): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(16,28): error C2672: 'std::make_shared': no matching overloaded function found
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(17,3): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(17,39): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(18,3): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(18,39): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(19,3): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(19,31): error C2672: 'std::make_shared': no matching overloaded function found
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(20,27): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(24,21): error C2039: 'PopulateNeuronsInLayers': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(26): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(29,14): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(29,72): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(29,136): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(33,34): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(35,35): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(37,31): error C2065: 'rd': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(38,16): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(44,21): error C2039: 'ClearResults': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(46,2): error C2065: 'mTotalError': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(48,22): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(50,13): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(50,53): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,17): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,16): error C2988: unrecognizable template declaration/definition
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,16): error C2143: syntax error: missing ';' before ':'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,51): error C2988: unrecognizable template declaration/definition
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(52,51): error C2143: syntax error: missing ';' before ')'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(54,14): error C2065: 'p': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(54,25): error C2065: 'p': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(59,20): error C2039: 'RunNetwork': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(62,3): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(64,22): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(65,27): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(67,24): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(67,39): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(70,20): error C2039: 'GetFinalOutput': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,7): error C2065: 'i': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,14): error C2065: 'i': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,29): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(74,48): error C2065: 'i': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(76): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(76,49): error C2065: 'i': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(78,35): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(78,46): error C2065: 'i': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(79,10): error C2065: 'i': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(85,21): error C2039: 'SetNextLayersActivation': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(88,34): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(90,15): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(91,35): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(93,16): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(93,70): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(93,101): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(96): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(98,16): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(98,69): error C2039: 'Sigmoid': is not a member of 'MathHelper'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(98,89): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(99,17): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(103,4): error C2065: 'logits': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(103,33): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(103,86): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(105,6): error C2065: 'logits': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(107,35): error C2039: 'softmax': is not a member of 'MathHelper'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(107,43): error C2065: 'logits': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(107,42): error C3861: 'softmax': identifier not found
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(108,35): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(109,16): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(109,71): error C2109: subscript requires array or pointer type
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(114,21): error C2039: 'CalculateLayerDeltaCost': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,36): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,51): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,85): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(117,99): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(119,15): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(120,38): error C2065: 'mNetworkLayers': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(120,63): error C2065: 'mLayerResults': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(123,21): error C2039: 'CalculateOutputLayerBackwardsProp': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(126,34): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(129,41): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(133,3): error C2065: 'mTotalError': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(133,58): error C2065: 'batchScale': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(135,15): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(136,15): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(137,15): error C2027: use of undefined type 'LayerResults'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(139,35): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(141,51): error C2027: use of undefined type 'NetworkLayer'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(142,16): error C2027: use of undefined type 'LayerResults'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(142,95): error C2065: 'batchScale': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(147,21): error C2039: 'CalculateLayerBackwardsPropigation': is not a member of 'NeuralNetwork'
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(147,55): fatal  error C1003: error count exceeds 100; stopping compilation
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(5,9): error C2061: syntax error: identifier 'WorksForSigmoid'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2143: syntax error: missing ';' before '{'
+         C:\Work\C++\Neural Network\PersonalProject\Include\MathHelper.h(6,1): error C2447: '{': missing function header (old-style formal list?)
+         C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(4,1): error C2989: 'LayerType': class template has already been declared as a non-class template
+         C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(11,14): error C2989: 'Neurons': class template has already been declared as a non-class template
+         C:\Work\C++\Neural Network\PersonalProject\Include\NetworkLayer.h(14,1): error C2989: 'NetworkLayer': class template has already been declared as a non-class template
+         C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp(6,45): error C2039: 'InputLayer': is not a member of 'LayerType'
+         C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp(6,56): error C2065: 'InputLayer': undeclared identifier
+         C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp(10,24): error C2065: 'rd': undeclared identifier
+
+    13 Warning(s)
+    193 Error(s)
+
+Time Elapsed 00:00:02.92

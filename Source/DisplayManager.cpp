@@ -19,7 +19,7 @@ void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager&
 	}
 }
 
-void DisplayManager::DrawNumber(const std::pair<std::vector<float>,int>& imageData, const int networkPrediction)
+void DisplayManager::DrawNumber(const std::pair<std::vector<double>,int>& imageData, const int networkPrediction)
 {
 	for (int i = 0; i < DataConstants::NUM_OF_PIXELS_PER_IMAGE; i++)
 	{

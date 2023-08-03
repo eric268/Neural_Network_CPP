@@ -11,20 +11,14 @@ class Neurons
 public:
 	Neurons();
 	Neurons(LayerType type);
-	Neurons(long float val, LayerType type);
-
-
-	long float CalculateCost(bool isCorrect);
-	long float DCalculateCost(bool isCorrect);
-
-	void PopulateConnections(NetworkLayer* nextLayer);
+	Neurons(double val, LayerType type);
 
 public:
 	LayerType mLayerType;
-	long float mActivation;
-	long float mBias;
+	double mActivation;
+	double mBias;
 
-	long float mDeltaBias;
-	long float mDeltaError;
-	long float mDeltaOutput;
+	double mDeltaBias;
+	double mDeltaError;
+	double mDeltaOutput;
 };

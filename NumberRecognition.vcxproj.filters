@@ -34,7 +34,9 @@
     <ClCompile Include="Source\ApplicationManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\HyperParameters.cpp" />
+    <ClCompile Include="Source\HyperParameters.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\MathHelper.h">
@@ -67,7 +69,9 @@
     <ClInclude Include="Include\ApplicationManager.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Include\HyperParameters.h" />
+    <ClInclude Include="Include\HyperParameters.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">

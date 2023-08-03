@@ -24,14 +24,14 @@ int DataManager::ReverseInt(int i)
 	return ((int)c1 << 24) + ((int)c2 << 16) + ((int)c3 << 8) + c4;
 }
 
-std::vector<std::pair<std::vector<float>, int>> DataManager::LoadImageData(std::string path, std::string labelsPath, int totalImages)
+std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageData(std::string path, std::string labelsPath, int totalImages)
 {
 	int magic_number = 0;
 	int number_of_images = 0;
 	int n_rows = 0;
 	int n_cols = 0;
 
-	std::vector<std::vector<float>> imageData(totalImages, std::vector<float>(DataConstants::NUM_OF_PIXELS_PER_IMAGE));
+	std::vector<std::vector<double>> imageData(totalImages, std::vector<double>(DataConstants::NUM_OF_PIXELS_PER_IMAGE));
 	std::vector<int> labelData(totalImages, -1);
 
 	//Image Reader
@@ -55,7 +55,7 @@ std::vector<std::pair<std::vector<float>, int>> DataManager::LoadImageData(std::
 				{
 					unsigned char temp = 0;
 					file.read((char*)&temp, sizeof(temp));
-					imageData[i][(n_rows * r) + c] = (float)temp;
+					imageData[i][(n_rows * r) + c] = (double)temp;
 				}
 			}
 		}
@@ -77,7 +77,7 @@ std::vector<std::pair<std::vector<float>, int>> DataManager::LoadImageData(std::
 		}
 	}
 
-	std::vector<std::pair<std::vector<float>, int>> result(totalImages);
+	std::vector<std::pair<std::vector<double>, int>> result(totalImages);
 	for (int i = 0; i < totalImages; i++)
 		result[i] = std::make_pair(imageData[i], labelData[i]);
 

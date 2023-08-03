@@ -1,40 +1,58 @@
 ﻿#pragma once
 #include "pch.h"
 
-template<typename T>
-concept WorksForSigmoid = requires(T a)
-{
-	{a + 1.0};
-	{abs(a)};
-	{a / 1.0};
-	std::is_convertible_v<T,float>;
-};
-
 class MathHelper
 {
 public:
-	template<typename WorksForSigmoid>
-	static float Sigmoid(const WorksForSigmoid x)
+
+	static double Sigmoid(const double x)
 	{
 		return (1.0 / (1.0 + exp(-x)));
 	}
 
-	static float ReLu(float x)
+	// This assumes that Sigmoid(x) has already been completed
+	static double D_Sigmoid(const double x)
 	{
-		return std::max(0.0f, x);
+		return (x * (1.0 - x));
 	}
 
-	template <typename WorksForSigmoid>
-	static float DSigmoid(const WorksForSigmoid x)
+	static double ReLu(double x)
 	{
-		float val = Sigmoid(x);
-		return (val * (1.0 - val));
+		return std::max(0.0, x);
 	}
 
-	template <typename WorksForSigmoid>
-	static float DReLU(const WorksForSigmoid x)
+	static double D_ReLU(const double x)
 	{
 		return (x <= 0.0) ? 0.0 : 1.0;
+	}
+
+	static double LeakyReLu(double x, double alpha)
+	{
+		return (x > 0) ? x : (alpha * x);
+	}
+
+	static double D_Leaky_ReLu(double x, double alpha)
+	{
+		return (x > 0) ? 1.0 : alpha;
+	}
+
+	static std::vector<double> softmax(const std::vector<double>& logits) 
+	{
+		std::vector<double> probabilities;
+		double maxLogit = *std::max_element(logits.begin(), logits.end());
+		double sumExp = 0.0;
+
+		for (double logit : logits) {
+			double expLogit = std::exp(logit - maxLogit);
+			probabilities.push_back(expLogit);
+			sumExp += expLogit;
+		}
+
+		for (double& prob : probabilities) {
+			prob /= sumExp;
+		}
+
+		return probabilities;
 	}
 };
 

@@ -16,11 +16,11 @@ public:
 	NetworkLayer();
 	NetworkLayer(int numofNeurons);
 	NetworkLayer(int numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer);
-	NetworkLayer* mPreviousLayer;
-	NetworkLayer* mNextLayer;
+	std::shared_ptr<NetworkLayer> mPreviousLayer;
+	std::shared_ptr<NetworkLayer> mNextLayer;
 	int mNumberOfNeurons;
-	std::vector<Neurons*> mNeurons;
-	std::vector<std::vector<float>> mWeights;
-	void UpdateBias(LayerResults* result, float learningRate);
-	void UpdateWeight(LayerResults* result, float learningRate);
+	std::vector<std::unique_ptr<Neurons>> mNeurons;
+	std::vector<std::vector<double>> mWeights;
+	void UpdateBias(LayerResults* result, double learningRate);
+	void UpdateWeight(LayerResults* result, double learningRate);
 };
