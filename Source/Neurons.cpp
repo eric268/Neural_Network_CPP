@@ -1,6 +1,5 @@
 #include "../Include/pch.h"
 #include "../Include/Neurons.h"
-#include "../Include/MathHelper.h"
 #include "../Include/NetworkLayer.h"
 
 Neurons::Neurons() : mLayerType{ LayerType::InputLayer }, mActivation{ 0.0 }, mBias{ 0.0 }, mDeltaBias{ 0.0 }, mDeltaError{ 0.0 }, mDeltaOutput{ 0.0 }

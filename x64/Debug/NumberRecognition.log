@@ -1,14 +1,20 @@
-﻿Build started 2023-08-03 5:30:46 AM.
+﻿Build started 2023-08-16 10:47:19 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FileReadingTest.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>InitializeBuildStatus:
          Creating "x64\Debug\NumberRe.1373199c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"../Include/pch.h" /Fp"x64\Debug\NumberRecognition.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\NeuralNetwork.cpp
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"../Include/pch.h" /Fp"x64\Debug\NumberRecognition.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\ApplicationManager.cpp Source\DisplayManager.cpp Source\NeuralNetwork.cpp Source\main.cpp
+         ApplicationManager.cpp
+         DisplayManager.cpp
          NeuralNetwork.cpp
-     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(120,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(189,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,80): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,27): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(123,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(191,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+         main.cpp
+         Generating Code...
        Link:
          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe" /INCREMENTAL /ILK:"x64\Debug\NumberRecognition.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.lib" /MACHINE:X64 x64\Debug\ApplicationManager.obj
          x64\Debug\DataConstants.obj
@@ -18,7 +24,7 @@ Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\P
          x64\Debug\LayerResults.obj
          x64\Debug\NetworkLayer.obj
          x64\Debug\main.obj
-         x64\Debug\MathHelper.obj
+         x64\Debug\ActivationFunctions.obj
          x64\Debug\NeuralNetwork.obj
          x64\Debug\Neurons.obj
          x64\Debug\pch.obj
@@ -37,10 +43,12 @@ Build succeeded.
 
        "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(120,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(189,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,80): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,27): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(123,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(191,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 
-    3 Warning(s)
+    5 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:00.32
+Time Elapsed 00:00:01.86

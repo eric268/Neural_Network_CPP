@@ -6,7 +6,7 @@ C:\Work\C++\Neural Network\PersonalProject\Source\HyperParameters.cpp;C:\Work\C+
 C:\Work\C++\Neural Network\PersonalProject\Source\LayerResults.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\LayerResults.obj
 C:\Work\C++\Neural Network\PersonalProject\Source\NetworkLayer.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NetworkLayer.obj
 C:\Work\C++\Neural Network\PersonalProject\Source\main.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\main.obj
-C:\Work\C++\Neural Network\PersonalProject\Source\MathHelper.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\MathHelper.obj
+C:\Work\C++\Neural Network\PersonalProject\Source\ActivationFunctions.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\ActivationFunctions.obj
 C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NeuralNetwork.obj
 C:\Work\C++\Neural Network\PersonalProject\Source\Neurons.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\Neurons.obj
 C:\Work\C++\Neural Network\PersonalProject\Source\pch.cpp;C:\Work\C++\Neural Network\PersonalProject\x64\Debug\pch.obj

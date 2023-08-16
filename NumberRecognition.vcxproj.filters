@@ -4,7 +4,7 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MathHelper.cpp">
+    <ClCompile Include="Source\ActivationFunctions.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\pch.cpp">
@@ -39,7 +39,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\MathHelper.h">
+    <ClInclude Include="Include\ActivationFunctions.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\pch.h">
@@ -70,6 +70,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\HyperParameters.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ActivationFuncType.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "MathHelper.h"
+#include "ActivationFunctions.h"
 #include "LayerResults.h"
 
 #define InputLayerSize 784
@@ -10,16 +10,18 @@
 
 class NetworkLayer;
 class Neurons;
+class ActivationFunctions;
+enum ActivationFuncType;
 
 class NeuralNetwork
 {
 public:
-	NeuralNetwork();
-	NeuralNetwork(std::vector<int>& layerSizes);
+	NeuralNetwork() = default;
+	NeuralNetwork(std::vector<int>& layerSizes, ActivationFuncType type);
 
-	void TrainNetwork();
-	void TestNetwork();
 	void ClearResults();
+	void LoadWeights(std::string weightPath);
+	void BindActivationFunctions(ActivationFuncType type);
 
 	int RunNetwork(const std::vector<double> pixelValues);
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer);
@@ -30,11 +32,15 @@ public:
 	void CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* resultLayer, int correctAns);
 	void UpdateResults(int testSize);
 
-public:
+	double mTotalLoss;
+	double learningRate;
+	double batchScale;
+
+private:
 	std::vector<std::shared_ptr<NetworkLayer>> mNetworkLayers;
 	std::vector<std::shared_ptr<LayerResults>> mLayerResults;
 
-	double mTotalError;
-	double learningRate;
-	double batchScale;
+	typedef double (*ActivationFuncDelegate)(const double);
+	ActivationFuncDelegate ActivationFunction;
+	ActivationFuncDelegate D_ActivationFunction;
 };

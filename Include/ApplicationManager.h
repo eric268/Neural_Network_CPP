@@ -12,6 +12,7 @@ public:
 	void Run();
 	void SaveWeightsAndBias();
 	void FitModel();
+	void TestModel();
 	void RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining);
 
 private:
@@ -21,5 +22,8 @@ private:
 	HyperParameters hyperParameters;
 	int currentEpoch;
 	int currentBatch;
+
+	long double averageAccuracy;
+	long double averageLoss;
 };
 
