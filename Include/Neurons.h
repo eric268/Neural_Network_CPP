@@ -16,7 +16,6 @@ public:
 public:
 	LayerType mLayerType;
 	double mActivation;
-	double mBias;
 
 	double mDeltaBias;
 	double mDeltaError;

@@ -34,7 +34,7 @@ void NetworkLayer::UpdateBias(LayerResults* result, double learningRate)
 {
 	for (int i = 0; i < mNumberOfNeurons; i++)
 	{
-		mNeurons[i]->mBias -= result->mBiasResults[i] * learningRate;
+		mBias[i] -= result->mBiasResults[i] * learningRate;
 	}
 }
 

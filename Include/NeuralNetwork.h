@@ -25,14 +25,15 @@ public:
 
 	int RunNetwork(const std::vector<double> pixelValues);
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer);
-	void SetNextLayersActivation(NetworkLayer* currentLayer);
+	void SetHiddenLayersActivation(NetworkLayer* currentLayer);
+	void SetOutputLayerActivation(NetworkLayer* outputLayer);
 	int GetFinalOutput(NetworkLayer* outputLayer);
 	void CalculateLayerDeltaCost(int correctAns);
 	void CalculateLayerBackwardsPropigation(NetworkLayer* currentLayer, LayerResults* resultLayer, int correctAns);
 	void CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* resultLayer, int correctAns);
 	void UpdateResults(int testSize);
 
-	double mTotalLoss;
+	long double mTotalLoss;
 	double learningRate;
 	double batchScale;
 
@@ -43,4 +44,8 @@ private:
 	typedef double (*ActivationFuncDelegate)(const double);
 	ActivationFuncDelegate ActivationFunction;
 	ActivationFuncDelegate D_ActivationFunction;
+	ActivationFuncType activationFunctionType;
+
+	void InitalizeNetworkWeights(std::vector<std::vector<double>>& weights, const int inputSize, const int outputSize);
+	void InitalizeBias(std::vector<double>& bias);
 };

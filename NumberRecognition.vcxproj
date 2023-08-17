@@ -43,6 +43,7 @@
     <ClInclude Include="Include\DisplayManager.h" />
     <ClInclude Include="Include\HyperParameters.h" />
     <ClInclude Include="Include\LayerResults.h" />
+    <ClInclude Include="Include\WeightInitializer.h" />
     <ClInclude Include="Include\NetworkLayer.h" />
     <ClInclude Include="Include\ActivationFunctions.h" />
     <ClInclude Include="Include\NeuralNetwork.h" />

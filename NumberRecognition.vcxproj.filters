@@ -75,6 +75,9 @@
     <ClInclude Include="Include\ActivationFuncType.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\WeightInitializer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">

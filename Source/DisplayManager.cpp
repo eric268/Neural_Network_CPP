@@ -32,7 +32,7 @@ void DisplayManager::DrawNumber(const std::pair<std::vector<double>,int>& imageD
 		else
 			std::cout << " ";
 	}
-	std::cout << "\n\tCorrect Answers: " + std::to_string(imageData.second) + '\n';
+	std::cout << "\nCorrect Answers: " + std::to_string(imageData.second) + '\n';
 	std::cout << "Predicted Answer: " + std::to_string(networkPrediction) << "\n";
 }
 

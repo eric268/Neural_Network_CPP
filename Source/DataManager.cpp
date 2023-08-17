@@ -86,7 +86,7 @@ std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageData(std:
 
 void DataManager::ShuffleTrainingData()
 {
-	auto rd = std::random_device{};
-	auto rng = std::default_random_engine{ rd() };
+	auto rd = std::random_device{}();
+	auto rng = std::default_random_engine{ rd };
 	std::shuffle(std::begin(trainingData), std::end(trainingData), rng);
 }

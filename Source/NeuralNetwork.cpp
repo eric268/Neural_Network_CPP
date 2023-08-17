@@ -3,8 +3,11 @@
 #include "../Include/NetworkLayer.h"
 #include "../Include/Neurons.h"
 #include "../Include/ActivationFuncType.h"
+#include "../Include/WeightInitializer.h"
 
-NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, ActivationFuncType type) : mTotalLoss{ 0.0 }
+NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, ActivationFuncType type) : 
+	mTotalLoss{ 0.0 }, 
+	activationFunctionType{type}
 {
 	assert(layerSizes.size() > 0);
 
@@ -15,32 +18,28 @@ NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, ActivationFuncType ty
 	for (int i = 1; i < layerSizes.size(); i++)
 	{
 		mNetworkLayers[i] = std::make_shared<NetworkLayer>(layerSizes[i]);
-		mNetworkLayers[i - 1]->mNextLayer = mNetworkLayers[i];
+		mNetworkLayers[i -1]->mNextLayer = mNetworkLayers[i];
 		mNetworkLayers[i]->mPreviousLayer = mNetworkLayers[i - 1];
 		mLayerResults[i - 1] = std::make_shared<LayerResults>(layerSizes[i], layerSizes[i - 1]);
-		PopulateNeuronsInLayers(mNetworkLayers[i - 1].get());
+		PopulateNeuronsInLayers(mNetworkLayers[i].get());
 	}
 
-	BindActivationFunctions(type);
+	BindActivationFunctions(activationFunctionType);
 }
 
 void NeuralNetwork::PopulateNeuronsInLayers(NetworkLayer* currentLayer)
 {
-	if (!currentLayer || !currentLayer->mNextLayer)
+	if (!currentLayer || !currentLayer->mPreviousLayer)
 		return;
 
-	currentLayer->mWeights = std::vector<std::vector<double>>(currentLayer->mNextLayer->mNumberOfNeurons, std::vector<double>(currentLayer->mNumberOfNeurons));
-	std::random_device rd;
-	std::uniform_int_distribution<int> dist(-10000, 10000);
+	const int currentLayerSize = currentLayer->mNumberOfNeurons;
+	const int prevLayerSize = currentLayer->mPreviousLayer->mNumberOfNeurons;
 
-	for (int i = 0; i < currentLayer->mNextLayer->mNumberOfNeurons; i++)
-	{
-		for (int j = 0; j < currentLayer->mNumberOfNeurons; j++)
-		{
-			double val = ((double)dist(rd)) * 0.00001;
-			currentLayer->mWeights[i][j] = val;
-		}
-	}
+	currentLayer->mWeights = std::vector<std::vector<double>>(currentLayerSize, std::vector<double>(prevLayerSize));
+	InitalizeNetworkWeights(currentLayer->mWeights, prevLayerSize, currentLayerSize);
+
+	currentLayer->mBias = std::vector<double>(currentLayerSize);
+	InitalizeBias(currentLayer->mBias);
 }
 
 
@@ -61,13 +60,85 @@ void NeuralNetwork::ClearResults()
 
 int NeuralNetwork::RunNetwork(std::vector<double> pixelValues)
 {
+	// Input Layer
 	for (int i = 0; i < pixelValues.size(); i++)
 		mNetworkLayers[0]->mNeurons[i]->mActivation = pixelValues[i] / 255.0;
 
-	for (int i = 0; i < mNetworkLayers.size() - 1; i++)
-		SetNextLayersActivation(mNetworkLayers[i].get());
+	// Hidden Layers
+	for (int i = 1; i < mNetworkLayers.size() - 1; i++)
+		SetHiddenLayersActivation(mNetworkLayers[i].get());
+
+	//Output Layer
+	SetOutputLayerActivation(mNetworkLayers[mNetworkLayers.size() - 1].get());
 
 	return GetFinalOutput(mNetworkLayers[mNetworkLayers.size() - 1].get());
+}
+
+void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
+{
+	try
+	{
+		if (!currentLayer || !currentLayer->mPreviousLayer)
+			throw std::runtime_error("Null layer passed in SetHiddenLayersActivation");
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << ex.what();
+		throw;
+	}
+
+	const int currentLayerSize = currentLayer->mNumberOfNeurons;
+	const int prevLayerSize = currentLayer->mPreviousLayer->mNumberOfNeurons;
+
+	for (int i = 0; i < currentLayerSize; i++)
+	{
+		currentLayer->mNeurons[i]->mActivation = 0.0;
+		for (int j = 0; j < prevLayerSize; j++)
+		{
+			currentLayer->mNeurons[i]->mActivation += currentLayer->mWeights[i][j] * currentLayer->mPreviousLayer->mNeurons[j]->mActivation;
+		}
+
+		// Ensure that the activation function matches the derivative 
+		const float activation = currentLayer->mNeurons[i]->mActivation + currentLayer->mBias[i];
+		currentLayer->mNeurons[i]->mActivation = ActivationFunction(activation);
+	}
+}
+
+void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
+{
+	try
+	{
+		if (!outputLayer)
+			throw std::runtime_error("Null layer passed in SetOutputLayerActivation");
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << ex.what();
+		throw;
+	}
+
+	const int currentLayerSize = outputLayer->mNumberOfNeurons;
+	const int prevLayerSize = outputLayer->mPreviousLayer->mNumberOfNeurons;
+
+	for (int i = 0; i < currentLayerSize; i++)
+	{
+		outputLayer->mNeurons[i]->mActivation = 0.0;
+		for (int j = 0; j < prevLayerSize; j++)
+		{
+			outputLayer->mNeurons[i]->mActivation += outputLayer->mWeights[i][j] * outputLayer->mPreviousLayer->mNeurons[j]->mActivation;
+		}
+		outputLayer->mNeurons[i]->mActivation += outputLayer->mBias[i];
+	}
+
+	std::vector<double> logits(outputLayer->mNumberOfNeurons, 0);
+	for (int i = 0; i < outputLayer->mNumberOfNeurons; i++)
+	{
+		logits[i] = outputLayer->mNeurons[i]->mActivation + outputLayer->mBias[i];
+	}
+
+	auto probailities = ActivationFunctions::softmax(logits);
+	for (int i = 0; i < outputLayer->mNumberOfNeurons; i++)
+		outputLayer->mNeurons[i]->mActivation = probailities[i];
 }
 
 int NeuralNetwork::GetFinalOutput(NetworkLayer* outputLayer)
@@ -85,35 +156,6 @@ int NeuralNetwork::GetFinalOutput(NetworkLayer* outputLayer)
 	return ans;
 }
 
-void NeuralNetwork::SetNextLayersActivation(NetworkLayer* currentLayer)
-{
-	std::vector<double> logits;
-	for (int i = 0; i < currentLayer->mNextLayer->mNumberOfNeurons; i++)
-	{
-		currentLayer->mNextLayer->mNeurons[i]->mActivation = 0.0;
-		for (int j = 0; j < currentLayer->mNumberOfNeurons; j++)
-		{
-			currentLayer->mNextLayer->mNeurons[i]->mActivation += currentLayer->mWeights[i][j] * currentLayer->mNeurons[j]->mActivation;
-		}
-		// Check to make sure that this is not the output layer
-		if (currentLayer->mNextLayer->mNextLayer)
-		{
-			// Ensure that the activation function matches the derivative 
-			const float activation = currentLayer->mNextLayer->mNeurons[i]->mActivation + currentLayer->mNextLayer->mNeurons[i]->mBias;
-			currentLayer->mNextLayer->mNeurons[i]->mActivation = ActivationFunction(activation);
-		}
-		else
-			// Is output layer so will use softmax not other activation functions
-			logits.push_back(currentLayer->mNextLayer->mNeurons[i]->mActivation + currentLayer->mNextLayer->mNeurons[i]->mBias);
-	}
-	if (logits.size())
-	{
-		auto probailities = ActivationFunctions::softmax(logits);
-		for (int i = 0; i < currentLayer->mNextLayer->mNumberOfNeurons; i++)
-			currentLayer->mNextLayer->mNeurons[i]->mActivation = probailities[i];
-	}
-
-}
 
 void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 {
@@ -135,7 +177,7 @@ void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer
 		// Ensure that the activation function matches the derivative 
 		const double deltaOutput = D_ActivationFunction(activation);
 
-		mTotalLoss += ((activation - y) * (activation - y)) * batchScale;
+		mTotalLoss += 0.5 * ((activation - y) * (activation - y)) * batchScale;
 
 		currentLayer->mNeurons[i]->mDeltaError = deltaError;
 		currentLayer->mNeurons[i]->mDeltaOutput = deltaOutput;
@@ -165,7 +207,7 @@ void NeuralNetwork::CalculateLayerBackwardsPropigation(NetworkLayer* currentLaye
 			currentLayer->mNeurons[i]->mDeltaError += (
 				currentLayer->mNextLayer->mNeurons[j]->mDeltaError		* 
 				currentLayer->mNextLayer->mNeurons[j]->mDeltaOutput		* 
-				currentLayer->mWeights[j][i]);
+				currentLayer->mNextLayer->mWeights[j][i]);
 		}
 
 		layerResults->mBiasResults[i] = currentLayer->mNeurons[i]->mDeltaError * currentLayer->mNeurons[i]->mDeltaOutput;
@@ -188,8 +230,8 @@ void NeuralNetwork::UpdateResults(int testSize)
 	for (int i = 1; i < mNetworkLayers.size(); i++)
 		mNetworkLayers[i]->UpdateBias(mLayerResults[i - 1].get(), learningRate);
 
-	for (int i = mNetworkLayers.size() - 2; i >= 0; i--)
-		mNetworkLayers[i]->UpdateWeight(mLayerResults[i].get(), learningRate);
+	for (int i = mNetworkLayers.size() - 1; i > 0; i--)
+		mNetworkLayers[i]->UpdateWeight(mLayerResults[i - 1].get(), learningRate);
 }
 
 void NeuralNetwork::LoadWeights(std::string weightPath)
@@ -219,5 +261,46 @@ void NeuralNetwork::BindActivationFunctions(ActivationFuncType type)
 		break;
 	default:
 		throw std::runtime_error("Invalid activation function passed to network");
+	}
+}
+
+void NeuralNetwork::InitalizeNetworkWeights(std::vector<std::vector<double>>& weights, const int inputSize, const int outputSize)
+{
+	for (int i = 0; i < outputSize; i++)
+	{
+		for (int j = 0; j < inputSize; j++)
+		{
+			switch (activationFunctionType)
+			{
+			case Sigmoid:
+				weights[i][j] = WeightInitializer::Xavier(inputSize, outputSize);
+				break;
+			case ReLU:
+				weights[i][j] = WeightInitializer::He(inputSize);
+				break;
+			case Leaky_ReLU:
+				weights[i][j] = WeightInitializer::He(inputSize);
+				break;
+			}
+		}
+	}
+}
+
+void NeuralNetwork::InitalizeBias(std::vector<double>& bias)
+{
+	for (int i =0; i < bias.size(); i++)
+	{
+		switch (activationFunctionType)
+		{
+		case Sigmoid:
+			bias[i] = 0.0;
+			break;
+		case ReLU:
+			bias[i] = 0.01;
+			break;
+		case Leaky_ReLU:
+			bias[i] = 0.0;
+			break;
+		}
 	}
 }

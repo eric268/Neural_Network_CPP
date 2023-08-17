@@ -7,9 +7,9 @@
 
 int main()
 {
-	std::vector<int> networkLayerSizes = std::vector<int>{ 784, 16, 16, 10 };
-	NeuralNetwork neuralNetwork ( networkLayerSizes, ActivationFuncType::Sigmoid);
-	HyperParameters hyperParameters (0.05, 3, 128);
+	std::vector<int> networkLayerSizes = std::vector<int>{ 784, 530, 250,100, 10 };
+	NeuralNetwork neuralNetwork ( networkLayerSizes, ActivationFuncType::Leaky_ReLU);
+	HyperParameters hyperParameters (0.01, 1, 32);
 	ApplicationManager applicationManager (neuralNetwork, hyperParameters);
 
 	applicationManager.Run();
