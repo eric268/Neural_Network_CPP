@@ -37,6 +37,11 @@ public:
 	double learningRate;
 	double batchScale;
 
+	inline NetworkLayer* GetFirstHiddenLayer()
+	{
+		return (mNetworkLayers.size() > 1) ? mNetworkLayers[1].get() : nullptr;
+	}
+
 private:
 	std::vector<std::shared_ptr<NetworkLayer>> mNetworkLayers;
 	std::vector<std::shared_ptr<LayerResults>> mLayerResults;

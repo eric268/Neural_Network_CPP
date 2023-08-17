@@ -31,7 +31,9 @@ void ApplicationManager::Run()
 			RunNetwork(dataManager.testingData, false);
 		}
 		else if (userInput == "save")
-			SaveWeightsAndBias();
+			SaveNetwork();
+		else if (userInput == "load")
+			LoadNetwork();
 		else if (userInput == "display")
 			displayManager.DrawNetworkPredictions(neuralNetwork, dataManager);
 		else if (userInput == "quit")
@@ -39,13 +41,34 @@ void ApplicationManager::Run()
 	}
 }
 
-void ApplicationManager::SaveWeightsAndBias()
+void ApplicationManager::SaveNetwork()
 {
-	std::string saveWeightName, saveBiasName;
-	std::cout << "Enter save weight name: ";
-	std::cin >> saveWeightName;
-	std::cout << "Enter save bias name: ";
-	std::cin >> saveBiasName;
+	std::string saveWeightName;
+	std::cout << "Enter save filename: ";
+	std::getline(std::cin, saveWeightName);
+
+	if (CheckIfValidFilename(saveWeightName))
+		dataManager.SaveWeightsAndBias(neuralNetwork.GetFirstHiddenLayer(), saveWeightName);
+	else
+	{
+		DisplayManager::ClearConsole();
+		std::cout << "Filename found with invalid characters\n";
+	}
+}
+
+void ApplicationManager::LoadNetwork()
+{
+	std::string loadWeightName;
+	std::cout << "Enter filename: ";
+	std::getline(std::cin, loadWeightName);
+
+	if (std::filesystem::exists("Weights/" + loadWeightName))
+		dataManager.LoadWeightsAndBias(neuralNetwork.GetFirstHiddenLayer(), loadWeightName);
+	else
+	{
+		DisplayManager::ClearConsole();
+		std::cout << "Filename not found\n";
+	}
 }
 
 void ApplicationManager::FitModel()
@@ -102,7 +125,7 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<doub
 	if (isTraining)
 		neuralNetwork.UpdateResults(totalBatchSize);
 
-	displayManager.ClearConsole();
+	DisplayManager::ClearConsole();
 	displayManager.DisplayResults(displayManager.ParseResults(
 		currentEpoch,
 		hyperParameters.numEpochs,
@@ -111,4 +134,16 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<doub
 		averageLoss,
 		averageAccuracy
 	));
+}
+
+bool ApplicationManager::CheckIfValidFilename(const std::string& filename)
+{
+	const std::string forbiddenChars = "\\/:*?\"<>|";
+
+	for (char c : filename) {
+		if (forbiddenChars.find(c) != std::string::npos) {
+			return false;
+		}
+	}
+	return true;
 }

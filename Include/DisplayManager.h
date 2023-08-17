@@ -22,7 +22,7 @@ public:
 		epochResults.push_back(ParseResults(currentEpoch, maxEpoch, currentBatch, totalBatches, loss, accuracy));
 	}
 
-	void ClearConsole();
+	static void ClearConsole();
 private:
 
 };

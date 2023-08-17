@@ -1,4 +1,4 @@
-﻿Build started 2023-08-17 9:35:23 PM.
+﻿Build started 2023-08-17 10:46:57 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "x64\Debug\NumberRe.1373199c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
