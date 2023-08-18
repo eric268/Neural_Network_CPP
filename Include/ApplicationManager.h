@@ -5,15 +5,20 @@
 #include "../Include/DisplayManager.h"
 #include "../Include/HyperParameters.h"
 
+
 class ApplicationManager
 {
 public:
 	ApplicationManager(NeuralNetwork& network, HyperParameters& hyperParameters);
 	void Run();
 	void SaveNetwork();
+	void TrainModel();
 	void FitModel();
+	void TestModel();
+	void DisplayPredictions();
 	void RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining);
 	void LoadNetwork();
+
 private:
 
 	bool CheckIfValidFilename(const std::string& filename);

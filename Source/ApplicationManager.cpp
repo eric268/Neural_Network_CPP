@@ -22,20 +22,15 @@ void ApplicationManager::Run()
 		std::string userInput;
 		userInput = displayManager.UserInputOnTrainingCompleted();
 		if (userInput == "train")
-			FitModel();
+			TrainModel();
 		else if (userInput == "test")
-		{
-			averageAccuracy = 0.0;
-			averageLoss = 0.0;
-			displayManager.epochResults.clear();
-			RunNetwork(dataManager.testingData, false);
-		}
+			TestModel();
 		else if (userInput == "save")
 			SaveNetwork();
 		else if (userInput == "load")
 			LoadNetwork();
 		else if (userInput == "display")
-			displayManager.DrawNetworkPredictions(neuralNetwork, dataManager);
+			DisplayPredictions();
 		else if (userInput == "quit")
 			break;
 	}
@@ -99,6 +94,47 @@ void ApplicationManager::FitModel()
 	}
 }
 
+void ApplicationManager::TrainModel()
+{
+	int epochs = displayManager.GetNumEpochs();
+	double learningRate = displayManager.GetLearningRate();
+	int activationFunction = displayManager.GetActivationFunction();
+
+	if (!epochs || !learningRate || activationFunction < 0)
+		return;
+
+	hyperParameters.numEpochs = epochs;
+	neuralNetwork.learningRate = learningRate;
+	neuralNetwork.BindActivationFunctions(activationFunction);
+
+	FitModel();
+}
+
+void ApplicationManager::TestModel()
+{
+	averageAccuracy = 0.0;
+	averageLoss = 0.0;
+	displayManager.epochResults.clear();
+	std::cout << "Testing...\n";
+	RunNetwork(dataManager.testingData, false);
+}
+
+void ApplicationManager::DisplayPredictions()
+{
+	int ans = displayManager.DrawPredictionsMenu();
+
+	switch (ans)
+	{
+	case -1:
+		return;
+	case 1:
+		displayManager.DrawNetworkPredictions(neuralNetwork, dataManager, true);
+		break;
+	case 2:
+		displayManager.DrawNetworkPredictions(neuralNetwork, dataManager, false);
+		break;
+	}
+}
 void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining)
 {
 	char n = ' ';

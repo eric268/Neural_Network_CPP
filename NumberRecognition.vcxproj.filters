@@ -72,7 +72,7 @@
     <ClInclude Include="Include\HyperParameters.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ActivationFuncType.h">
+    <ClInclude Include="Include\ActivationFuncTypes.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\WeightInitializer.h">

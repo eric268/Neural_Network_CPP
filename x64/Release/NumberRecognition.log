@@ -1,25 +1,16 @@
-﻿Build started 2023-08-17 10:48:45 PM.
+﻿Build started 2023-08-18 11:29:25 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Touching "x64\Release\NumberRe.1373199c.tlog\unsuccessfulbuild".
+         Creating "x64\Release\NumberRe.1373199c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"x64\Release\\" /Fd"x64\Release\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\ApplicationManager.cpp Source\DataConstants.cpp Source\DataManager.cpp Source\DisplayManager.cpp Source\HyperParameters.cpp Source\LayerResults.cpp Source\NetworkLayer.cpp Source\main.cpp Source\ActivationFunctions.cpp Source\NeuralNetwork.cpp Source\Neurons.cpp Source\pch.cpp
-         ApplicationManager.cpp
-         DataConstants.cpp
-         DataManager.cpp
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"x64\Release\\" /Fd"x64\Release\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\DisplayManager.cpp
          DisplayManager.cpp
-         HyperParameters.cpp
-         LayerResults.cpp
-         NetworkLayer.cpp
-         main.cpp
-         ActivationFunctions.cpp
-         NeuralNetwork.cpp
-     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,67): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,26): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
-     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(165,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-     1>C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(233,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-         Neurons.cpp
-         pch.cpp
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(147,39): warning C4101: 'e': unreferenced local variable
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(152,35): warning C4101: 'e': unreferenced local variable
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(181,39): warning C4101: 'e': unreferenced local variable
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(186,35): warning C4101: 'e': unreferenced local variable
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(218,39): warning C4101: 'e': unreferenced local variable
+     1>C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(223,35): warning C4101: 'e': unreferenced local variable
        Link:
          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"x64\Release\NumberRecognition.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.lib" /MACHINE:X64 x64\Release\ApplicationManager.obj
          x64\Release\DataConstants.obj
@@ -34,9 +25,8 @@ Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\P
          x64\Release\Neurons.obj
          x64\Release\pch.obj
          Generating code
-         777 of 1124 functions (69.1%) were compiled, the rest were copied from previous compilation.
-           222 functions were new in current compilation
-           30 functions had inline decision re-evaluated but remain unchanged
+         Previous IPDB and IOBJ mismatch, fall back to full compilation.
+         All 1307 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
          Finished generating code
          NumberRecognition.vcxproj -> C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.exe
        FinalizeBuildStatus:
@@ -48,12 +38,14 @@ Build succeeded.
 
        "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,67): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(102,26): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
-         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(165,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-         C:\Work\C++\Neural Network\PersonalProject\Source\NeuralNetwork.cpp(233,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(147,39): warning C4101: 'e': unreferenced local variable
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(152,35): warning C4101: 'e': unreferenced local variable
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(181,39): warning C4101: 'e': unreferenced local variable
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(186,35): warning C4101: 'e': unreferenced local variable
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(218,39): warning C4101: 'e': unreferenced local variable
+         C:\Work\C++\Neural Network\PersonalProject\Source\DisplayManager.cpp(223,35): warning C4101: 'e': unreferenced local variable
 
-    4 Warning(s)
+    6 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:16.19
+Time Elapsed 00:00:02.52

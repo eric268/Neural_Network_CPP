@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 
-
 class Connections;
 class NetworkLayer;
 enum LayerType;

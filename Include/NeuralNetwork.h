@@ -1,27 +1,20 @@
 #pragma once
 #include "pch.h"
-#include "ActivationFunctions.h"
 #include "LayerResults.h"
-
-#define InputLayerSize 784
-#define HiddenLayer1Size 16
-#define HiddenLayer2Size 16
-#define OutputLayerSize 10
 
 class NetworkLayer;
 class Neurons;
 class ActivationFunctions;
-enum ActivationFuncType;
 
 class NeuralNetwork
 {
 public:
 	NeuralNetwork() = default;
-	NeuralNetwork(std::vector<int>& layerSizes, ActivationFuncType type);
+	NeuralNetwork(std::vector<int>& layerSizes, int type);
 
 	void ClearResults();
 	void LoadWeights(std::string weightPath);
-	void BindActivationFunctions(ActivationFuncType type);
+	void BindActivationFunctions(int type);
 
 	int RunNetwork(const std::vector<double> pixelValues);
 	void PopulateNeuronsInLayers(NetworkLayer* currentLayer);
@@ -49,7 +42,7 @@ private:
 	typedef double (*ActivationFuncDelegate)(const double);
 	ActivationFuncDelegate ActivationFunction;
 	ActivationFuncDelegate D_ActivationFunction;
-	ActivationFuncType activationFunctionType;
+	int activationFunctionType;
 
 	void InitalizeNetworkWeights(std::vector<std::vector<double>>& weights, const int inputSize, const int outputSize);
 	void InitalizeBias(std::vector<double>& bias);

@@ -3,21 +3,60 @@
 #include "../Include/DataConstants.h"
 #include "../Include/NeuralNetwork.h"
 #include "../Include/DataManager.h"
-
+#include "../Include/ActivationFuncTypes.h"
 #include <Windows.h>
 
-DisplayManager::DisplayManager() : numImagesToDisplay(25)
+DisplayManager::DisplayManager() : numImagesToDisplay(10)
 {
 
 }
 
-void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager)
+void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager, const bool drawIncorrectPredictions)
 {
 	ClearConsole();
-	for (int i = 0; i < numImagesToDisplay; i++)
+
+	std::mt19937 rng(std::random_device{}());
+	std::uniform_int_distribution<int> distribution(0, DataConstants::NUM_TESTING_IMAGES - 1);
+
+	int imagesToDraw = (drawIncorrectPredictions) ? DataConstants::NUM_TESTING_IMAGES : numImagesToDisplay;
+	int counter = 0;
+
+	for (int i = 0; i < imagesToDraw; i++)
 	{
-		int prediction = network.RunNetwork(dataManager.testingData[i].first);
-		DrawNumber(dataManager.testingData[i], prediction);
+		int rand = distribution(rng);
+		int num = (drawIncorrectPredictions) ? i : rand;
+		int prediction = network.RunNetwork(dataManager.testingData[num].first);
+
+		if (!drawIncorrectPredictions || (drawIncorrectPredictions && prediction != dataManager.testingData[num].second))
+		{
+			DrawNumber(dataManager.testingData[num], prediction);
+			counter++;
+			if (counter >= 10)
+				break;
+		}
+	}
+}
+
+int DisplayManager::DrawPredictionsMenu()
+{
+	std::string choice;
+	while (true)
+	{
+		std::cout << "Enter [1] to display up to 10 incorrect predictions\n";
+		std::cout << "Enter [2] to display 10 random predictions from the testing dataset\n";
+		std::cout << "Enter [back] to return to menu\n";
+		std::getline(std::cin, choice);
+
+		if (choice == "1")
+		{
+			return 1;
+		}
+		else if (choice == "2")
+		{
+			return 2;
+		}
+		else if (choice == "back")
+			return -1;
 	}
 }
 
@@ -80,4 +119,110 @@ void DisplayManager::ClearConsole()
 	FillConsoleOutputCharacter(hOut, TEXT(' '), length, topLeft, &written);
 	FillConsoleOutputAttribute(hOut, csbi.wAttributes, length, topLeft, &written);
 	SetConsoleCursorPosition(hOut, topLeft);
+}
+
+
+int DisplayManager::GetNumEpochs()
+{
+	int numEpochs = 0;
+	std::string selection;
+	while (true)
+	{
+		std::cout << "Enter [back] to return to menu\n\n";
+		std::cout << "Enter the number of desired epochs\n";
+		std::getline(std::cin, selection);
+
+		try
+		{
+			if (selection == "back")
+				return -1;
+			else if (std::stoi(selection) <= 0)
+			{
+				ClearConsole();
+				std::cout << "Invalid Input\n";
+			}
+			else
+				return stoi(selection);
+		}
+		catch (const std::invalid_argument& e)
+		{
+			ClearConsole();
+			std::cout << "Invalid Input\n";
+		}
+		catch (const std::out_of_range& e)
+		{
+			std::cout << "Input outside of valid range\n";
+		}
+	}
+}
+double DisplayManager::GetLearningRate()
+{
+	ClearConsole();
+	double learningRate = 0.0;
+	std::string selection;
+	while (true)
+	{
+		std::cout << "Enter [back] to return to menu\n\n";
+		std::cout << "Enter a value between 0 - 1 representing the desired learning rate\n";
+
+		try
+		{
+			std::getline(std::cin, selection);
+			if (selection == "back")
+				return -1;
+			else if ((std::stod(selection) <= 0 && (std::stod(selection) > 1)))
+			{
+				ClearConsole();
+				std::cout << "Invalid Input\n";
+			}
+			else
+				return stod(selection);
+		}
+		catch (const std::invalid_argument& e)
+		{
+			ClearConsole();
+			std::cout << "Invalid Input\n";
+		}
+		catch (const std::out_of_range& e)
+		{
+			std::cout << "Input outside of valid range\n";
+		}
+
+	}
+}
+int DisplayManager::GetActivationFunction()
+{
+	ClearConsole();
+	int activationFunction = 0;
+	std::string selection;
+	while (true)
+	{
+		std::cout << "Enter [back] to return to menu\n\n";
+		std::cout << "Enter [1] to use the sigmoid activation function\n";
+		std::cout << "Enter [2] to use the ReLu activation function\n";
+		std::cout << "Enter [3] to use the Leaky ReLu activation function\n";
+
+		try
+		{
+			std::getline(std::cin, selection);
+			if (selection == "back")
+				return -1;
+			else if (std::stoi(selection) <= 0 || (std::stoi(selection) > ActivationFunctionTypes::NUM_ACTIVATION_FUNCTIONS))
+			{
+				ClearConsole();
+				std::cout << "Invalid Input\n";
+			}
+			else
+				return stoi(selection);
+		}
+		catch (const std::invalid_argument& e)
+		{
+			ClearConsole();
+			std::cout << "Invalid Input\n";
+		}
+		catch (const std::out_of_range& e)
+		{
+			std::cout << "Input outside of valid range\n";
+		}
+	}
 }

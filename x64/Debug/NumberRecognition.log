@@ -1,11 +1,13 @@
-﻿Build started 2023-08-17 10:46:57 PM.
+﻿Build started 2023-08-18 10:43:27 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Creating "x64\Debug\NumberRe.1373199c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "x64\Debug\NumberRe.1373199c.tlog\unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"../Include/pch.h" /Fp"x64\Debug\NumberRecognition.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\main.cpp
-         main.cpp
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"../Include/pch.h" /Fp"x64\Debug\NumberRecognition.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\ApplicationManager.cpp Source\DisplayManager.cpp
+         ApplicationManager.cpp
+         DisplayManager.cpp
+         Generating Code...
        Link:
          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe" /INCREMENTAL /ILK:"x64\Debug\NumberRecognition.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.lib" /MACHINE:X64 x64\Debug\ApplicationManager.obj
          x64\Debug\DataConstants.obj
@@ -19,14 +21,122 @@ Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\P
          x64\Debug\NeuralNetwork.obj
          x64\Debug\Neurons.obj
          x64\Debug\pch.obj
-         NumberRecognition.vcxproj -> C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe
-       FinalizeBuildStatus:
-         Deleting file "x64\Debug\NumberRe.1373199c.tlog\unsuccessfulbuild".
-         Touching "x64\Debug\NumberRe.1373199c.tlog\NumberRecognition.lastbuildstate".
-     1>Done Building Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target(s)).
+     1>libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(filesystem.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(cin.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(cerr.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>ApplicationManager.obj : error LNK2001: unresolved external symbol _free_dbg
+     1>DataManager.obj : error LNK2001: unresolved external symbol _free_dbg
+     1>DisplayManager.obj : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(locale0.obj) : error LNK2001: unresolved external symbol _free_dbg
+     1>libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(filesystem.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(cin.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(cerr.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>ApplicationManager.obj : error LNK2001: unresolved external symbol _malloc_dbg
+     1>DataManager.obj : error LNK2001: unresolved external symbol _malloc_dbg
+     1>DisplayManager.obj : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(locale0.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+     1>libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>libcpmtd.lib(cin.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>libcpmtd.lib(cerr.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>LayerResults.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>NetworkLayer.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>main.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>NeuralNetwork.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>ApplicationManager.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>DataConstants.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>DataManager.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>DisplayManager.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+     1>libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+     1>DisplayManager.obj : error LNK2001: unresolved external symbol _calloc_dbg
+     1>libcpmtd.lib(_tolower.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+     1>libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+     1>libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+     1>libcpmtd.lib(_tolower.obj) : error LNK2019: unresolved external symbol _wcsdup_dbg referenced in function _Getctype
+     1>libcpmtd.lib(xstrcoll.obj) : error LNK2001: unresolved external symbol _wcsdup_dbg
+     1>libcpmtd.lib(locale.obj) : error LNK2019: unresolved external symbol _realloc_dbg referenced in function "private: static void __cdecl std::locale::_Locimp::_Locimp_Addfac(class std::locale::_Locimp *,class std::locale::facet *,unsigned __int64)" (?_Locimp_Addfac@_Locimp@locale@std@@CAXPEAV123@PEAVfacet@23@_K@Z)
+     1>libcpmtd.lib(StlLCMapStringA.obj) : error LNK2019: unresolved external symbol _CrtDbgReportW referenced in function _freea_crt
+     1>libcpmtd.lib(xmbtowc.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+     1>libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+     1>C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe : fatal error LNK1120: 7 unresolved externals
+     1>Done Building Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
+
+       "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target) (1) ->
+       (Link target) -> 
+         libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(filesystem.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(cin.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(cerr.obj) : error LNK2001: unresolved external symbol _free_dbg
+         ApplicationManager.obj : error LNK2001: unresolved external symbol _free_dbg
+         DataManager.obj : error LNK2001: unresolved external symbol _free_dbg
+         DisplayManager.obj : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(locale0.obj) : error LNK2001: unresolved external symbol _free_dbg
+         libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(filesystem.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(cin.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(cerr.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         ApplicationManager.obj : error LNK2001: unresolved external symbol _malloc_dbg
+         DataManager.obj : error LNK2001: unresolved external symbol _malloc_dbg
+         DisplayManager.obj : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(locale0.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+         libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+         libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+         libcpmtd.lib(cin.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+         libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+         libcpmtd.lib(cerr.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+         libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _CrtDbgReport
+         LayerResults.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         NetworkLayer.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         main.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         NeuralNetwork.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         ApplicationManager.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         DataConstants.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         DataManager.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         DisplayManager.obj : error LNK2001: unresolved external symbol _CrtDbgReport
+         libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+         DisplayManager.obj : error LNK2001: unresolved external symbol _calloc_dbg
+         libcpmtd.lib(_tolower.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+         libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+         libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+         libcpmtd.lib(_tolower.obj) : error LNK2019: unresolved external symbol _wcsdup_dbg referenced in function _Getctype
+         libcpmtd.lib(xstrcoll.obj) : error LNK2001: unresolved external symbol _wcsdup_dbg
+         libcpmtd.lib(locale.obj) : error LNK2019: unresolved external symbol _realloc_dbg referenced in function "private: static void __cdecl std::locale::_Locimp::_Locimp_Addfac(class std::locale::_Locimp *,class std::locale::facet *,unsigned __int64)" (?_Locimp_Addfac@_Locimp@locale@std@@CAXPEAV123@PEAVfacet@23@_K@Z)
+         libcpmtd.lib(StlLCMapStringA.obj) : error LNK2019: unresolved external symbol _CrtDbgReportW referenced in function _freea_crt
+         libcpmtd.lib(xmbtowc.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+         libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+         C:\Work\C++\Neural Network\PersonalProject\x64\Debug\NumberRecognition.exe : fatal error LNK1120: 7 unresolved externals
+
     0 Warning(s)
-    0 Error(s)
+    54 Error(s)
 
-Time Elapsed 00:00:00.30
+Time Elapsed 00:00:01.72

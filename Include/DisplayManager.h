@@ -8,8 +8,13 @@ class DisplayManager
 public:
 	DisplayManager();
 	std::string UserInputOnTrainingCompleted();
-	void DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager);
+	void DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager, const bool drawIncorrectPredictions);
 	void DrawNumber(const std::pair<std::vector<double>, int>& imageData, const int networkPrediction);
+
+	int DrawPredictionsMenu();
+	int GetNumEpochs();
+	double GetLearningRate();
+	int GetActivationFunction();
 
 	int numImagesToDisplay;
 
@@ -25,5 +30,6 @@ public:
 	static void ClearConsole();
 private:
 
+	
 };
 

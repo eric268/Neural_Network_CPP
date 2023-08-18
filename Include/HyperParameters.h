@@ -1,4 +1,5 @@
 #pragma once
+
 struct HyperParameters
 {
 	HyperParameters(double learningRate, int numEpochs, int batchSize);

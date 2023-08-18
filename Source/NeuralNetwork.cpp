@@ -2,10 +2,11 @@
 #include "../Include/NeuralNetwork.h"
 #include "../Include/NetworkLayer.h"
 #include "../Include/Neurons.h"
-#include "../Include/ActivationFuncType.h"
+#include "../Include/ActivationFuncTypes.h"
 #include "../Include/WeightInitializer.h"
+#include "../Include/ActivationFunctions.h"
 
-NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, ActivationFuncType type) : 
+NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, int type) : 
 	mTotalLoss{ 0.0 }, 
 	activationFunctionType{type}
 {
@@ -99,7 +100,7 @@ void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
 		}
 
 		// Ensure that the activation function matches the derivative 
-		const float activation = currentLayer->mNeurons[i]->mActivation + currentLayer->mBias[i];
+		const double activation = currentLayer->mNeurons[i]->mActivation + currentLayer->mBias[i];
 		currentLayer->mNeurons[i]->mActivation = ActivationFunction(activation);
 	}
 }
@@ -162,7 +163,7 @@ void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 	//Output layer back prop is different function from other layers so is done separately 
 	CalculateOutputLayerBackwardsProp(mNetworkLayers[mNetworkLayers.size() - 1].get(), mLayerResults[mLayerResults.size() - 1].get(), correctAns);
 
-	for (int i = mNetworkLayers.size() - 2; i > 0; i--)
+	for (int i = static_cast<int>((mNetworkLayers.size() - 2)); i > 0; i--)
 		CalculateLayerBackwardsPropigation(mNetworkLayers[i].get(), mLayerResults[i - 1].get(), correctAns);
 }
 
@@ -243,19 +244,19 @@ void NeuralNetwork::LoadWeights(std::string weightPath)
 	// Create functionality to load weights
 }
 
-void NeuralNetwork::BindActivationFunctions(ActivationFuncType type)
+void NeuralNetwork::BindActivationFunctions(int type)
 {
 	switch (type)
 	{
-	case ActivationFuncType::Sigmoid:
+	case ActivationFunctionTypes::Sigmoid:
 		ActivationFunction = ActivationFunctions::Sigmoid;
 		D_ActivationFunction = ActivationFunctions::D_Sigmoid;
 		break;
-	case ActivationFuncType::ReLU:
+	case ActivationFunctionTypes::ReLu:
 		ActivationFunction = ActivationFunctions::ReLU;
 		D_ActivationFunction = ActivationFunctions::D_ReLU;
 		break;
-	case ActivationFuncType::Leaky_ReLU:
+	case ActivationFunctionTypes::LeakyReLu:
 		ActivationFunction = ActivationFunctions::LeakyReLU;
 		D_ActivationFunction = ActivationFunctions::D_Leaky_ReLU;
 		break;
@@ -272,13 +273,13 @@ void NeuralNetwork::InitalizeNetworkWeights(std::vector<std::vector<double>>& we
 		{
 			switch (activationFunctionType)
 			{
-			case Sigmoid:
+			case ActivationFunctionTypes::Sigmoid:
 				weights[i][j] = WeightInitializer::Xavier(inputSize, outputSize);
 				break;
-			case ReLU:
+			case ActivationFunctionTypes::ReLu:
 				weights[i][j] = WeightInitializer::He(inputSize);
 				break;
-			case Leaky_ReLU:
+			case ActivationFunctionTypes::LeakyReLu:
 				weights[i][j] = WeightInitializer::He(inputSize);
 				break;
 			}
@@ -292,13 +293,13 @@ void NeuralNetwork::InitalizeBias(std::vector<double>& bias)
 	{
 		switch (activationFunctionType)
 		{
-		case Sigmoid:
+		case ActivationFunctionTypes::Sigmoid:
 			bias[i] = 0.0;
 			break;
-		case ReLU:
+		case ActivationFunctionTypes::ReLu:
 			bias[i] = 0.01;
 			break;
-		case Leaky_ReLU:
+		case ActivationFunctionTypes::LeakyReLu:
 			bias[i] = 0.0;
 			break;
 		}
