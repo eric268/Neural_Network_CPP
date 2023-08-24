@@ -1,7 +1,6 @@
 #include "../Include/pch.h"
 #include "../Include/DataManager.h"
 #include "../Include/DataConstants.h"
-#include "../Include/NetworkLayer.h"
 #include "../Include/DisplayManager.h"
 
 DataManager::DataManager()
@@ -26,7 +25,7 @@ int DataManager::ReverseInt(int i)
 	return ((int)c1 << 24) + ((int)c2 << 16) + ((int)c3 << 8) + c4;
 }
 
-std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageData(std::string path, std::string labelsPath, int totalImages)
+const std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageData(std::string path, std::string labelsPath, int totalImages)
 {
 	int magic_number = 0;
 	int number_of_images = 0;
@@ -91,81 +90,4 @@ void DataManager::ShuffleTrainingData()
 	auto rd = std::random_device{}();
 	auto rng = std::default_random_engine{ rd };
 	std::shuffle(std::begin(trainingData), std::end(trainingData), rng);
-}
-
-void DataManager::SaveWeightsAndBias(NetworkLayer* layer, const std::string& filename)
-{
-	std::ofstream outFile("Weights/" + filename, std::ios::binary | std::ios::out);
-
-	if (!outFile)
-	{
-		std::cerr << "Error saving weights to: " << filename << '\n';
-		return;
-	}
-
-	try
-	{
-		if (!layer || !layer->mPreviousLayer)
-		{
-			throw std::runtime_error("Null layer passed to SaveWeightsAndBias");
-		}
-	}
-	catch (const std::exception& ex)
-	{
-		std::cerr << ex.what() << '\n';
-		throw;
-	}
-
-	while (layer)
-	{
-		for (int i = 0; i < layer->mNumberOfNeurons; i++)
-		{
-			for (int j = 0; j < layer->mPreviousLayer->mNumberOfNeurons; j++)
-			{
-				outFile.write(reinterpret_cast<const char*>(&layer->mWeights[i][j]), sizeof(double));
-			}
-		}
-
-		for (int i = 0; i < layer->mNumberOfNeurons; i++)
-		{
-			outFile.write(reinterpret_cast<const char*>(&layer->mBias[i]), sizeof(double));
-		}
-		layer = layer->mNextLayer.get();
-	}
-
-	DisplayManager::ClearConsole();
-	std::cout << "Save Completed\n\n";
-
-	outFile.close();
-}
-
-void DataManager::LoadWeightsAndBias(NetworkLayer* layer, const std::string& filename)
-{
-	std::ifstream inFile("Weights/" + filename, std::ios::binary | std::ios::in);
-
-	if (!inFile)
-	{
-		std::cerr << "Error loading weights from: " << filename << '\n';
-		return;
-	}
-
-	while (layer)
-	{
-		for (int i = 0; i < layer->mNumberOfNeurons; i++)
-		{
-			for (int j = 0; j < layer->mPreviousLayer->mNumberOfNeurons; j++)
-			{
-				inFile.read(reinterpret_cast<char*>(&layer->mWeights[i][j]), sizeof(double));
-			}
-		}
-
-		for (int i = 0; i < layer->mNumberOfNeurons; i++)
-		{
-			inFile.read(reinterpret_cast<char*>(&layer->mBias[i]), sizeof(double));
-		}
-		layer = layer->mNextLayer.get();
-	}
-
-	DisplayManager::ClearConsole();
-	std::cout << "Weights loaded successfully\n\n";
 }

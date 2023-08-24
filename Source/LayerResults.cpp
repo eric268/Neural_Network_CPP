@@ -3,6 +3,6 @@
 
 LayerResults::LayerResults(int currentLayerSize, int previousLayerSize)
 {
-	mWeightedResults = std::vector<std::vector<double>>(currentLayerSize, std::vector<double>(previousLayerSize));
-	mBiasResults = std::vector<double>(currentLayerSize);
+	weightedResults = std::vector<std::vector<double>>(currentLayerSize, std::vector<double>(previousLayerSize));
+	biasResults = std::vector<double>(currentLayerSize);
 }

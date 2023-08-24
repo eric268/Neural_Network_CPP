@@ -10,6 +10,7 @@ enum LayerType
 
 class Neurons;
 class LayerResults;
+
 class NetworkLayer
 {
 public:
@@ -19,11 +20,11 @@ public:
 	void UpdateBias(LayerResults* result, double learningRate);
 	void UpdateWeight(LayerResults* result, double learningRate);
 
-	std::shared_ptr<NetworkLayer> mPreviousLayer;
-	std::shared_ptr<NetworkLayer> mNextLayer;
-	int mNumberOfNeurons;
-	std::vector<std::unique_ptr<Neurons>> mNeurons;
-	std::vector<std::vector<double>> mWeights;
-	std::vector<double> mBias;
+	std::shared_ptr<NetworkLayer> previousLayer;
+	std::shared_ptr<NetworkLayer> nextLayer;
+	int numberOfNeurons;
+	std::vector<std::unique_ptr<Neurons>> neurons;
+	std::vector<std::vector<double>> weights;
+	std::vector<double> bias;
 
 };

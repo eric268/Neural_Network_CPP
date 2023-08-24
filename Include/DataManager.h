@@ -10,15 +10,16 @@ public:
 	~DataManager();
 
 	int ReverseInt(int i);
-	std::vector<std::pair<std::vector<double>, int>> LoadImageData(std::string path, std::string labelsPath, int numberOfImages);
+	const std::vector<std::pair<std::vector<double>, int>> LoadImageData(std::string path, std::string labelsPath, int numberOfImages);
 	void ShuffleTrainingData();
 
-	void SaveWeightsAndBias(NetworkLayer* firstHiddenLayer, const std::string& filename);
-	void LoadWeightsAndBias(NetworkLayer* firstHiddenLayer, const std::string& filename);
-	std::vector<std::pair<std::vector<double>, int>> trainingData;
-	std::vector<std::pair<std::vector<double>, int>> testingData;
+#pragma region Inline Getters & Setters
+	const std::vector<std::pair<std::vector<double>, int>> GetTrainingData() const { return trainingData; }
+	const std::vector<std::pair<std::vector<double>, int>> GetTestingData() const  { return testingData;  }
+#pragma endregion
 
 private:
-
+	std::vector<std::pair<std::vector<double>, int>> trainingData;
+	std::vector<std::pair<std::vector<double>, int>> testingData;
 };
 

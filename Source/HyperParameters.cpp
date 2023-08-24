@@ -1,9 +1,9 @@
 #include "../Include/pch.h"
 #include "../Include/HyperParameters.h"
 
-HyperParameters::HyperParameters(double learningRate, int numEpochs, int batchSize) :
-	learningRate(learningRate),
-	numEpochs(numEpochs), 
-	batchSize(batchSize)
+HyperParameters::HyperParameters(int batchSize, int epochs, double learningRate) :
+	batchSize(batchSize),
+	numEpochs(epochs),
+	learningRate(learningRate)
 {
 }

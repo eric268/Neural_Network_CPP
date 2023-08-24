@@ -10,7 +10,7 @@ public:
 		return (1.0 / (1.0 + exp(-x)));
 	}
 
-	// This assumes that Sigmoid(x) has already been completed
+	// This assumes that Sigmoid(x) has already been executed on input parameter
 	static double D_Sigmoid(const double x)
 	{
 		return (x * (1.0 - x));
@@ -35,7 +35,7 @@ public:
 	static double D_Leaky_ReLU(double x)
 	{
 		const double alpha = 0.001;
-		return (x > 0) ? 1.0 : alpha;
+		return (x >= 0) ? 1.0 : alpha;
 	}
 
 	static std::vector<double> softmax(const std::vector<double>& logits) 

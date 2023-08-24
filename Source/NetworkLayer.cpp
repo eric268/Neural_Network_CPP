@@ -5,46 +5,56 @@
 
 NetworkLayer::NetworkLayer()
 {
-	mNumberOfNeurons = 0;
-	mPreviousLayer = nullptr;
-	mNextLayer = nullptr;
+	numberOfNeurons = 0;
+	previousLayer = nullptr;
+	nextLayer = nullptr;
 }
 
-NetworkLayer::NetworkLayer(int numofNeurons) :  mNumberOfNeurons{numofNeurons}
+NetworkLayer::NetworkLayer(int numofNeurons) :  numberOfNeurons{numofNeurons}
 {
-	mPreviousLayer = nullptr;
-	mNextLayer = nullptr;
-	mNeurons = std::vector<std::unique_ptr<Neurons>>(mNumberOfNeurons);
-	for (int i = 0; i < mNumberOfNeurons; i++)
+	previousLayer = nullptr;
+	nextLayer = nullptr;
+	neurons = std::vector<std::unique_ptr<Neurons>>(numberOfNeurons);
+	for (int i = 0; i < numberOfNeurons; i++)
 	{
-		mNeurons[i] = std::make_unique<Neurons>();
+		neurons[i] = std::make_unique<Neurons>();
 	}
 }
 
-NetworkLayer::NetworkLayer(int numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer) : mNumberOfNeurons{numOfNeurons}, mPreviousLayer{prevLayer}, mNextLayer{nextLayer}
+NetworkLayer::NetworkLayer(int numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer) : numberOfNeurons{numOfNeurons}, previousLayer{prevLayer}, nextLayer{nextLayer}
 {
-	mNeurons = std::vector<std::unique_ptr<Neurons>>(mNumberOfNeurons);
-	for (int i = 0; i < mNumberOfNeurons; i++)
+	neurons = std::vector<std::unique_ptr<Neurons>>(numberOfNeurons);
+	for (int i = 0; i < numberOfNeurons; i++)
 	{
-		mNeurons[i] = std::make_unique<Neurons>();
+		neurons[i] = std::make_unique<Neurons>();
 	}
 }
 
 void NetworkLayer::UpdateBias(LayerResults* result, double learningRate)
 {
-	for (int i = 0; i < mNumberOfNeurons; i++)
+	if (!result || result->biasResults.size() != bias.size())
+		throw std::invalid_argument("Invalid layer result, or invalid size\n");
+
+	for (int i = 0; i < result->biasResults.size(); i++)
 	{
-		mBias[i] -= result->mBiasResults[i] * learningRate;
+		bias[i] -= result->biasResults[i] * learningRate;
 	}
 }
 
 void NetworkLayer::UpdateWeight(LayerResults* result, double learningRate)
 {
-	for (int i = 0; i < mWeights.size(); i++)
+	if (!result													|| 
+		!weights.size()											||
+		result->weightedResults.size() != weights.size()		|| 
+		result->weightedResults[0].size() != weights[0].size()
+		)
+		throw std::invalid_argument("Invalid layer result, or invalid size\n");
+
+	for (int i = 0; i < weights.size(); i++)
 	{
-		for (int j = 0; j < mWeights[0].size(); j++)
+		for (int j = 0; j < weights[0].size(); j++)
 		{
-			mWeights[i][j] -= result->mWeightedResults[i][j] * learningRate;
+			weights[i][j] -= result->weightedResults[i][j] * learningRate;
 		}
 	}
 }

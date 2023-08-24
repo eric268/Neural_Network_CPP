@@ -1,22 +1,26 @@
 #pragma once
 #include "pch.h"
 
-class Connections;
-class NetworkLayer;
-enum LayerType;
-
 class Neurons
 {
 public:
-	Neurons();
-	Neurons(LayerType type);
-	Neurons(double val, LayerType type);
+	Neurons() : activation{ 0.0 }, deltaBias{ 0.0 }, deltaError{ 0.0 }, deltaOutput{ 0.0 } {}
 
-public:
-	LayerType mLayerType;
-	double mActivation;
+#pragma region Inline Getters & Setters
+	const double GetActivation()  const				{ return activation;  }
+	const double GetDeltaBias()   const				{ return deltaBias;	  }
+	const double GetDeltaError()  const				{ return deltaError;  }
+	const double GetDeltaOutput() const				{ return deltaOutput; }
 
-	double mDeltaBias;
-	double mDeltaError;
-	double mDeltaOutput;
+	void SetActivation (const double activation)	{ this->activation = activation; }
+	void SetDeltaBias  (const double dBias)			{ deltaBias = dBias;			 }
+	void SetDeltaError (const double dError)		{ deltaError = dError;			 }
+	void SetDeltaOutput(const double dOutput)		{ deltaOutput = dOutput;		 }
+#pragma endregion
+
+private:
+	double activation;
+	double deltaBias;
+	double deltaError;
+	double deltaOutput;
 };

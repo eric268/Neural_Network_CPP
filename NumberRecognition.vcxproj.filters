@@ -37,6 +37,9 @@
     <ClCompile Include="Source\HyperParameters.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\FileManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\ActivationFunctions.h">
@@ -76,6 +79,12 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\WeightInitializer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FileManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Stopwatch.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

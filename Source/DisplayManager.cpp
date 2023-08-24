@@ -4,6 +4,7 @@
 #include "../Include/NeuralNetwork.h"
 #include "../Include/DataManager.h"
 #include "../Include/ActivationFuncTypes.h"
+#include "../Include/Stopwatch.h"
 #include <Windows.h>
 
 DisplayManager::DisplayManager() : numImagesToDisplay(10)
@@ -11,68 +12,93 @@ DisplayManager::DisplayManager() : numImagesToDisplay(10)
 
 }
 
-void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager, const bool drawIncorrectPredictions)
+void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager)
 {
 	ClearConsole();
 
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_int_distribution<int> distribution(0, DataConstants::NUM_TESTING_IMAGES - 1);
 
-	int imagesToDraw = (drawIncorrectPredictions) ? DataConstants::NUM_TESTING_IMAGES : numImagesToDisplay;
-	int counter = 0;
-
-	for (int i = 0; i < imagesToDraw; i++)
+	for (int i = 0; i < numImagesToDisplay; i++)
 	{
 		int rand = distribution(rng);
-		int num = (drawIncorrectPredictions) ? i : rand;
-		int prediction = network.RunNetwork(dataManager.testingData[num].first);
-
-		if (!drawIncorrectPredictions || (drawIncorrectPredictions && prediction != dataManager.testingData[num].second))
-		{
-			DrawNumber(dataManager.testingData[num], prediction);
-			counter++;
-			if (counter >= 10)
-				break;
-		}
+		int prediction = network.RunNetwork(dataManager.GetTestingData()[rand].first);
+		std::cout <<GetNumberDisplay(dataManager.GetTestingData()[rand], prediction);
 	}
+	
 }
 
-int DisplayManager::DrawPredictionsMenu()
+bool DisplayManager::DrawPredictionsMenu()
 {
-	std::string choice;
+	std::string input;
 	while (true)
 	{
-		std::cout << "Enter [1] to display up to 10 incorrect predictions\n";
-		std::cout << "Enter [2] to display 10 random predictions from the testing dataset\n";
-		std::cout << "Enter [back] to return to menu\n";
-		std::getline(std::cin, choice);
+		std::cout << "Enter [back] to return to menu\n\n";
+		std::cout << "Enter the amount of numbers to display: ";
+		std::getline(std::cin, input);
 
-		if (choice == "1")
+		if (input == "back")
+			return false;
+
+		try
 		{
-			return 1;
+			int num = std::stoi(input);
+			if (num >= DataConstants::NUM_TESTING_IMAGES)
+				throw std::out_of_range("Amount selected greater than total number of images. Ensure the input is less than 10,000\n");
+			else
+			{
+				numImagesToDisplay = num;
+				return true;
+			}
 		}
-		else if (choice == "2")
+		catch (std::invalid_argument& e)
 		{
-			return 2;
+			std::cerr << "Invalid input" << '\n';
 		}
-		else if (choice == "back")
-			return -1;
+		catch (std::out_of_range& e)
+		{
+			std::cerr << e.what() << '\n';
+		}
 	}
 }
 
-void DisplayManager::DrawNumber(const std::pair<std::vector<double>,int>& imageData, const int networkPrediction)
+std::string DisplayManager::GetNumberDisplay(const std::pair<std::vector<double>, int>& imageData, const int networkPrediction)
 {
-	for (int i = 0; i < DataConstants::NUM_OF_PIXELS_PER_IMAGE; i++)
+	// Calculate the size of the char array: 784 characters for '*' or ' '
+	// plus 27 newlines.
+	const size_t arraySize = DataConstants::NUM_OF_PIXELS_PER_IMAGE + 27;
+	std::vector<char> output(arraySize);
+
+	try
 	{
-		if (i % 28 == 0)
-			std::cout << "\n";
-		if (imageData.first[i] > 0)
-			std::cout << "*";
-		else
-			std::cout << " ";
+		size_t index = 0;
+		for (int i = 0; i < DataConstants::NUM_OF_PIXELS_PER_IMAGE; i++)
+		{
+			if (i % 28 == 0)
+			{
+				output[index++] = '\n';
+			}
+			if (imageData.first[i] > 0)
+			{
+				output[index++] = '*';
+			}
+			else
+			{
+				output[index++] = ' ';
+			}
+		}
+
+		// Convert the character array to a std::string before returning.
+		std::string displayString = std::string(output.begin(), output.end());
+		displayString += "\nCorrect Answers: " + std::to_string(imageData.second) + '\n';
+		displayString += "Predicted Answer: " + std::to_string(networkPrediction) + "\n";
+		return displayString;
 	}
-	std::cout << "\nCorrect Answers: " + std::to_string(imageData.second) + '\n';
-	std::cout << "Predicted Answer: " + std::to_string(networkPrediction) << "\n";
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		throw;
+	}
 }
 
 std::string DisplayManager::UserInputOnTrainingCompleted()
@@ -99,9 +125,21 @@ std::string DisplayManager::ParseResults(const int currentEpoch, const int maxEp
 
 void DisplayManager::DisplayResults(std::string results)
 {
-	for (const auto& s : epochResults)
-		std::cout << s << '\n';
-	std::cout << results << '\n';
+	std::string output;
+
+	try
+	{
+		for (const auto& s : epochResults)
+			output += s + '\n';
+		output += results + '\n';
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		throw;
+	}
+
+	std::cout << output << '\n';
 }
 
 void DisplayManager::ClearConsole()
@@ -119,110 +157,4 @@ void DisplayManager::ClearConsole()
 	FillConsoleOutputCharacter(hOut, TEXT(' '), length, topLeft, &written);
 	FillConsoleOutputAttribute(hOut, csbi.wAttributes, length, topLeft, &written);
 	SetConsoleCursorPosition(hOut, topLeft);
-}
-
-
-int DisplayManager::GetNumEpochs()
-{
-	int numEpochs = 0;
-	std::string selection;
-	while (true)
-	{
-		std::cout << "Enter [back] to return to menu\n\n";
-		std::cout << "Enter the number of desired epochs\n";
-		std::getline(std::cin, selection);
-
-		try
-		{
-			if (selection == "back")
-				return -1;
-			else if (std::stoi(selection) <= 0)
-			{
-				ClearConsole();
-				std::cout << "Invalid Input\n";
-			}
-			else
-				return stoi(selection);
-		}
-		catch (const std::invalid_argument& e)
-		{
-			ClearConsole();
-			std::cout << "Invalid Input\n";
-		}
-		catch (const std::out_of_range& e)
-		{
-			std::cout << "Input outside of valid range\n";
-		}
-	}
-}
-double DisplayManager::GetLearningRate()
-{
-	ClearConsole();
-	double learningRate = 0.0;
-	std::string selection;
-	while (true)
-	{
-		std::cout << "Enter [back] to return to menu\n\n";
-		std::cout << "Enter a value between 0 - 1 representing the desired learning rate\n";
-
-		try
-		{
-			std::getline(std::cin, selection);
-			if (selection == "back")
-				return -1;
-			else if ((std::stod(selection) <= 0 && (std::stod(selection) > 1)))
-			{
-				ClearConsole();
-				std::cout << "Invalid Input\n";
-			}
-			else
-				return stod(selection);
-		}
-		catch (const std::invalid_argument& e)
-		{
-			ClearConsole();
-			std::cout << "Invalid Input\n";
-		}
-		catch (const std::out_of_range& e)
-		{
-			std::cout << "Input outside of valid range\n";
-		}
-
-	}
-}
-int DisplayManager::GetActivationFunction()
-{
-	ClearConsole();
-	int activationFunction = 0;
-	std::string selection;
-	while (true)
-	{
-		std::cout << "Enter [back] to return to menu\n\n";
-		std::cout << "Enter [1] to use the sigmoid activation function\n";
-		std::cout << "Enter [2] to use the ReLu activation function\n";
-		std::cout << "Enter [3] to use the Leaky ReLu activation function\n";
-
-		try
-		{
-			std::getline(std::cin, selection);
-			if (selection == "back")
-				return -1;
-			else if (std::stoi(selection) <= 0 || (std::stoi(selection) > ActivationFunctionTypes::NUM_ACTIVATION_FUNCTIONS))
-			{
-				ClearConsole();
-				std::cout << "Invalid Input\n";
-			}
-			else
-				return stoi(selection);
-		}
-		catch (const std::invalid_argument& e)
-		{
-			ClearConsole();
-			std::cout << "Invalid Input\n";
-		}
-		catch (const std::out_of_range& e)
-		{
-			std::cout << "Input outside of valid range\n";
-		}
-	}
 }

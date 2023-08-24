@@ -20,15 +20,14 @@ public:
 	void LoadNetwork();
 
 private:
-
 	bool CheckIfValidFilename(const std::string& filename);
+
 	NeuralNetwork neuralNetwork;
 	DataManager dataManager;
 	DisplayManager  displayManager;
 	HyperParameters hyperParameters;
 	int currentEpoch;
 	int currentBatch;
-
 	long double averageAccuracy;
 	long double averageLoss;
 };

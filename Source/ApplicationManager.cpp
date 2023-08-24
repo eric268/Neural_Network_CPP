@@ -1,6 +1,7 @@
 #include "../Include/pch.h"
 #include "../Include/ApplicationManager.h"
 #include "../include/DataConstants.h"
+#include "../Include/Stopwatch.h"
 
 ApplicationManager::ApplicationManager(NeuralNetwork& network, HyperParameters& hyperParameters) :
 	neuralNetwork(network),
@@ -12,8 +13,8 @@ ApplicationManager::ApplicationManager(NeuralNetwork& network, HyperParameters& 
 	averageLoss(0.0),
 	averageAccuracy(0.0)
 {
-	neuralNetwork.learningRate = this->hyperParameters.learningRate;
-	neuralNetwork.batchScale = (1.0f / this->hyperParameters.batchSize);
+	neuralNetwork.SetLearningRate(hyperParameters.GetLearningRate());
+	neuralNetwork.SetBatchScale(1.0f / hyperParameters.GetBatchSize());
 }
 void ApplicationManager::Run()
 {
@@ -38,12 +39,12 @@ void ApplicationManager::Run()
 
 void ApplicationManager::SaveNetwork()
 {
-	std::string saveWeightName;
+	std::string fileName;
 	std::cout << "Enter save filename: ";
-	std::getline(std::cin, saveWeightName);
+	std::getline(std::cin, fileName);
 
-	if (CheckIfValidFilename(saveWeightName))
-		dataManager.SaveWeightsAndBias(neuralNetwork.GetFirstHiddenLayer(), saveWeightName);
+	if (CheckIfValidFilename(fileName))
+		neuralNetwork.SaveWeightsAndBias(fileName);
 	else
 	{
 		DisplayManager::ClearConsole();
@@ -53,12 +54,12 @@ void ApplicationManager::SaveNetwork()
 
 void ApplicationManager::LoadNetwork()
 {
-	std::string loadWeightName;
+	std::string fileName;
 	std::cout << "Enter filename: ";
-	std::getline(std::cin, loadWeightName);
+	std::getline(std::cin, fileName);
 
-	if (std::filesystem::exists("Weights/" + loadWeightName))
-		dataManager.LoadWeightsAndBias(neuralNetwork.GetFirstHiddenLayer(), loadWeightName);
+	if (std::filesystem::exists("Weights/" + fileName))
+		neuralNetwork.LoadWeightsAndBias(fileName);
 	else
 	{
 		DisplayManager::ClearConsole();
@@ -70,16 +71,17 @@ void ApplicationManager::FitModel()
 {
 	currentEpoch = 0;
 	currentBatch = 0;
-	while (currentEpoch < hyperParameters.numEpochs)
+	const int totalNumBatches = DataConstants::NUM_TRAINING_IMAGES / hyperParameters.GetBatchSize();
+	while (currentEpoch < hyperParameters.GetNumEpochs())
 	{
-		RunNetwork(dataManager.trainingData, true);
+		RunNetwork(dataManager.GetTrainingData(), true);
 		currentBatch++;
-		int totalNumBatches = DataConstants::NUM_TRAINING_IMAGES / hyperParameters.batchSize;
+
 		if (currentBatch >= totalNumBatches)
 		{
 			displayManager.SaveResults(
 				currentEpoch,
-				hyperParameters.numEpochs,
+				hyperParameters.GetNumEpochs(),
 				totalNumBatches,
 				totalNumBatches,
 				averageLoss,
@@ -96,45 +98,27 @@ void ApplicationManager::FitModel()
 
 void ApplicationManager::TrainModel()
 {
-	int epochs = displayManager.GetNumEpochs();
-	double learningRate = displayManager.GetLearningRate();
-	int activationFunction = displayManager.GetActivationFunction();
-
-	if (!epochs || !learningRate || activationFunction < 0)
-		return;
-
-	hyperParameters.numEpochs = epochs;
-	neuralNetwork.learningRate = learningRate;
-	neuralNetwork.BindActivationFunctions(activationFunction);
-
-	FitModel();
+	{
+		Stopwatch stopwatch;
+		FitModel();
+	}
 }
 
 void ApplicationManager::TestModel()
 {
 	averageAccuracy = 0.0;
 	averageLoss = 0.0;
-	displayManager.epochResults.clear();
+	displayManager.ClearResults();
 	std::cout << "Testing...\n";
-	RunNetwork(dataManager.testingData, false);
+	RunNetwork(dataManager.GetTestingData(), false);
 }
 
 void ApplicationManager::DisplayPredictions()
 {
-	int ans = displayManager.DrawPredictionsMenu();
-
-	switch (ans)
-	{
-	case -1:
-		return;
-	case 1:
-		displayManager.DrawNetworkPredictions(neuralNetwork, dataManager, true);
-		break;
-	case 2:
-		displayManager.DrawNetworkPredictions(neuralNetwork, dataManager, false);
-		break;
-	}
+	if (displayManager.DrawPredictionsMenu())
+		displayManager.DrawNetworkPredictions(neuralNetwork, dataManager);
 }
+
 void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining)
 {
 	char n = ' ';
@@ -143,7 +127,7 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<doub
 
 	neuralNetwork.ClearResults();
 
-	int totalBatchSize = (isTraining) ? hyperParameters.batchSize : DataConstants::NUM_TESTING_IMAGES;
+	int totalBatchSize = (isTraining) ? hyperParameters.GetBatchSize() : DataConstants::NUM_TESTING_IMAGES;
 
 	while (counter < totalBatchSize)
 	{
@@ -155,8 +139,8 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<doub
 		neuralNetwork.CalculateLayerDeltaCost(correctAns);
 		counter++;
 	}
-	averageLoss =	((averageLoss * (currentBatch) + neuralNetwork.mTotalLoss) / (currentBatch + 1));
-	averageAccuracy = ((averageAccuracy   * (currentBatch) + ((double)rightAnswers / (double)totalBatchSize)) / (currentBatch + 1));
+	averageLoss = ((averageLoss * (currentBatch)+neuralNetwork.GetTotalLoss()) / (currentBatch + 1));
+	averageAccuracy = ((averageAccuracy * (currentBatch)+((double)rightAnswers / (double)totalBatchSize)) / (currentBatch + 1));
 	
 	if (isTraining)
 		neuralNetwork.UpdateResults(totalBatchSize);
@@ -164,9 +148,9 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<doub
 	DisplayManager::ClearConsole();
 	displayManager.DisplayResults(displayManager.ParseResults(
 		currentEpoch,
-		hyperParameters.numEpochs,
+		hyperParameters.GetNumEpochs(),
 		currentBatch,
-		(DataConstants::NUM_TRAINING_IMAGES / hyperParameters.batchSize),
+		(DataConstants::NUM_TRAINING_IMAGES / hyperParameters.GetBatchSize()),
 		averageLoss,
 		averageAccuracy
 	));

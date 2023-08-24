@@ -5,48 +5,48 @@ class LayerResults
 public:
 	LayerResults() = default;
 	LayerResults(int previousLayerSize, int currentLayerSize);
-	LayerResults(std::vector<std::vector<double>> weight, std::vector<double>bias) : mWeightedResults{ weight }, mBiasResults{ bias } {}
-	std::vector<std::vector<double>> mWeightedResults;
-	std::vector<double> mBiasResults;
+	LayerResults(std::vector<std::vector<double>> weight, std::vector<double>bias) : weightedResults{ weight }, biasResults{ bias } {}
+	std::vector<std::vector<double>> weightedResults;
+	std::vector<double> biasResults;
 
 	LayerResults operator+ (LayerResults obj)
 	{
-		for (int i = 0; i < mWeightedResults.size(); i++)
+		for (int i = 0; i < weightedResults.size(); i++)
 		{
-			mBiasResults[i] += obj.mBiasResults[i];
-			for (int j = 0; j < mWeightedResults[0].size(); j++)
+			biasResults[i] += obj.biasResults[i];
+			for (int j = 0; j < weightedResults[0].size(); j++)
 			{
-				mWeightedResults[i][j] += obj.mWeightedResults[i][j];
+				weightedResults[i][j] += obj.weightedResults[i][j];
 			}
 		}
 		
-		return {mWeightedResults, mBiasResults};
+		return {weightedResults, biasResults};
 	}
 
 	LayerResults operator- (LayerResults obj)
 	{
-		for (int i = 0; i < mWeightedResults.size(); i++)
+		for (int i = 0; i < weightedResults.size(); i++)
 		{
-			mBiasResults[i] -= obj.mBiasResults[i];
-			for (int j = 0; j < mWeightedResults[0].size(); j++)
+			biasResults[i] -= obj.biasResults[i];
+			for (int j = 0; j < weightedResults[0].size(); j++)
 			{
-				mWeightedResults[i][j] -= obj.mWeightedResults[i][j];
+				weightedResults[i][j] -= obj.weightedResults[i][j];
 			}
 		}
 
-		return { mWeightedResults, mBiasResults };
+		return { weightedResults, biasResults };
 	}
 
 	LayerResults operator *(double val)
 	{
-		for (int i = 0; i < mWeightedResults.size(); i++)
+		for (int i = 0; i < weightedResults.size(); i++)
 		{
-			mBiasResults[i] *= val;
-			for (int j = 0; j < mWeightedResults[0].size(); j++)
+			biasResults[i] *= val;
+			for (int j = 0; j < weightedResults[0].size(); j++)
 			{
-				mWeightedResults[i][j] *= val;
+				weightedResults[i][j] *= val;
 			}
 		}
-		return {mWeightedResults, mBiasResults};
+		return {weightedResults, biasResults};
 	}
 };
