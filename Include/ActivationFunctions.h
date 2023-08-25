@@ -9,7 +9,7 @@ public:
 		return (1.0 / (1.0 + exp(-x)));
 	}
 
-	// This assumes that Sigmoid(x) has already been executed on input parameter
+	// This assumes that Sigmoid(x) has already been executed on input parameter via forward pass
 	static double D_Sigmoid(const double x)
 	{
 		return (x * (1.0 - x));

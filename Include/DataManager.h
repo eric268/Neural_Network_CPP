@@ -13,8 +13,8 @@ public:
 	void ShuffleTrainingData();
 
 #pragma region Inline Getters & Setters
-	const std::vector<std::pair<std::vector<double>, int>> GetTrainingData() const { return trainingData; }
-	const std::vector<std::pair<std::vector<double>, int>> GetTestingData() const  { return testingData;  }
+	inline const std::vector<std::pair<std::vector<double>, int>> GetTrainingData() const { return trainingData; }
+	inline const std::vector<std::pair<std::vector<double>, int>> GetTestingData() const  { return testingData;  }
 #pragma endregion
 
 private:

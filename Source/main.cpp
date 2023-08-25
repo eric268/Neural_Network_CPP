@@ -9,7 +9,7 @@ int main()
 {
 	std::vector<int> networkLayerSizes = std::vector<int>{ 784, 550, 225, 100, 10 };
 	NeuralNetwork neuralNetwork (networkLayerSizes, ActivationFunctionTypes::ReLu);
-	HyperParameters hyperParameters (64, 1, 0.01);
+	HyperParameters hyperParameters (64, 1, 0.05);
 	ApplicationManager applicationManager (neuralNetwork, hyperParameters);
 	applicationManager.Run();
 	return 0;

@@ -199,7 +199,6 @@ int NeuralNetwork::GetFinalOutput(NetworkLayer* outputLayer)
 	return ans;
 }
 
-
 void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 {
 	//Output layer back prop is different function from other layers so is done separately 
@@ -209,8 +208,10 @@ void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 		CalculateLayerBackwardsPropagation(networkLayers[i].get(), mLayerResults[i - 1].get());
 }
 
+// Calculates the backward propagation for the output layer
 void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* layerResults, int correctAns)
 {
+	// Check for null pointers and throw exceptions if necessary
 	if (!currentLayer || !currentLayer->GetPreviousLayer() || !layerResults)
 	{
 		throw std::invalid_argument("Null argument passed");
@@ -218,37 +219,53 @@ void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer
 
 	try
 	{
+		// The correct label
 		double y = 0.0;
-		double tempTotalLoss = 0.0;
+		// To store the temporary loss for this iteration
+		double tempTotalLoss = 0.0;  
 
+		// Initialize vectors to store various intermediate values
 		std::vector<double> biasResults(currentLayer->GetLayerSize(), 0.0);
+		std::vector<double> tempDeltaError(currentLayer->GetLayerSize(), 0.0);
+		std::vector<double> tempDeltaOutput(currentLayer->GetLayerSize(), 0.0);
 		std::vector<std::vector<double>> weightResults(currentLayer->GetLayerSize(), std::vector<double>(currentLayer->GetPreviousLayer()->GetLayerSize(), 0.0));
 
+		// Loop through each neuron in the output layer
 		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 		{
+			double activation = currentLayer->GetNeurons()[i]->GetActivation();
+
+			// Set the correct label based on the index and correct answer
 			y = (correctAns == i) ? 1.0 : 0.0;
-			const double activation = currentLayer->GetNeurons()[i]->GetActivation();
-			const double deltaError = 2.0 * (activation - y);
-			// Ensure that the activation function matches the derivative 
-			const double deltaOutput = D_ActivationFunction(activation);
+			// To avoid log(0)
+			const double epsilon = 1e-10;
+			// Calculate and accumulate the loss (cross-entropy)
+			tempTotalLoss += -y * log(activation + epsilon) * batchScale;
 
-			tempTotalLoss += 0.5 * ((activation - y) * (activation - y)) * batchScale;
+			// Calculate the derivative of the error for this neuron
+			tempDeltaError[i] = activation - y;
 
-			currentLayer->GetNeurons()[i]->SetDeltaError(deltaError);
-			currentLayer->GetNeurons()[i]->SetDeltaOutput(deltaOutput);
-			biasResults[i] = deltaError * deltaOutput;
+			// Derivative of the output for an output layer that uses Soft Max and Categorical cross loss entropy is the same as the derivative of the error
+			// Store this value so that it can be used when calculating back propagation for the hidden layers
+			tempDeltaOutput[i] = tempDeltaError[i];
+			biasResults[i] = tempDeltaError[i];
 
 			for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
 			{
 				const double prevLayerActivation = currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
-				weightResults[i][j] += (deltaError * deltaOutput * prevLayerActivation) * batchScale;
+				weightResults[i][j] += (tempDeltaError[i] * prevLayerActivation) * batchScale;
 			}
 		}
 
-		// If this point is reached no exceptions are thrown so update the layerResults
+		// Update the layer with the new deltas and biases
+		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
+		{
+			currentLayer->GetNeurons()[i]->SetDeltaError(tempDeltaError[i]);
+			currentLayer->GetNeurons()[i]->SetDeltaOutput(tempDeltaOutput[i]);
+		}
 		layerResults->SetBiasResults(biasResults);
 		layerResults->SetWeightResults(weightResults);
-		totalLoss += tempTotalLoss;
+		totalLoss += tempTotalLoss;  // Update the total loss
 	}
 	catch (const std::exception& e)
 	{
@@ -257,8 +274,10 @@ void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer
 	}
 }
 
+// Calculates the backward propagation for hidden layers
 void NeuralNetwork::CalculateLayerBackwardsPropagation(NetworkLayer* currentLayer, LayerResults* layerResults)
 {
+	// Check for null pointers and throw exceptions if necessary
 	if (!currentLayer || !currentLayer->GetPreviousLayer() || !currentLayer->GetNextLayer() || !layerResults)
 	{
 		throw std::invalid_argument("Null argument passed");
@@ -266,62 +285,69 @@ void NeuralNetwork::CalculateLayerBackwardsPropagation(NetworkLayer* currentLaye
 
 	try
 	{
+		// Initialize vectors to store various intermediate values
 		std::vector<double> biasResults(currentLayer->GetLayerSize(), 0.0);
+		std::vector<double> tempDeltaError(currentLayer->GetLayerSize(), 0.0);
+		std::vector<double> tempDeltaOutput(currentLayer->GetLayerSize(), 0.0);
+
+		// Loop through each neuron in the hidden layer
 		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 		{
+			// Get the activation of the neuron
 			const double activation = currentLayer->GetNeurons()[i]->GetActivation();
-			// Ensure that the activation function matches the derivative 
-			const double deltaOutput = D_ActivationFunction(activation);
-			currentLayer->GetNeurons()[i]->SetDeltaError(0.0);
-			currentLayer->GetNeurons()[i]->SetDeltaOutput(deltaOutput);
 
+			// Compute the derivative of the activation function
+			tempDeltaOutput[i] = D_ActivationFunction(activation);
 
+			// Compute the delta error for this neuron by summing the weighted delta errors from the next layer
 			for (int j = 0; j < currentLayer->GetNextLayer()->GetLayerSize(); j++)
 			{
-				const double deltaError = currentLayer->GetNeurons()[i]->GetDeltaError() +
-					(
-						currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaError() *
-						currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaOutput() *
-						currentLayer->GetNextLayer()->GetWeights()[j][i]
-						);
-
-				currentLayer->GetNeurons()[i]->SetDeltaError(deltaError);
+				tempDeltaError[i] += currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaError() *
+					currentLayer->GetNextLayer()->GetWeights()[j][i];
 			}
 
-			biasResults[i] = currentLayer->GetNeurons()[i]->GetDeltaError() * currentLayer->GetNeurons()[i]->GetDeltaOutput();
+			// Multiply the sum by the derivative of the activation function to get the final delta error for this neuron
+			tempDeltaError[i] *= tempDeltaOutput[i];
+
+			// Update the bias based on the delta error
+			biasResults[i] = tempDeltaError[i];
 		}
 
+		// Compute the weight updates for this layer
 		std::vector<std::vector<double>> weightResults = layerResults->GetWeightResults();
 		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 		{
 			for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
 			{
-				weightResults[i][j] +=
-					(
-						currentLayer->GetNeurons()[i]->GetDeltaError() *
-						currentLayer->GetNeurons()[i]->GetDeltaOutput() *
-						currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation()
-						);
+				weightResults[i][j] += tempDeltaError[i] *
+					currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation() *
+					batchScale;
 			}
 		}
 
+		// Update the layer with the new deltas and biases
+		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
+		{
+			currentLayer->GetNeurons()[i]->SetDeltaError(tempDeltaError[i]);
+			currentLayer->GetNeurons()[i]->SetDeltaOutput(tempDeltaOutput[i]);
+		}
 		layerResults->SetBiasResults(biasResults);
 		layerResults->SetWeightResults(weightResults);
 	}
-	catch (const std::exception&)
+	catch (const std::exception& e)
 	{
-
+		std::cerr << e.what() << '\n';
 	}
-
 }
+
 
 void NeuralNetwork::UpdateResults(int testSize)
 {
 	for (int i = 1; i < networkLayers.size(); i++)
-		networkLayers[i]->UpdateBias(mLayerResults[i - 1].get(), learningRate * batchScale);
+		networkLayers[i]->UpdateBias(mLayerResults[i - 1].get(), learningRate);
 
 	for (int i = networkLayers.size() - 1; i > 0; i--)
-		networkLayers[i]->UpdateWeight(mLayerResults[i - 1].get(), learningRate * batchScale);
+		networkLayers[i]->UpdateWeight(mLayerResults[i - 1].get(), learningRate);
 }
 
 void NeuralNetwork::BindActivationFunctions(ActivationFunctionTypes type)

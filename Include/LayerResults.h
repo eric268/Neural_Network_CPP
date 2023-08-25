@@ -49,11 +49,11 @@ public:
 	}
 	void ClearResults();
 
-	const std::vector<std::vector<double>>& GetWeightResults() const { return weightedResults; }
-	const std::vector<double>& GetBiasResults() const { return biasResults; }
+	inline const std::vector<std::vector<double>>& GetWeightResults() const { return weightedResults; }
+	inline const std::vector<double>& GetBiasResults() const { return biasResults; }
 
-	void SetWeightResults(const std::vector<std::vector<double>>& results) { weightedResults = results; }
-	void SetBiasResults(const std::vector<double>& results) { biasResults = results; }
+	inline void SetWeightResults(const std::vector<std::vector<double>>& results) { weightedResults = results; }
+	inline void SetBiasResults(const std::vector<double>& results) { biasResults = results; }
 private:
 	std::vector<std::vector<double>> weightedResults;
 	std::vector<double> biasResults;

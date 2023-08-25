@@ -14,7 +14,6 @@ ApplicationManager::ApplicationManager(NeuralNetwork& network, HyperParameters& 
 	averageAccuracy(0.0)
 {
 	neuralNetwork.SetLearningRate(hyperParameters.GetLearningRate());
-	neuralNetwork.SetBatchScale(1.0f / hyperParameters.GetBatchSize());
 }
 void ApplicationManager::Run()
 {
@@ -72,6 +71,7 @@ void ApplicationManager::FitModel()
 	currentEpoch = 0;
 	currentBatch = 0;
 	const int totalNumBatches = DataConstants::NUM_TRAINING_IMAGES / hyperParameters.GetBatchSize();
+	neuralNetwork.SetBatchScale(1.0f / hyperParameters.GetBatchSize());
 	while (currentEpoch < hyperParameters.GetNumEpochs())
 	{
 		RunNetwork(dataManager.GetTrainingData(), true);
@@ -108,7 +108,10 @@ void ApplicationManager::TestModel()
 {
 	averageAccuracy = 0.0;
 	averageLoss = 0.0;
+	currentBatch = 0;
+	currentEpoch = 0;
 	displayManager.ClearResults();
+	neuralNetwork.SetBatchScale(1.0f / DataConstants::NUM_TESTING_IMAGES);
 	std::cout << "Testing...\n";
 	RunNetwork(dataManager.GetTestingData(), false);
 }
@@ -121,13 +124,13 @@ void ApplicationManager::DisplayPredictions()
 
 void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining)
 {
-	char n = ' ';
 	int counter = 0;
 	int rightAnswers = 0;
 
 	neuralNetwork.ClearResults();
 
 	int totalBatchSize = (isTraining) ? hyperParameters.GetBatchSize() : DataConstants::NUM_TESTING_IMAGES;
+	int totalBatches   = (isTraining) ? DataConstants::NUM_TRAINING_IMAGES / totalBatchSize : 1;
 
 	while (counter < totalBatchSize)
 	{
@@ -136,21 +139,30 @@ void ApplicationManager::RunNetwork(const std::vector<std::pair<std::vector<doub
 		int networkGuess = neuralNetwork.RunNetwork(imageData[val].first);
 		if (networkGuess == correctAns)
 			rightAnswers++;
-		neuralNetwork.CalculateLayerDeltaCost(correctAns);
+
+		// Eventually can remove this from testing, but will just need a function at the end that calculates the cross entropy loss from the testing functino
+		//if (isTraining)
+		{
+			neuralNetwork.CalculateLayerDeltaCost(correctAns);
+		}
+
 		counter++;
 	}
+
 	averageLoss = ((averageLoss * (currentBatch)+neuralNetwork.GetTotalLoss()) / (currentBatch + 1));
 	averageAccuracy = ((averageAccuracy * (currentBatch)+((double)rightAnswers / (double)totalBatchSize)) / (currentBatch + 1));
 	
 	if (isTraining)
+	{
 		neuralNetwork.UpdateResults(totalBatchSize);
+	}
 
 	DisplayManager::ClearConsole();
 	displayManager.DisplayResults(displayManager.ParseResults(
 		currentEpoch,
 		hyperParameters.GetNumEpochs(),
-		currentBatch,
-		(DataConstants::NUM_TRAINING_IMAGES / hyperParameters.GetBatchSize()),
+		(currentBatch + 1),
+		(totalBatches),
 		averageLoss,
 		averageAccuracy
 	));
