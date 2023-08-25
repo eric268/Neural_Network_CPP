@@ -1,6 +1,7 @@
+#include "../Include/pch.h"
 #include "../Include/FileManager.h"
 
-void FileManager::Write(const char* data, std::streamsize size) 
+void FileManager::Write(const char* data, std::streamsize size)
 {
 	if (!file) {
 		throw std::runtime_error("File stream is in an invalid state");

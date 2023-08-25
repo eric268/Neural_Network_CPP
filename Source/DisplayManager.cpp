@@ -51,7 +51,7 @@ bool DisplayManager::DrawPredictionsMenu()
 				return true;
 			}
 		}
-		catch (std::invalid_argument& e)
+		catch (std::invalid_argument&)
 		{
 			std::cerr << "Invalid input" << '\n';
 		}

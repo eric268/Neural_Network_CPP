@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+
 #include "../Include/NeuralNetwork.h"
 #include "../Include/DataManager.h"
 #include "../Include/DisplayManager.h"

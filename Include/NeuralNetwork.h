@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+
 #include "LayerResults.h"
 
 class NetworkLayer;
@@ -53,7 +53,7 @@ private:
 	ActivationFuncDelegate D_ActivationFunction;
 	ActivationFunctionTypes activationFunctionType;
 
-	void InitalizeNetworkWeights(std::vector<std::vector<double>>& weights, const int inputSize, const int outputSize);
-	void InitalizeBias(std::vector<double>& bias);
+	std::vector<std::vector<double>> InitalizeNetworkWeights(const int inputSize, const int outputSize);
+	std::vector<double> InitalizeBias(const std::size_t layerSize);
 	void ClipGradients(std::vector<std::vector<double>>& weights, double threshold);
 };

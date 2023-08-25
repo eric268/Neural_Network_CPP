@@ -21,8 +21,8 @@ NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, ActivationFunctionTyp
 	for (int i = 1; i < layerSizes.size(); i++)
 	{
 		networkLayers[i] = std::make_shared<NetworkLayer>(layerSizes[i]);
-		networkLayers[i -1]->nextLayer = networkLayers[i];
-		networkLayers[i]->previousLayer = networkLayers[i - 1];
+		networkLayers[i - 1]->SetNextLayer(networkLayers[i]);
+		networkLayers[i]->SetPreviousLayer(networkLayers[i - 1]);
 		mLayerResults[i - 1] = std::make_shared<LayerResults>(layerSizes[i], layerSizes[i - 1]);
 		PopulateNeuronsInLayers(networkLayers[i].get());
 	}
@@ -31,43 +31,27 @@ NeuralNetwork::NeuralNetwork(std::vector<int>& layerSizes, ActivationFunctionTyp
 
 void NeuralNetwork::PopulateNeuronsInLayers(NetworkLayer* currentLayer)
 {
-	if (!currentLayer || !currentLayer->previousLayer)
+	if (!currentLayer || !currentLayer->GetPreviousLayer())
 	{
 		std::cerr << "Invalid layer or previous layer is nullptr.\n";
 		throw std::invalid_argument("Invalid layer provided");
 	}
 
-	const int currentLayerSize = currentLayer->numberOfNeurons;
-	const int prevLayerSize = currentLayer->previousLayer->numberOfNeurons;
+	const size_t outputSize = currentLayer->GetLayerSize();
+	const size_t inputSize = currentLayer->GetPreviousLayer()->GetLayerSize();
 
-	currentLayer->weights = std::vector<std::vector<double>>(currentLayerSize, std::vector<double>(prevLayerSize));
-	InitalizeNetworkWeights(currentLayer->weights, prevLayerSize, currentLayerSize);
-
-	currentLayer->bias = std::vector<double>(currentLayerSize);
-	InitalizeBias(currentLayer->bias);
+	currentLayer->SetWeights(InitalizeNetworkWeights(inputSize, outputSize));
+	currentLayer->SetBias(InitalizeBias(currentLayer->GetLayerSize()));
 }
 
 
 void NeuralNetwork::ClearResults()
 {
 	totalLoss = 0.0;
-	double mTotalLossCopy = totalLoss;
-	auto mLayerResultCopy = mLayerResults;
-
 	try
 	{
-		for (int i = 0; i < mLayerResultCopy.size(); i++)
-		{
-			std::fill(mLayerResultCopy[i]->biasResults.begin(), mLayerResultCopy[i]->biasResults.end(), 0.0);
-
-			for (auto& p : mLayerResultCopy[i]->weightedResults)
-			{
-				std::fill(p.begin(), p.end(), 0.0);
-			}
-		}
-
-		mLayerResults.swap(mLayerResultCopy);
-		totalLoss = mTotalLossCopy;
+		for (int i = 0; i < mLayerResults.size(); i++)
+			mLayerResults[i]->ClearResults();
 	}
 	catch (const std::exception& e)
 	{
@@ -94,9 +78,9 @@ int NeuralNetwork::RunNetwork(std::vector<double> pixelValues)
 
 void NeuralNetwork::SetNetworkInputs(std::vector<double> pixelValues)
 {
-	assert(networkLayers.size() && networkLayers[0]->neurons.size() == pixelValues.size());
-
 	const size_t inputSize = pixelValues.size();
+	assert(networkLayers.size() && networkLayers[0]->GetNeurons().size() == inputSize);
+
 	try
 	{
 		std::vector<double> activation (inputSize, 0.0);
@@ -105,7 +89,7 @@ void NeuralNetwork::SetNetworkInputs(std::vector<double> pixelValues)
 
 		// If this point is reached no exceptions were throw therefore update network layer
 		for (int i =0; i < inputSize; i++)
-			networkLayers[0]->neurons[i]->SetActivation(activation[i]);
+			networkLayers[0]->GetNeurons()[i]->SetActivation(activation[i]);
 	}
 	catch (std::exception& e)
 	{
@@ -116,15 +100,15 @@ void NeuralNetwork::SetNetworkInputs(std::vector<double> pixelValues)
 
 void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
 {
-	if (!currentLayer || !currentLayer->previousLayer) {
+	if (!currentLayer || !currentLayer->GetPreviousLayer()) {
 		std::cerr << "Invalid layer or previous layer is nullptr.\n";
 		throw std::invalid_argument("Invalid layer provided");
 	}
 
 	try
 	{
-		const int currentLayerSize = currentLayer->numberOfNeurons;
-		const int prevLayerSize = currentLayer->previousLayer->numberOfNeurons;
+		const size_t currentLayerSize = currentLayer->GetLayerSize();
+		const size_t prevLayerSize = currentLayer->GetPreviousLayer()->GetLayerSize();
 
 		std::vector<double> newActivations(currentLayerSize, 0.0);
 		for (int i = 0; i < currentLayerSize; i++)
@@ -132,17 +116,17 @@ void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
 			double sumActivation = 0.0;
 			for (int j = 0; j < prevLayerSize; j++)
 			{
-				sumActivation += currentLayer->weights[i][j] * currentLayer->previousLayer->neurons[j]->GetActivation();
+				sumActivation += currentLayer->GetWeights()[i][j] * currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
 			}
 
 			// Add bias and apply activation function
-			newActivations[i] = ActivationFunction(sumActivation + currentLayer->bias[i]);
+			newActivations[i] = ActivationFunction(sumActivation + currentLayer->GetBias()[i]);
 		}
 
 		// If this point is reached no exceptions were throw therefore update network layer
 		for (int i = 0; i < currentLayerSize; i++) 
 		{
-			currentLayer->neurons[i]->SetActivation(newActivations[i]);
+			currentLayer->GetNeurons()[i]->SetActivation(newActivations[i]);
 		}
 	}
 	catch (const std::exception& ex)
@@ -154,7 +138,7 @@ void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
 
 void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
 {
-	if (!outputLayer || !outputLayer->previousLayer) 
+	if (!outputLayer || !outputLayer->GetPreviousLayer()) 
 	{
 		std::cerr << "Invalid layer or previous layer is nullptr.\n";
 		throw std::invalid_argument("Invalid layer provided");
@@ -162,8 +146,8 @@ void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
 
 	try 
 	{
-		const int currentLayerSize = outputLayer->numberOfNeurons;
-		const int prevLayerSize = outputLayer->previousLayer->numberOfNeurons;
+		const size_t currentLayerSize = outputLayer->GetLayerSize();
+		const size_t prevLayerSize = outputLayer->GetPreviousLayer()->GetLayerSize();
 
 		// Local variable to store the new activations temporarily
 		std::vector<double> newActivations(currentLayerSize, 0.0);
@@ -173,11 +157,11 @@ void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
 			double sumActivation = 0.0;
 
 			for (int j = 0; j < prevLayerSize; ++j) {
-				sumActivation += outputLayer->weights[i][j] * outputLayer->previousLayer->neurons[j]->GetActivation();
+				sumActivation += outputLayer->GetWeights()[i][j] * outputLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
 			}
 
 			// Add the bias
-			sumActivation += outputLayer->bias[i];
+			sumActivation += outputLayer->GetBias()[i];
 			newActivations[i] = sumActivation;
 		}
 
@@ -186,7 +170,7 @@ void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
 
 		// If we reached here, all calculations were successful. Update the activations.
 		for (int i = 0; i < currentLayerSize; ++i) {
-			outputLayer->neurons[i]->SetActivation(probabilities[i]);
+			outputLayer->GetNeurons()[i]->SetActivation(probabilities[i]);
 		}
 	}
 	catch (const std::exception& ex) {
@@ -204,11 +188,11 @@ int NeuralNetwork::GetFinalOutput(NetworkLayer* outputLayer)
 
 	double highestActivation = -INFINITY;
 	int i, ans = -1;
-	for (i = 0; i < outputLayer->neurons.size(); i++)
+	for (i = 0; i < outputLayer->GetNeurons().size(); i++)
 	{
-		if (highestActivation < outputLayer->neurons[i]->GetActivation())
+		if (highestActivation < outputLayer->GetNeurons()[i]->GetActivation())
 		{
-			highestActivation = outputLayer->neurons[i]->GetActivation();
+			highestActivation = outputLayer->GetNeurons()[i]->GetActivation();
 			ans = i;
 		}
 	}
@@ -221,86 +205,114 @@ void NeuralNetwork::CalculateLayerDeltaCost(int correctAns)
 	//Output layer back prop is different function from other layers so is done separately 
 	CalculateOutputLayerBackwardsProp(networkLayers[networkLayers.size() - 1].get(), mLayerResults[mLayerResults.size() - 1].get(), correctAns);
 
-	for (int i = static_cast<int>((networkLayers.size() - 2)); i > 0; i--)
+	for (int i = (networkLayers.size() - 2); i > 0; i--)
 		CalculateLayerBackwardsPropagation(networkLayers[i].get(), mLayerResults[i - 1].get());
 }
 
 void NeuralNetwork::CalculateOutputLayerBackwardsProp(NetworkLayer* currentLayer, LayerResults* layerResults, int correctAns)
 {
-	if (!currentLayer || !currentLayer->previousLayer || !layerResults)
+	if (!currentLayer || !currentLayer->GetPreviousLayer() || !layerResults)
 	{
 		throw std::invalid_argument("Null argument passed");
 	}
 
-	double y = 0.0;
-	double tempTotalLoss = 0.0;
-
-	for (int i = 0; i < currentLayer->numberOfNeurons; i++)
+	try
 	{
-		y = (correctAns == i) ? 1.0 : 0.0;
-		const double activation = currentLayer->neurons[i]->GetActivation();
-		const double deltaError = 2.0 * (activation - y);
-		// Ensure that the activation function matches the derivative 
-		const double deltaOutput = D_ActivationFunction(activation);
+		double y = 0.0;
+		double tempTotalLoss = 0.0;
 
-		tempTotalLoss += 0.5 * ((activation - y) * (activation - y)) * batchScale;
+		std::vector<double> biasResults(currentLayer->GetLayerSize(), 0.0);
+		std::vector<std::vector<double>> weightResults(currentLayer->GetLayerSize(), std::vector<double>(currentLayer->GetPreviousLayer()->GetLayerSize(), 0.0));
 
-		currentLayer->neurons[i]->SetDeltaError(deltaError);
-		currentLayer->neurons[i]->SetDeltaOutput(deltaOutput);
-		layerResults->biasResults[i] = deltaError * deltaOutput;
-
-		for (int j = 0; j < currentLayer->previousLayer->numberOfNeurons; j++)
+		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 		{
-			const double prevLayerActivation = currentLayer->previousLayer->neurons[j]->GetActivation();
-			layerResults->weightedResults[i][j] += (deltaError * deltaOutput * prevLayerActivation) * batchScale;
+			y = (correctAns == i) ? 1.0 : 0.0;
+			const double activation = currentLayer->GetNeurons()[i]->GetActivation();
+			const double deltaError = 2.0 * (activation - y);
+			// Ensure that the activation function matches the derivative 
+			const double deltaOutput = D_ActivationFunction(activation);
+
+			tempTotalLoss += 0.5 * ((activation - y) * (activation - y)) * batchScale;
+
+			currentLayer->GetNeurons()[i]->SetDeltaError(deltaError);
+			currentLayer->GetNeurons()[i]->SetDeltaOutput(deltaOutput);
+			biasResults[i] = deltaError * deltaOutput;
+
+			for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
+			{
+				const double prevLayerActivation = currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
+				weightResults[i][j] += (deltaError * deltaOutput * prevLayerActivation) * batchScale;
+			}
 		}
+
+		// If this point is reached no exceptions are thrown so update the layerResults
+		layerResults->SetBiasResults(biasResults);
+		layerResults->SetWeightResults(weightResults);
+		totalLoss += tempTotalLoss;
 	}
-	totalLoss += tempTotalLoss;
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		throw;
+	}
 }
 
 void NeuralNetwork::CalculateLayerBackwardsPropagation(NetworkLayer* currentLayer, LayerResults* layerResults)
 {
-	if (!currentLayer || !currentLayer->previousLayer || !layerResults)
+	if (!currentLayer || !currentLayer->GetPreviousLayer() || !currentLayer->GetNextLayer() || !layerResults)
 	{
 		throw std::invalid_argument("Null argument passed");
 	}
 
-	for (int i = 0; i < currentLayer->numberOfNeurons; i++)
+	try
 	{
-		const double activation = currentLayer->neurons[i]->GetActivation();
-		// Ensure that the activation function matches the derivative 
-		const double deltaOutput = D_ActivationFunction(activation);
-		currentLayer->neurons[i]->SetDeltaError(0.0);
-		currentLayer->neurons[i]->SetDeltaOutput(deltaOutput);
-
-
-		for (int j = 0; j < currentLayer->nextLayer->numberOfNeurons; j++)
+		std::vector<double> biasResults(currentLayer->GetLayerSize(), 0.0);
+		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 		{
-			const double deltaError = currentLayer->neurons[i]->GetDeltaError()	+ 
-				(
-					currentLayer->nextLayer->neurons[j]->GetDeltaError()			* 
-					currentLayer->nextLayer->neurons[j]->GetDeltaOutput()			*
-					currentLayer->nextLayer->weights[j][i]
-				);
+			const double activation = currentLayer->GetNeurons()[i]->GetActivation();
+			// Ensure that the activation function matches the derivative 
+			const double deltaOutput = D_ActivationFunction(activation);
+			currentLayer->GetNeurons()[i]->SetDeltaError(0.0);
+			currentLayer->GetNeurons()[i]->SetDeltaOutput(deltaOutput);
 
-			currentLayer->neurons[i]->SetDeltaError(deltaError);
+
+			for (int j = 0; j < currentLayer->GetNextLayer()->GetLayerSize(); j++)
+			{
+				const double deltaError = currentLayer->GetNeurons()[i]->GetDeltaError() +
+					(
+						currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaError() *
+						currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaOutput() *
+						currentLayer->GetNextLayer()->GetWeights()[j][i]
+						);
+
+				currentLayer->GetNeurons()[i]->SetDeltaError(deltaError);
+			}
+
+			biasResults[i] = currentLayer->GetNeurons()[i]->GetDeltaError() * currentLayer->GetNeurons()[i]->GetDeltaOutput();
 		}
 
-		layerResults->biasResults[i] = currentLayer->neurons[i]->GetDeltaError() * currentLayer->neurons[i]->GetDeltaOutput();
+		std::vector<std::vector<double>> weightResults = layerResults->GetWeightResults();
+		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
+		{
+			for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
+			{
+				weightResults[i][j] +=
+					(
+						currentLayer->GetNeurons()[i]->GetDeltaError() *
+						currentLayer->GetNeurons()[i]->GetDeltaOutput() *
+						currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation()
+						);
+			}
+		}
+
+		layerResults->SetBiasResults(biasResults);
+		layerResults->SetWeightResults(weightResults);
+	}
+	catch (const std::exception&)
+	{
+
 	}
 
-	for (int i = 0; i < currentLayer->numberOfNeurons; i++)
-	{
-		for (int j = 0; j < currentLayer->previousLayer->numberOfNeurons; j++)
-		{
-			layerResults->weightedResults[i][j] += 
-			(
-				currentLayer->neurons[i]->GetDeltaError()					* 
-				currentLayer->neurons[i]->GetDeltaOutput()					* 
-				currentLayer->previousLayer->neurons[j]->GetActivation()
-			);
-		}
-	}
 }
 
 void NeuralNetwork::UpdateResults(int testSize)
@@ -333,8 +345,10 @@ void NeuralNetwork::BindActivationFunctions(ActivationFunctionTypes type)
 	}
 }
 
-void NeuralNetwork::InitalizeNetworkWeights(std::vector<std::vector<double>>& weights, const int inputSize, const int outputSize)
+std::vector<std::vector<double>> NeuralNetwork::InitalizeNetworkWeights(const int inputSize, const int outputSize)
 {
+	std::vector<std::vector<double>> weights(outputSize, std::vector<double>(inputSize));
+
 	for (int i = 0; i < outputSize; i++)
 	{
 		for (int j = 0; j < inputSize; j++)
@@ -353,25 +367,26 @@ void NeuralNetwork::InitalizeNetworkWeights(std::vector<std::vector<double>>& we
 			}
 		}
 	}
+	return weights;
 }
 
-void NeuralNetwork::InitalizeBias(std::vector<double>& bias)
+std::vector<double> NeuralNetwork::InitalizeBias(const std::size_t layerSize)
 {
-	for (int i =0; i < bias.size(); i++)
+	double initalizedValue = 0.0;
+	switch (activationFunctionType)
 	{
-		switch (activationFunctionType)
-		{
-		case ActivationFunctionTypes::Sigmoid:
-			bias[i] = 0.0;
-			break;
-		case ActivationFunctionTypes::ReLu:
-			bias[i] = 0.01;
-			break;
-		case ActivationFunctionTypes::LeakyReLu:
-			bias[i] = 0.0;
-			break;
-		}
+	case ActivationFunctionTypes::Sigmoid:
+		initalizedValue = 0.0;
+		break;
+	case ActivationFunctionTypes::ReLu:
+		initalizedValue = 0.01;
+		break;
+	case ActivationFunctionTypes::LeakyReLu:
+		initalizedValue = 0.0;
+		break;
 	}
+	std::vector<double> bias(layerSize, initalizedValue);
+	return bias;
 }
 
 void NeuralNetwork::ClipGradients(std::vector<std::vector<double>>& weights, double threshold)
@@ -401,7 +416,7 @@ void NeuralNetwork::SaveWeightsAndBias(const std::string& filename) const
 	NetworkLayer* layer = (networkLayers.size() > 1) ? networkLayers[1].get() : nullptr;
 	try
 	{
-		if (!layer || !layer->previousLayer)
+		if (!layer || !layer->GetPreviousLayer())
 		{
 			throw std::runtime_error("Null layer passed to SaveWeightsAndBias");
 		}
@@ -416,19 +431,19 @@ void NeuralNetwork::SaveWeightsAndBias(const std::string& filename) const
 
 	while (layer)
 	{
-		for (int i = 0; i < layer->numberOfNeurons; i++)
+		for (int i = 0; i < layer->GetLayerSize(); i++)
 		{
-			for (int j = 0; j < layer->previousLayer->numberOfNeurons; j++)
+			for (int j = 0; j < layer->GetPreviousLayer()->GetLayerSize(); j++)
 			{
-				file.Write(reinterpret_cast<const char*>(&layer->weights[i][j]), sizeof(double));
+				file.Write(reinterpret_cast<const char*>(&layer->GetWeights()[i][j]), sizeof(double));
 			}
 		}
 
-		for (int i = 0; i < layer->numberOfNeurons; i++)
+		for (int i = 0; i < layer->GetLayerSize(); i++)
 		{
-			file.Write(reinterpret_cast<const char*>(&layer->bias[i]), sizeof(double));
+			file.Write(reinterpret_cast<const char*>(&layer->GetBias()[i]), sizeof(double));
 		}
-		layer = layer->nextLayer.get();
+		layer = layer->GetNextLayer().get();
 	}
 
 	DisplayManager::ClearConsole();
@@ -440,7 +455,7 @@ void NeuralNetwork::LoadWeightsAndBias(const std::string& filename) const
 	NetworkLayer* layer = (networkLayers.size() > 1) ? networkLayers[1].get() : nullptr;
 	try
 	{
-		if (!layer || !layer->previousLayer)
+		if (!layer || !layer->GetPreviousLayer())
 		{
 			throw std::runtime_error("Null layer passed to SaveWeightsAndBias");
 		}
@@ -457,27 +472,27 @@ void NeuralNetwork::LoadWeightsAndBias(const std::string& filename) const
 	// Using temporary variables to maintain strong exception safety
 	while (layerIter)
 	{
-		std::vector<std::vector<double>> tempWeights = layerIter->weights;
-		std::vector<double> tempBias = layerIter->bias;
+		std::vector<std::vector<double>> tempWeights = layerIter->GetWeights();
+		std::vector<double> tempBias = layerIter->GetBias();
 
-		for (int i = 0; i < layerIter->numberOfNeurons; i++)
+		for (int i = 0; i < layerIter->GetLayerSize(); i++)
 		{
-			for (int j = 0; j < layerIter->previousLayer->numberOfNeurons; j++)
+			for (int j = 0; j < layerIter->GetPreviousLayer()->GetLayerSize(); j++)
 			{
 				file.Read(reinterpret_cast<char*>(&tempWeights[i][j]), sizeof(double));
 			}
 		}
 
-		for (int i = 0; i < layerIter->numberOfNeurons; i++)
+		for (int i = 0; i < layerIter->GetLayerSize(); i++)
 		{
 			file.Read(reinterpret_cast<char*>(&tempBias[i]), sizeof(double));
 		}
 
 		// If we reach here, it means no exceptions were thrown.
-		layerIter->weights = std::move(tempWeights);
-		layerIter->bias = std::move(tempBias);
+		layerIter->SetWeights(std::move(tempWeights));
+		layerIter->SetBias(std::move(tempBias));
 
-		layerIter = layerIter->nextLayer.get();
+		layerIter = layerIter->GetNextLayer().get();
 	}
 
 	DisplayManager::ClearConsole();
