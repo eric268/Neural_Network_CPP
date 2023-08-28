@@ -6,6 +6,7 @@
 
 DataManager::DataManager()
 {
+	std::cout << "Loading dataset...\n";
 	trainingData = LoadImageData(DataConstants::trainingImagesPath, DataConstants::trainingLabelsPath, DataConstants::NUM_TRAINING_IMAGES);
 	testingData  = LoadImageData(DataConstants::testImagesPath, DataConstants::testLabelsPath, DataConstants::NUM_TESTING_IMAGES);
 }

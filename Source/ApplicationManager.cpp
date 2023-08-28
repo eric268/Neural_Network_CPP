@@ -10,14 +10,18 @@
 ApplicationManager::ApplicationManager(std::unique_ptr<NeuralNetwork> network, std::unique_ptr<HyperParameters> parameters) :
 	neuralNetwork	(std::move(network)),
 	hyperParameters (std::move(parameters)),
-	dataManager		(std::make_unique<DataManager>()),
 	displayManager	(std::make_unique<DisplayManager>()),
+	dataManager		(std::make_unique<DataManager>()),
 	currentEpoch	(0),
 	currentBatch	(0),
 	averageLoss		(0.0),
 	averageAccuracy	(0.0)
 {
+	if (!neuralNetwork || !hyperParameters || !dataManager || !displayManager)
+		throw std::runtime_error("Error initializing application manager\n");
+
 	neuralNetwork->SetLearningRate(hyperParameters->GetLearningRate());
+	displayManager->ClearConsole();
 }
 
 ApplicationManager::~ApplicationManager() {}
