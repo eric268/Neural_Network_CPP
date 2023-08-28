@@ -9,10 +9,11 @@ public:
 	NetworkLayer();
 	explicit NetworkLayer(std::size_t numOfNeurons);
 	NetworkLayer(std::size_t numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer);
+
 	void UpdateBias(LayerResults* result, const double learningRate);
 	void UpdateWeight(LayerResults* result, const double learningRate);
 
-#pragma region Inline Getters & Setters
+#pragma region Inline Functions
 	inline const std::shared_ptr<NetworkLayer>& GetPreviousLayer() const		{ return previousLayer; }
 	inline const std::shared_ptr<NetworkLayer>& GetNextLayer() const			{ return nextLayer; }
 	inline const size_t GetLayerSize() const									{ return numberOfNeurons; }

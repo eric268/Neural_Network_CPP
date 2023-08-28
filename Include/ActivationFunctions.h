@@ -3,7 +3,6 @@
 class ActivationFunctions
 {
 public:
-
 	static double Sigmoid(const double x)
 	{
 		return (1.0 / (1.0 + exp(-x)));

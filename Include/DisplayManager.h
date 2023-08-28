@@ -8,6 +8,7 @@ class DisplayManager
 public:
 	DisplayManager();
 	~DisplayManager() = default;
+
 	void DisplayMainMenu();
 	bool DrawPredictionsMenu();
 	void DrawNetworkPredictions(NeuralNetwork* network, DataManager* dataManager);

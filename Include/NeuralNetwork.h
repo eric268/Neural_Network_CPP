@@ -11,26 +11,25 @@ class NeuralNetwork
 {
 public:
 	NeuralNetwork() = default;
-	NeuralNetwork(std::vector<int>& layerSizes, ActivationFunctionTypes type);
 	~NeuralNetwork() = default;
+	NeuralNetwork(std::vector<int>& layerSizes, ActivationFunctionTypes type);
 
 	int  RunNetwork(const std::vector<double> pixelValues);
 	void UpdateResults(int testSize);
 	void ClearResults();
 	void StartBackProp(int correctAns);
 	void CalculateLoss(const int correctAns);
-
 	void SaveWeightsAndBias(const std::string& filename) const;
 	void LoadWeightsAndBias(const std::string& filename) const;
 
-#pragma region 	Inline Getters& Setters
-	const long double GetTotalLoss() const			{ return totalLoss; }
-	const double GetLearningRate()   const			{ return learningRate; }
-	const double GetBatchScale()     const			{ return batchScale; }
+#pragma region 	Inline Functions
+	inline const long double GetTotalLoss() const			{ return totalLoss; }
+	inline const double GetLearningRate() const				{ return learningRate; }
+	inline const double GetBatchScale() const				{ return batchScale; }
 	
-	void SetTotalLoss   (const long double loss)	{ totalLoss = loss; }
-	void SetLearningRate(const double rate)			{ learningRate = rate; }
-	void SetBatchScale  (const double scale)		{ batchScale = scale; }
+	inline void SetTotalLoss (const long double loss)		{ totalLoss = loss; }
+	inline void SetLearningRate(const double rate)			{ learningRate = rate; }
+	inline void SetBatchScale (const double scale)			{ batchScale = scale; }
 #pragma endregion
 
 private:

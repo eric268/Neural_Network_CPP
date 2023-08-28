@@ -4,13 +4,13 @@ class HyperParameters
 {
 public:
 	HyperParameters() = default;
-	HyperParameters(int batchSize, int epochs, double learningRate);
 	~HyperParameters() = default;
+	HyperParameters(int batchSize, int epochs, double learningRate);
 
-#pragma region Inline Getters
-	const int GetBatchSize() const			{ return batchSize; }
-	const int GetNumEpochs() const			{ return numEpochs; }
-	const double GetLearningRate() const	{ return learningRate; }
+#pragma region Inline Functions
+	inline const int GetBatchSize() const			{ return batchSize; }
+	inline const int GetNumEpochs() const			{ return numEpochs; }
+	inline const double GetLearningRate() const		{ return learningRate; }
 #pragma endregion
 
 private:

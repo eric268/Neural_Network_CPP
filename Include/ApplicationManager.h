@@ -5,13 +5,13 @@ class DataManager;
 class DisplayManager;
 class HyperParameters;
 
-
 class ApplicationManager
 {
 public:
 	ApplicationManager() = default;
-	ApplicationManager(std::unique_ptr<NeuralNetwork> network, std::unique_ptr<HyperParameters> parameters);
 	~ApplicationManager();
+	ApplicationManager(std::unique_ptr<NeuralNetwork> network, std::unique_ptr<HyperParameters> parameters);
+
 	void Run();
 	std::string GetMenuInput();
 	void StartModelTraining();
