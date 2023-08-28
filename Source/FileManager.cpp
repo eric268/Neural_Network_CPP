@@ -1,6 +1,18 @@
 #include "../Include/pch.h"
 #include "../Include/FileManager.h"
 
+FileManager::FileManager(std::string filePath, std::ios::openmode mode) : 
+	file(std::fstream(filePath, std::ios::binary | mode))
+{
+	if (!file.is_open())
+		throw std::runtime_error("Failed to open file: " + filePath);
+}
+
+FileManager::~FileManager()
+{
+	file.close();
+}
+
 void FileManager::Write(const char* data, std::streamsize size)
 {
 	if (!file) {

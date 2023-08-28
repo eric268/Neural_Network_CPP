@@ -7,23 +7,23 @@ class NetworkLayer
 {
 public:
 	NetworkLayer();
-	explicit NetworkLayer(std::size_t numofNeurons);
+	explicit NetworkLayer(std::size_t numOfNeurons);
 	NetworkLayer(std::size_t numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer);
-	void UpdateBias(LayerResults* result, double learningRate);
-	void UpdateWeight(LayerResults* result, double learningRate);
+	void UpdateBias(LayerResults* result, const double learningRate);
+	void UpdateWeight(LayerResults* result, const double learningRate);
 
 #pragma region Inline Getters & Setters
-	const std::shared_ptr<NetworkLayer>&		 GetPreviousLayer() const { return previousLayer; }
-	const std::shared_ptr<NetworkLayer>&		 GetNextLayer()		const { return nextLayer; }
-	const size_t								 GetLayerSize()		const { return numberOfNeurons; }
-	const std::vector<std::unique_ptr<Neurons>>& GetNeurons()		const { return neurons; }
-	const std::vector<std::vector<double>>&		 GetWeights()		const { return weights; }
-	const std::vector<double>&					 GetBias()			const { return bias; }
+	inline const std::shared_ptr<NetworkLayer>& GetPreviousLayer() const		{ return previousLayer; }
+	inline const std::shared_ptr<NetworkLayer>& GetNextLayer() const			{ return nextLayer; }
+	inline const size_t GetLayerSize() const									{ return numberOfNeurons; }
+	inline const std::vector<std::unique_ptr<Neurons>>& GetNeurons() const		{ return neurons; }
+	inline const std::vector<std::vector<double>>& GetWeights()	const			{ return weights; }
+	inline const std::vector<double>& GetBias()	const							{ return bias; }
 
-	void SetPreviousLayer(const std::shared_ptr<NetworkLayer>& prev)		 { previousLayer = prev; }
-	void SetNextLayer		(const std::shared_ptr<NetworkLayer>& next)		 { nextLayer = next; }
-	void SetWeights			(const std::vector<std::vector<double>>& w)		 { weights = w; }
-	void SetBias			(const std::vector<double>& b)					 { bias = b; }
+	inline void SetPreviousLayer(const std::shared_ptr<NetworkLayer>& prev)		{ previousLayer = prev; }
+	inline void SetNextLayer (const std::shared_ptr<NetworkLayer>& next)		{ nextLayer = next; }
+	inline void SetWeights	(const std::vector<std::vector<double>>& w)			{ weights = w; }
+	inline void SetBias (const std::vector<double>& b)							{ bias = b; }
 #pragma endregion
 
 private:

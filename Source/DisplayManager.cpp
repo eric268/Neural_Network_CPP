@@ -7,12 +7,11 @@
 #include "../Include/Stopwatch.h"
 #include <Windows.h>
 
-DisplayManager::DisplayManager() : numImagesToDisplay(10)
-{
+DisplayManager::DisplayManager() : 
+	numImagesToDisplay(0)
+{}
 
-}
-
-void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager)
+void DisplayManager::DrawNetworkPredictions(NeuralNetwork* network, DataManager* dataManager)
 {
 	ClearConsole();
 
@@ -22,8 +21,8 @@ void DisplayManager::DrawNetworkPredictions(NeuralNetwork& network, DataManager&
 	for (int i = 0; i < numImagesToDisplay; i++)
 	{
 		int rand = distribution(rng);
-		int prediction = network.RunNetwork(dataManager.GetTestingData()[rand].first);
-		std::cout <<GetNumberDisplay(dataManager.GetTestingData()[rand], prediction);
+		int prediction = network->RunNetwork(dataManager->GetTestingData()[rand].first);
+		std::cout << GetNumberDisplay(dataManager->GetTestingData()[rand], prediction);
 	}
 	
 }
@@ -101,7 +100,7 @@ std::string DisplayManager::GetNumberDisplay(const std::pair<std::vector<double>
 	}
 }
 
-std::string DisplayManager::UserInputOnTrainingCompleted()
+void DisplayManager::DisplayMainMenu()
 {
 	std::cout << "---------------------------------------------------------\n";
 	std::cout << "Enter [train] to continue training:\n";
@@ -110,10 +109,6 @@ std::string DisplayManager::UserInputOnTrainingCompleted()
 	std::cout << "Enter [load] to load model:\n";
 	std::cout << "Enter [display] to display predictions:\n";
 	std::cout << "Enter [quit] to exit program\n\n";
-	std::string input;
-	std::getline(std::cin, input);
-	ClearConsole();
-	return input;
 }
 
 std::string DisplayManager::ParseResults(const int currentEpoch, const int maxEpoch, const int currentBatch, const int totalBatches, long double loss, long double accuracy)
@@ -149,12 +144,31 @@ void DisplayManager::ClearConsole()
 	COORD topLeft = { 0, 0 };
 	std::cout.flush();
 
+	// Get the current buffer info
 	if (!GetConsoleScreenBufferInfo(hOut, &csbi)) {
 		abort();
 	}
-	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
+
+	// Set a new buffer size to allow more lines
+	COORD newBufferSize;
+	newBufferSize.X = csbi.dwSize.X;  // Keep the current width
+	newBufferSize.Y = 3000;           // Increase the height
+	if (!SetConsoleScreenBufferSize(hOut, newBufferSize)) {
+		// Handle error
+		std::cerr << "Could not set the new buffer size.";
+		abort();
+	}
+
+	// Only clear the visible window, not the entire buffer
+	DWORD length = csbi.dwSize.X * (csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
 	DWORD written;
+
+	// Clear characters
 	FillConsoleOutputCharacter(hOut, TEXT(' '), length, topLeft, &written);
+
+	// Clear attributes
 	FillConsoleOutputAttribute(hOut, csbi.wAttributes, length, topLeft, &written);
+
+	// Reset the cursor position
 	SetConsoleCursorPosition(hOut, topLeft);
 }

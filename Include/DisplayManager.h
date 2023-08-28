@@ -7,9 +7,10 @@ class DisplayManager
 {
 public:
 	DisplayManager();
-	std::string UserInputOnTrainingCompleted();
+	~DisplayManager() = default;
+	void DisplayMainMenu();
 	bool DrawPredictionsMenu();
-	void DrawNetworkPredictions(NeuralNetwork& network, DataManager& dataManager);
+	void DrawNetworkPredictions(NeuralNetwork* network, DataManager* dataManager);
 	std::string GetNumberDisplay(const std::pair<std::vector<double>, int>& imageData, const int networkPrediction);
 	void DisplayResults(std::string results);
 	std::string ParseResults(const int currentEpoch, const int maxEpoch,const int currentBatch, const int totalBatches, const long double loss, const long double accuracy);

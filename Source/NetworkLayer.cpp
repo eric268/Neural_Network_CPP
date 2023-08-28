@@ -3,9 +3,16 @@
 #include "../Include/Neurons.h"
 #include "../Include/LayerResults.h"
 
-NetworkLayer::NetworkLayer() : numberOfNeurons{0}, previousLayer{nullptr}, nextLayer{nullptr} {}
+NetworkLayer::NetworkLayer() : 
+	numberOfNeurons{0}, 
+	previousLayer{nullptr}, 
+	nextLayer{nullptr} 
+{}
 
-NetworkLayer::NetworkLayer(std::size_t numofNeurons) : numberOfNeurons{ numofNeurons }, nextLayer{nullptr}, previousLayer{nullptr}
+NetworkLayer::NetworkLayer(std::size_t numOfNeurons) : 
+	numberOfNeurons{ numOfNeurons }, 
+	nextLayer{nullptr}, 
+	previousLayer{nullptr}
 {
 	neurons = std::vector<std::unique_ptr<Neurons>>(numberOfNeurons);
 	for (int i = 0; i < numberOfNeurons; i++)
@@ -14,7 +21,10 @@ NetworkLayer::NetworkLayer(std::size_t numofNeurons) : numberOfNeurons{ numofNeu
 	}
 }
 
-NetworkLayer::NetworkLayer(std::size_t numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer) : numberOfNeurons{ numOfNeurons }, previousLayer{ prevLayer }, nextLayer{ nextLayer }
+NetworkLayer::NetworkLayer(std::size_t numOfNeurons, NetworkLayer* prevLayer, NetworkLayer* nextLayer) : 
+	numberOfNeurons{ numOfNeurons }, 
+	previousLayer{ prevLayer }, 
+	nextLayer{ nextLayer }
 {
 	neurons = std::vector<std::unique_ptr<Neurons>>(numberOfNeurons);
 	for (int i = 0; i < numberOfNeurons; i++)
@@ -23,10 +33,13 @@ NetworkLayer::NetworkLayer(std::size_t numOfNeurons, NetworkLayer* prevLayer, Ne
 	}
 }
 
-void NetworkLayer::UpdateBias(LayerResults* result, double learningRate)
+void NetworkLayer::UpdateBias(LayerResults* result, const double learningRate)
 {
 	if (!result || result->GetBiasResults().size() != bias.size())
 		throw std::invalid_argument("Invalid layer result, or invalid size\n");
+
+	// Need to also include batchScale to ensure that results are normalized based upon size of batches
+	//const double val = learningRate * batchScale;
 
 	for (int i = 0; i < result->GetBiasResults().size(); i++)
 	{
@@ -34,14 +47,16 @@ void NetworkLayer::UpdateBias(LayerResults* result, double learningRate)
 	}
 }
 
-void NetworkLayer::UpdateWeight(LayerResults* result, double learningRate)
+void NetworkLayer::UpdateWeight(LayerResults* result, const double learningRate)
 {
 	if (!result													|| 
 		!weights.size()											||
 		result->GetWeightResults().size() != weights.size()		|| 
-		result->GetWeightResults()[0].size() != weights[0].size()
-		)
+		result->GetWeightResults()[0].size() != weights[0].size())
 		throw std::invalid_argument("Invalid layer result, or invalid size\n");
+
+	// Need to also include batchScale to ensure that results are normalized based upon size of batches
+	//const double val = learningRate * batchScale;
 
 	for (int i = 0; i < weights.size(); i++)
 	{

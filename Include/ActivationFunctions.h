@@ -10,7 +10,7 @@ public:
 	}
 
 	// This assumes that Sigmoid(x) has already been executed on input parameter via forward pass
-	static double D_Sigmoid(const double x)
+	static double Sigmoid_Derivative(const double x)
 	{
 		return (x * (1.0 - x));
 	}
@@ -20,7 +20,7 @@ public:
 		return std::max(0.0, x);
 	}
 
-	static double D_ReLU(const double x)
+	static double ReLU_Derivative(const double x)
 	{
 		return (x <= 0.0) ? 0.0 : 1.0;
 	}
@@ -31,25 +31,28 @@ public:
 		return (x > 0) ? x : (alpha * x);
 	}
 
-	static double D_Leaky_ReLU(double x)
+	static double LeakyReLU_Derivative(double x)
 	{
 		const double alpha = 0.001;
 		return (x >= 0) ? 1.0 : alpha;
 	}
 
-	static std::vector<double> softmax(const std::vector<double>& logits) 
+	static std::vector<double> Softmax(const std::vector<double>& logits) 
 	{
-		std::vector<double> probabilities;
+		const size_t size = logits.size();
+		std::vector<double> probabilities(size);
 		const double maxLogit = *std::max_element(logits.begin(), logits.end());
 		double sumExp = 0.0;
 
-		for (double logit : logits) {
-			double expLogit = std::exp(logit - maxLogit);
-			probabilities.push_back(expLogit);
+		for (int i = 0; i < size; i++) 
+		{
+			double expLogit = std::exp(logits[i] - maxLogit);
+			probabilities[i] = expLogit;
 			sumExp += expLogit;
 		}
 
-		for (double& prob : probabilities) {
+		for (double& prob : probabilities) 
+		{
 			prob /= sumExp;
 		}
 

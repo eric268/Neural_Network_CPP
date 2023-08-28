@@ -6,15 +6,15 @@ class DataManager
 {
 public:
 	DataManager();
-	~DataManager();
+	~DataManager() = default;
 
-	int ReverseInt(int i);
 	const std::vector<std::pair<std::vector<double>, int>> LoadImageData(std::string path, std::string labelsPath, int numberOfImages);
+	int ReverseInt(int i);
 	void ShuffleTrainingData();
 
-#pragma region Inline Getters & Setters
-	inline const std::vector<std::pair<std::vector<double>, int>> GetTrainingData() const { return trainingData; }
-	inline const std::vector<std::pair<std::vector<double>, int>> GetTestingData() const  { return testingData;  }
+#pragma region Inline Functions
+	inline const std::vector<std::pair<std::vector<double>, int>> GetTrainingData() const	{ return trainingData; }
+	inline const std::vector<std::pair<std::vector<double>, int>> GetTestingData() const	{ return testingData;  }
 #pragma endregion
 
 private:

@@ -1,31 +1,35 @@
 #pragma once
 
-#include "../Include/NeuralNetwork.h"
-#include "../Include/DataManager.h"
-#include "../Include/DisplayManager.h"
-#include "../Include/HyperParameters.h"
+class NeuralNetwork;
+class DataManager;
+class DisplayManager;
+class HyperParameters;
 
 
 class ApplicationManager
 {
 public:
-	ApplicationManager(NeuralNetwork& network, HyperParameters& hyperParameters);
+	ApplicationManager() = default;
+	ApplicationManager(std::unique_ptr<NeuralNetwork> network, std::unique_ptr<HyperParameters> parameters);
+	~ApplicationManager();
 	void Run();
-	void SaveNetwork();
-	void TrainModel();
-	void FitModel();
-	void TestModel();
+	std::string GetMenuInput();
+	void StartModelTraining();
+	void StartModelTest();
+	void TrainNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData);
+	void TestNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData);
 	void DisplayPredictions();
-	void RunNetwork(const std::vector<std::pair<std::vector<double>, int>>& imageData, bool isTraining);
 	void LoadNetwork();
+	void SaveNetwork();
 
 private:
 	bool CheckIfValidFilename(const std::string& filename);
 
-	NeuralNetwork neuralNetwork;
-	DataManager dataManager;
-	DisplayManager  displayManager;
-	HyperParameters hyperParameters;
+	std::unique_ptr <NeuralNetwork> neuralNetwork;
+	std::unique_ptr <DataManager> dataManager;
+	std::unique_ptr <DisplayManager>  displayManager;
+	std::unique_ptr <HyperParameters> hyperParameters;
+
 	int currentEpoch;
 	int currentBatch;
 	long double averageAccuracy;

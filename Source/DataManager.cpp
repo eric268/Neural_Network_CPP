@@ -2,27 +2,12 @@
 #include "../Include/DataManager.h"
 #include "../Include/DataConstants.h"
 #include "../Include/DisplayManager.h"
+#include "../Include/FileManager.h"
 
 DataManager::DataManager()
 {
 	trainingData = LoadImageData(DataConstants::trainingImagesPath, DataConstants::trainingLabelsPath, DataConstants::NUM_TRAINING_IMAGES);
-	testingData = LoadImageData(DataConstants::testImagesPath, DataConstants::testLabelsPath, DataConstants::NUM_TESTING_IMAGES);
-}
-
-DataManager::~DataManager()
-{
-
-}
-
-int DataManager::ReverseInt(int i)
-{
-	unsigned char c1, c2, c3, c4;
-	c1 = i & 255;
-	c2 = (i >> 8) & 255;
-	c3 = (i >> 16) & 255;
-	c4 = (i >> 24) & 255;
-
-	return ((int)c1 << 24) + ((int)c2 << 16) + ((int)c3 << 8) + c4;
+	testingData  = LoadImageData(DataConstants::testImagesPath, DataConstants::testLabelsPath, DataConstants::NUM_TESTING_IMAGES);
 }
 
 const std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageData(std::string path, std::string labelsPath, int totalImages)
@@ -36,6 +21,7 @@ const std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageDat
 	std::vector<int> labelData(totalImages, -1);
 
 	//Image Reader
+
 	std::ifstream file(path, std::ios::binary);
 	if (file.is_open())
 	{
@@ -61,6 +47,8 @@ const std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageDat
 			}
 		}
 	}
+	file.close();
+
 	//Label Reader
 	std::ifstream file2(labelsPath, std::ios::binary);
 	if (file2.is_open())
@@ -77,12 +65,24 @@ const std::vector<std::pair<std::vector<double>, int>> DataManager::LoadImageDat
 			labelData[i] = (int)v;
 		}
 	}
+	file2.close();
 
 	std::vector<std::pair<std::vector<double>, int>> result(totalImages);
 	for (int i = 0; i < totalImages; i++)
 		result[i] = std::make_pair(imageData[i], labelData[i]);
 
 	return result;
+}
+
+int DataManager::ReverseInt(int i)
+{
+	unsigned char c1, c2, c3, c4;
+	c1 = i & 255;
+	c2 = (i >> 8) & 255;
+	c3 = (i >> 16) & 255;
+	c4 = (i >> 24) & 255;
+
+	return ((int)c1 << 24) + ((int)c2 << 16) + ((int)c3 << 8) + c4;
 }
 
 void DataManager::ShuffleTrainingData()

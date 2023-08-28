@@ -3,7 +3,7 @@
 enum ActivationFunctionTypes
 {
 	Sigmoid,
-	ReLu,
-	LeakyReLu,
+	ReLU,
+	LeakyReLU,
 	NUM_ACTIVATION_FUNCTIONS
 };

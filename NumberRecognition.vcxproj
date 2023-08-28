@@ -35,6 +35,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../Include/pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Source\StopWatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\ActivationFuncTypes.h" />
