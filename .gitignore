@@ -28,9 +28,8 @@
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 
-*vs/
-*x64/
+vs/
+x64/

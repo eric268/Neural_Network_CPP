@@ -103,11 +103,11 @@ std::string DisplayManager::GetNumberDisplay(const std::pair<std::vector<double>
 void DisplayManager::DisplayMainMenu()
 {
 	std::cout << "---------------------------------------------------------\n";
-	std::cout << "Enter [train] to continue training:\n";
-	std::cout << "Enter [test] to run test images:\n";
-	std::cout << "Enter [save] to save model:\n";
-	std::cout << "Enter [load] to load model:\n";
-	std::cout << "Enter [display] to display predictions:\n";
+	std::cout << "Enter [train] to continue training\n";
+	std::cout << "Enter [test] to run test images\n";
+	std::cout << "Enter [save] to save model\n";
+	std::cout << "Enter [load] to load model\n";
+	std::cout << "Enter [display] to display predictions\n";
 	std::cout << "Enter [quit] to exit program\n\n";
 }
 
