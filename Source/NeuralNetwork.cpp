@@ -235,21 +235,13 @@ void NeuralNetwork::SetNetworkInputs(std::vector<double> pixelValues)
 	const size_t inputSize = pixelValues.size();
 	assert(networkLayers.size() && networkLayers[0]->GetNeurons().size() == inputSize);
 
-	try
-	{
-		std::vector<double> activation (inputSize, 0.0);
-		for (int i = 0; i < inputSize; i++)
-			activation[i] = pixelValues[i] / 255.0;
+	std::vector<double> activation(inputSize, 0.0);
+	for (int i = 0; i < inputSize; i++)
+		activation[i] = pixelValues[i] / 255.0;
 
-		// If this point is reached no exceptions were throw therefore update network layer
-		for (int i =0; i < inputSize; i++)
-			networkLayers[0]->GetNeurons()[i]->SetActivation(activation[i]);
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-		throw;
-	}
+	// If this point is reached no exceptions were throw therefore update network layer
+	for (int i = 0; i < inputSize; i++)
+		networkLayers[0]->GetNeurons()[i]->SetActivation(activation[i]);
 }
 
 void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
@@ -257,35 +249,29 @@ void NeuralNetwork::SetHiddenLayersActivation(NetworkLayer* currentLayer)
 	if (!currentLayer || !currentLayer->GetPreviousLayer()) 
 		throw std::invalid_argument("Invalid layer provided");
 
-	try
+
+	const size_t currentLayerSize = currentLayer->GetLayerSize();
+	const size_t prevLayerSize = currentLayer->GetPreviousLayer()->GetLayerSize();
+
+	std::vector<double> newActivations(currentLayerSize, 0.0);
+	for (int i = 0; i < currentLayerSize; i++)
 	{
-		const size_t currentLayerSize = currentLayer->GetLayerSize();
-		const size_t prevLayerSize = currentLayer->GetPreviousLayer()->GetLayerSize();
-
-		std::vector<double> newActivations(currentLayerSize, 0.0);
-		for (int i = 0; i < currentLayerSize; i++)
+		double sumActivation = 0.0;
+		for (int j = 0; j < prevLayerSize; j++)
 		{
-			double sumActivation = 0.0;
-			for (int j = 0; j < prevLayerSize; j++)
-			{
-				sumActivation += currentLayer->GetWeights()[i][j] * currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
-			}
-
-			// Add bias and apply activation function
-			newActivations[i] = ActivationFunction(sumActivation + currentLayer->GetBias()[i]);
+			sumActivation += currentLayer->GetWeights()[i][j] * currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
 		}
 
-		// If this point is reached no exceptions were throw therefore update network layer
-		for (int i = 0; i < currentLayerSize; i++) 
-		{
-			currentLayer->GetNeurons()[i]->SetActivation(newActivations[i]);
-		}
+		// Add bias and apply activation function
+		newActivations[i] = ActivationFunction(sumActivation + currentLayer->GetBias()[i]);
 	}
-	catch (const std::exception& ex)
+
+	// If this point is reached no exceptions were throw therefore update network layer
+	for (int i = 0; i < currentLayerSize; i++) 
 	{
-		std::cerr << ex.what();
-		throw;
+		currentLayer->GetNeurons()[i]->SetActivation(newActivations[i]);
 	}
+	
 }
 
 void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
@@ -293,42 +279,35 @@ void NeuralNetwork::SetOutputLayerActivation(NetworkLayer* outputLayer)
 	if (!outputLayer || !outputLayer->GetPreviousLayer()) 
 		throw std::invalid_argument("Invalid layer provided");
 
-	try 
+
+	const size_t currentLayerSize = outputLayer->GetLayerSize();
+	const size_t prevLayerSize = outputLayer->GetPreviousLayer()->GetLayerSize();
+
+	// Local variable to store the new activations temporarily
+	std::vector<double> newActivations(currentLayerSize, 0.0);
+
+	// Calculate activations for the current layer
+	for (int i = 0; i < currentLayerSize; i++) 
 	{
-		const size_t currentLayerSize = outputLayer->GetLayerSize();
-		const size_t prevLayerSize = outputLayer->GetPreviousLayer()->GetLayerSize();
+		double sumActivation = 0.0;
 
-		// Local variable to store the new activations temporarily
-		std::vector<double> newActivations(currentLayerSize, 0.0);
-
-		// Calculate activations for the current layer
-		for (int i = 0; i < currentLayerSize; i++) 
+		for (int j = 0; j < prevLayerSize; j++) 
 		{
-			double sumActivation = 0.0;
-
-			for (int j = 0; j < prevLayerSize; j++) 
-			{
-				sumActivation += outputLayer->GetWeights()[i][j] * outputLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
-			}
-
-			// Add the bias
-			sumActivation += outputLayer->GetBias()[i];
-			newActivations[i] = sumActivation;
+			sumActivation += outputLayer->GetWeights()[i][j] * outputLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
 		}
 
-		// Calculate softmax probabilities
-		std::vector<double> probabilities = ActivationFunctions::Softmax(newActivations);
-
-		// If we reached here, all calculations were successful. Update the activations.
-		for (int i = 0; i < currentLayerSize; i++) 
-		{
-			outputLayer->GetNeurons()[i]->SetActivation(probabilities[i]);
-		}
+		// Add the bias
+		sumActivation += outputLayer->GetBias()[i];
+		newActivations[i] = sumActivation;
 	}
-	catch (const std::exception& e) 
+
+	// Calculate softmax probabilities
+	std::vector<double> probabilities = ActivationFunctions::Softmax(newActivations);
+
+	// If we reached here, all calculations were successful. Update the activations.
+	for (int i = 0; i < currentLayerSize; i++) 
 	{
-		std::cerr << "An error occurred: " << e.what() << '\n';
-		throw;
+		outputLayer->GetNeurons()[i]->SetActivation(probabilities[i]);
 	}
 }
 
@@ -357,59 +336,52 @@ void NeuralNetwork::CalculateOutputLayerBackProp(NetworkLayer* currentLayer, Lay
 	if (!currentLayer || !currentLayer->GetPreviousLayer() || !layerResults)
 		throw std::invalid_argument("Null argument passed");
 
-	try
-	{
 		// To store the temporary loss for this iteration
-		double tempTotalLoss = 0.0;  
+	double tempTotalLoss = 0.0;  
 
-		// Initialize vectors to store various intermediate values
-		std::vector<double> tempDeltaError(currentLayer->GetLayerSize(), 0.0);
-		std::vector<double> tempDeltaOutput(currentLayer->GetLayerSize(), 0.0);
-		std::vector<double> biasResults(layerResults->GetBiasResults());
-		std::vector<std::vector<double>> weightResults(layerResults->GetWeightResults());
+	// Initialize vectors to store various intermediate values
+	std::vector<double> tempDeltaError(currentLayer->GetLayerSize(), 0.0);
+	std::vector<double> tempDeltaOutput(currentLayer->GetLayerSize(), 0.0);
+	std::vector<double> biasResults(layerResults->GetBiasResults());
+	std::vector<std::vector<double>> weightResults(layerResults->GetWeightResults());
 
-		// Loop through each neuron in the output layer
-		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
-		{
-			double activation = currentLayer->GetNeurons()[i]->GetActivation();
-
-			// Set the correct label based on the index and correct answer
- 			double y = (correctAns == i) ? 1.0 : 0.0;
- 			// To avoid log(0)
- 			const double epsilon = 1e-10;
- 			// Calculate and accumulate the loss (cross-entropy)
- 			tempTotalLoss += GetOutputLoss(i, correctAns, activation);
-
-			// Calculate the derivative of the error for this neuron
-			tempDeltaError[i] = activation - y;
-
-			// Derivative of the output for an output layer that uses Soft Max and Categorical cross loss entropy is the same as the derivative of the error
-			// Store this value so that it can be used when calculating back propagation for the hidden layers
-			tempDeltaOutput[i] = tempDeltaError[i];
-			biasResults[i] = tempDeltaError[i];
-
-			for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
-			{
-				const double prevLayerActivation = currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
-				weightResults[i][j] += (tempDeltaError[i] * prevLayerActivation);
-			}
-		}
-
-		// Update the layer with the new deltas and biases
-		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
-		{
-			currentLayer->GetNeurons()[i]->SetDeltaError(tempDeltaError[i]);
-			currentLayer->GetNeurons()[i]->SetDeltaOutput(tempDeltaOutput[i]);
-		}
-		layerResults->SetBiasResults(biasResults);
-		layerResults->SetWeightResults(weightResults);
-		totalLoss += tempTotalLoss;  // Update the total loss
-	}
-	catch (const std::exception& e)
+	// Loop through each neuron in the output layer
+	for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 	{
-		std::cerr << e.what() << '\n';
-		throw;
+		double activation = currentLayer->GetNeurons()[i]->GetActivation();
+
+		// Set the correct label based on the index and correct answer
+ 		double y = (correctAns == i) ? 1.0 : 0.0;
+ 		// To avoid log(0)
+ 		const double epsilon = 1e-10;
+ 		// Calculate and accumulate the loss (cross-entropy)
+ 		tempTotalLoss += GetOutputLoss(i, correctAns, activation);
+
+		// Calculate the derivative of the error for this neuron
+		tempDeltaError[i] = activation - y;
+
+		// Derivative of the output for an output layer that uses Soft Max and Categorical cross loss entropy is the same as the derivative of the error
+		// Store this value so that it can be used when calculating back propagation for the hidden layers
+		tempDeltaOutput[i] = tempDeltaError[i];
+		biasResults[i] = tempDeltaError[i];
+
+		for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
+		{
+			const double prevLayerActivation = currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
+			weightResults[i][j] += (tempDeltaError[i] * prevLayerActivation);
+		}
 	}
+
+	// Update the layer with the new deltas and biases
+	for (int i = 0; i < currentLayer->GetLayerSize(); i++)
+	{
+		currentLayer->GetNeurons()[i]->SetDeltaError(tempDeltaError[i]);
+		currentLayer->GetNeurons()[i]->SetDeltaOutput(tempDeltaOutput[i]);
+	}
+	layerResults->SetBiasResults(biasResults);
+	layerResults->SetWeightResults(weightResults);
+	totalLoss += tempTotalLoss;  // Update the total loss
+	
 }
 
 // Calculates the backward propagation for hidden layers
@@ -419,60 +391,53 @@ void NeuralNetwork::CalculateHiddenLayerBackProp(NetworkLayer* currentLayer, Lay
 	if (!currentLayer || !currentLayer->GetPreviousLayer() || !currentLayer->GetNextLayer() || !layerResults)
 		throw std::invalid_argument("Null argument passed");
 
-	try
+	// Initialize vectors to store various intermediate values
+	std::vector<double> tempDeltaError(currentLayer->GetLayerSize(), 0.0);
+	std::vector<double> tempDeltaOutput(currentLayer->GetLayerSize(), 0.0);
+
+	std::vector<double> biasResults(layerResults->GetBiasResults());
+	// Loop through each neuron in the hidden layer
+	for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 	{
-		// Initialize vectors to store various intermediate values
-		std::vector<double> tempDeltaError(currentLayer->GetLayerSize(), 0.0);
-		std::vector<double> tempDeltaOutput(currentLayer->GetLayerSize(), 0.0);
+		// Get the activation of the neuron
+		const double activation = currentLayer->GetNeurons()[i]->GetActivation();
 
-		std::vector<double> biasResults(layerResults->GetBiasResults());
-		// Loop through each neuron in the hidden layer
-		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
+		// Compute the derivative of the activation function
+		tempDeltaOutput[i] = D_ActivationFunction(activation);
+
+		// Compute the delta error for this neuron by summing the weighted delta errors from the next layer
+		for (int j = 0; j < currentLayer->GetNextLayer()->GetLayerSize(); j++)
 		{
-			// Get the activation of the neuron
-			const double activation = currentLayer->GetNeurons()[i]->GetActivation();
-
-			// Compute the derivative of the activation function
-			tempDeltaOutput[i] = D_ActivationFunction(activation);
-
-			// Compute the delta error for this neuron by summing the weighted delta errors from the next layer
-			for (int j = 0; j < currentLayer->GetNextLayer()->GetLayerSize(); j++)
-			{
-				tempDeltaError[i] += currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaError() *
-					currentLayer->GetNextLayer()->GetWeights()[j][i];
-			}
-
-			// Multiply the sum by the derivative of the activation function to get the final delta error for this neuron
-			tempDeltaError[i] *= tempDeltaOutput[i];
-
-			// Update the bias based on the delta error
-			biasResults[i] = tempDeltaError[i];
+			tempDeltaError[i] += currentLayer->GetNextLayer()->GetNeurons()[j]->GetDeltaError() *
+				currentLayer->GetNextLayer()->GetWeights()[j][i];
 		}
 
-		// Compute the weight updates for this layer
-		std::vector<std::vector<double>> weightResults = layerResults->GetWeightResults();
-		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
-		{
-			for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
-			{
-				weightResults[i][j] += tempDeltaError[i] *
-					currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
-			}
-		}
+		// Multiply the sum by the derivative of the activation function to get the final delta error for this neuron
+		tempDeltaError[i] *= tempDeltaOutput[i];
 
-		// Update the layer with the new deltas and biases
-		for (int i = 0; i < currentLayer->GetLayerSize(); i++)
-		{
-			currentLayer->GetNeurons()[i]->SetDeltaError(tempDeltaError[i]);
-			currentLayer->GetNeurons()[i]->SetDeltaOutput(tempDeltaOutput[i]);
-		}
-		layerResults->SetBiasResults(biasResults);
-		layerResults->SetWeightResults(weightResults);
+		// Update the bias based on the delta error
+		biasResults[i] = tempDeltaError[i];
 	}
-	catch (const std::exception& e)
+
+	// Compute the weight updates for this layer
+	std::vector<std::vector<double>> weightResults = layerResults->GetWeightResults();
+	for (int i = 0; i < currentLayer->GetLayerSize(); i++)
 	{
-		std::cerr << e.what() << '\n';
+		for (int j = 0; j < currentLayer->GetPreviousLayer()->GetLayerSize(); j++)
+		{
+			weightResults[i][j] += tempDeltaError[i] *
+				currentLayer->GetPreviousLayer()->GetNeurons()[j]->GetActivation();
+		}
 	}
+
+	// Update the layer with the new deltas and biases
+	for (int i = 0; i < currentLayer->GetLayerSize(); i++)
+	{
+		currentLayer->GetNeurons()[i]->SetDeltaError(tempDeltaError[i]);
+		currentLayer->GetNeurons()[i]->SetDeltaOutput(tempDeltaOutput[i]);
+	}
+	layerResults->SetBiasResults(biasResults);
+	layerResults->SetWeightResults(weightResults);
 }
 
 double NeuralNetwork::GetOutputLoss(const int layerIndex, const int correctAns, const double outputActivation)

@@ -39,24 +39,13 @@ bool DisplayManager::DrawPredictionsMenu()
 		if (input == "back")
 			return false;
 
-		try
+		int num = std::stoi(input);
+		if (num >= DataConstants::NUM_TESTING_IMAGES)
+			throw std::out_of_range("Amount selected greater than total number of images. Ensure the input is less than 10,000\n");
+		else
 		{
-			int num = std::stoi(input);
-			if (num >= DataConstants::NUM_TESTING_IMAGES)
-				throw std::out_of_range("Amount selected greater than total number of images. Ensure the input is less than 10,000\n");
-			else
-			{
-				numImagesToDisplay = num;
-				return true;
-			}
-		}
-		catch (std::invalid_argument&)
-		{
-			std::cerr << "Invalid input" << '\n';
-		}
-		catch (std::out_of_range& e)
-		{
-			std::cerr << e.what() << '\n';
+			numImagesToDisplay = num;
+			return true;
 		}
 	}
 }
@@ -68,36 +57,29 @@ std::string DisplayManager::GetNumberDisplay(const std::pair<std::vector<double>
 	const size_t arraySize = DataConstants::NUM_OF_PIXELS_PER_IMAGE + 27;
 	std::vector<char> output(arraySize);
 
-	try
+	size_t index = 0;
+	for (int i = 0; i < DataConstants::NUM_OF_PIXELS_PER_IMAGE; i++)
 	{
-		size_t index = 0;
-		for (int i = 0; i < DataConstants::NUM_OF_PIXELS_PER_IMAGE; i++)
+		if (i % 28 == 0)
 		{
-			if (i % 28 == 0)
-			{
-				output[index++] = '\n';
-			}
-			if (imageData.first[i] > 0)
-			{
-				output[index++] = '*';
-			}
-			else
-			{
-				output[index++] = ' ';
-			}
+			output[index++] = '\n';
 		}
+		if (imageData.first[i] > 0)
+		{
+			output[index++] = '*';
+		}
+		else
+		{
+			output[index++] = ' ';
+		}
+	}
 
-		// Convert the character array to a std::string before returning.
-		std::string displayString = std::string(output.begin(), output.end());
-		displayString += "\nCorrect Answers: " + std::to_string(imageData.second) + '\n';
-		displayString += "Predicted Answer: " + std::to_string(networkPrediction) + "\n";
-		return displayString;
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-		throw;
-	}
+	// Convert the character array to a std::string before returning.
+	std::string displayString = std::string(output.begin(), output.end());
+	displayString += "\nCorrect Answers: " + std::to_string(imageData.second) + '\n';
+	displayString += "Predicted Answer: " + std::to_string(networkPrediction) + "\n";
+	return displayString;
+
 }
 
 void DisplayManager::DisplayMainMenu()
@@ -122,18 +104,13 @@ void DisplayManager::DisplayResults(std::string results)
 {
 	std::string output;
 
-	try
+	for (const auto& s : epochResults)
 	{
-		for (const auto& s : epochResults)
-			output += s + '\n';
-		output += results + '\n';
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-		throw;
+		output += s + '\n';
 	}
 
+	output += results + '\n';
+	
 	std::cout << output << '\n';
 }
 

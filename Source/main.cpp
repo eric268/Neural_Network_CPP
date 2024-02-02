@@ -9,7 +9,7 @@ int main()
 {
 	std::vector<int> networkLayerSizes = std::vector<int>{ 784, 550, 225, 100, 10 };
 	std::unique_ptr<NeuralNetwork> neuralNetwork = std::make_unique<NeuralNetwork>(networkLayerSizes, ActivationFunctionTypes::ReLU);
-	std::unique_ptr<HyperParameters> hyperParameters = std::make_unique<HyperParameters>(64, 10, 0.01);
+	std::unique_ptr<HyperParameters> hyperParameters = std::make_unique<HyperParameters>(64, 1, 0.01);
 	ApplicationManager applicationManager (std::move(neuralNetwork),std::move(hyperParameters));
 	applicationManager.Run();
 	return 0;

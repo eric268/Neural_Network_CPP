@@ -1,12 +1,12 @@
-﻿Build started 2023-08-28 9:34:58 PM.
-Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2024-02-02 4:59:47 PM.
+Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural_Network_CPP\NumberRecognition.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "x64\Release\NumberRe.1373199c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"x64\Release\\" /Fd"x64\Release\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\main.cpp
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\bin\HostX64\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"x64\Release\\" /Fd"x64\Release\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt Source\main.cpp
          main.cpp
        Link:
-         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"x64\Release\NumberRecognition.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.lib" /MACHINE:X64 x64\Release\ApplicationManager.obj
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Work\C++\Neural_Network_CPP\x64\Release\NumberRecognition.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Work\C++\Neural_Network_CPP\x64\Release\NumberRecognition.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"x64\Release\NumberRecognition.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Work\C++\Neural_Network_CPP\x64\Release\NumberRecognition.lib" /MACHINE:X64 x64\Release\ApplicationManager.obj
          x64\Release\DataConstants.obj
          x64\Release\DataManager.obj
          x64\Release\DisplayManager.obj
@@ -21,18 +21,18 @@ Logging verbosity is set to: Normal.     1>Project "C:\Work\C++\Neural Network\P
          x64\Release\pch.obj
          x64\Release\StopWatch.obj
          Generating code
-         1 of 1546 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+         1 of 1531 functions (<0.1%) were compiled, the rest were copied from previous compilation.
            0 functions were new in current compilation
            0 functions had inline decision re-evaluated but remain unchanged
          Finished generating code
-         NumberRecognition.vcxproj -> C:\Work\C++\Neural Network\PersonalProject\x64\Release\NumberRecognition.exe
+         NumberRecognition.vcxproj -> C:\Work\C++\Neural_Network_CPP\x64\Release\NumberRecognition.exe
        FinalizeBuildStatus:
          Deleting file "x64\Release\NumberRe.1373199c.tlog\unsuccessfulbuild".
          Touching "x64\Release\NumberRe.1373199c.tlog\NumberRecognition.lastbuildstate".
-     1>Done Building Project "C:\Work\C++\Neural Network\PersonalProject\NumberRecognition.vcxproj" (Build target(s)).
+     1>Done Building Project "C:\Work\C++\Neural_Network_CPP\NumberRecognition.vcxproj" (Build target(s)).
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.06
+Time Elapsed 00:00:02.18
